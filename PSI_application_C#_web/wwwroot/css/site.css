@@ -1,0 +1,35 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+body {
+    background-color: black;
+    color: deepskyblue;
+}
+
+input, textarea, select {
+    background-color: black;
+    color: deepskyblue;
+    border: 1px solid hotpink;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+    input::placeholder, textarea::placeholder {
+        color: gray;
+    }

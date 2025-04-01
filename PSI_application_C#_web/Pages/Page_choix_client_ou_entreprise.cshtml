@@ -1,0 +1,37 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_choix_client_ou_entrepriseModel
+@{
+    ViewData["Title"] = "Client ou entreprise ?";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <!-- <link rel="stylesheet" href="~/PSI_application_C__web.styles.css" asp-append-version="true" /> -->
+</head>
+<body>
+    <header>
+    </header>
+
+    <div>
+        <h1>Etes-vous :</h1>
+        <button type="button" onclick="window.location.href='/Page_creation_compte_client'">
+            Un particulier
+        </button>
+        <button type="button" onclick="window.location.href='/Page_creation_compte_entreprise'">
+            Une entreprise
+        </button>
+    </div>
+
+    <footer>
+        <div>
+            &copy; 2025 - PSI_application_C__web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+</body>
+</html>

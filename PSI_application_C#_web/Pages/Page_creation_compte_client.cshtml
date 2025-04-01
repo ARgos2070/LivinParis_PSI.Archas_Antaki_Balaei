@@ -1,0 +1,92 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_creation_compte_clientModel
+@{
+    ViewData["Title"] = "Page creation compte";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <!-- <link rel="stylesheet" href="~/PSI_application_C__web.styles.css" asp-append-version="true" /> -->
+</head>
+<body>
+    <header>
+    </header>
+
+    <div>
+        <h1>Création de votre compte</h1>
+        <form method="post">
+            <div>
+                <label asp-for="saisie_prenom">Prénom :</label>
+                <input type="text" asp-for="saisie_prenom" maxlength="50" minlength="1" required />
+            </div>
+            <div>
+                <label asp-for="saisie_nom">Nom :</label>
+                <input type="text" asp-for="saisie_nom" maxlength="50" minlength="1" required />
+            </div>
+            <div>
+                <label asp-for="saisie_mot_de_passe">Mot de passe :</label>
+                <input type="text" asp-for="saisie_mot_de_passe" maxlength="50" minlength="1" required />
+            </div>
+            <div>
+                <label asp-for="saisie_adresse">Adresse :</label>
+                <input type="text" asp-for="saisie_adresse" maxlength="50" minlength="1" required />
+            </div>
+            <div>
+                <label asp-for="saisie_num_tel">Numéro de téléphone :</label>
+                <input type="text" asp-for="saisie_num_tel" maxlength="10" pattern="\d{10}" required />
+                <small>Veuillez entrer un numéro de téléphone à 10 chiffres.</small>
+                <p>@ViewData["Erreur_num_tel"]</p>
+            </div>
+            <div>
+                <label asp-for="saisie_adresse_mail">Adresse mail :</label>
+                <input type="text" asp-for="saisie_adresse_mail" maxlength="50" minlength="1" required />
+            </div>
+            <h1>Voulez-vous être un client de notre service ?</h1>
+            <label>
+                <input type="radio" name="est_client" value="true" @(Model.saisie_est_client == true ? "checked" : "") />
+                Oui
+            </label>
+            <label>
+                <input type="radio" name="est_client" value="false" @(Model.saisie_est_client == false ? "checked" : "") />
+                Non
+            </label>
+            <h1>Voulez-vous être un cuisinier de notre service ?</h1>
+            <label>
+                <input type="radio" name="est_cuisinier" value="true" @(Model.saisie_est_cuisinier == true ? "checked" : "") />
+                Oui
+            </label>
+            <label>
+                <input type="radio" name="est_cuisinier" value="false" @(Model.saisie_est_cuisinier == false ? "checked" : "") />
+                Non
+            </label>
+            <h1>Voulez-vous être un livreur de notre service ?</h1>
+            <label>
+                <input type="radio" name="est_livreur" value="true" @(Model.saisie_est_livreur == true ? "checked" : "") />
+                Oui
+            </label>
+            <label>
+                <input type="radio" name="est_livreur" value="false" @(Model.saisie_est_livreur == false ? "checked" : "") />
+                Non
+            </label>
+            <button type="submit">Soumettre le choix</button>
+        </form>
+    </div>
+
+
+
+
+
+
+    <footer>
+        <div>
+            &copy; 2025 - PSI_application_C__web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+</body>
+</html>

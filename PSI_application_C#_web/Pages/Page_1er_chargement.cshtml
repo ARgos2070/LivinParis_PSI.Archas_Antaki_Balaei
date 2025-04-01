@@ -1,0 +1,38 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_1er_chargementModel
+@{
+    ViewData["Title"] = "Page 1ere connexion";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <!-- <link rel="stylesheet" href="~/PSI_application_C__web.styles.css" asp-append-version="true" /> -->
+</head>
+<body>
+    <header>
+    </header>
+
+    <div>
+        <h1>Bienvenue sur Livin'Paris</h1>
+        <button type="button">
+            Se connecter
+        </button>
+        <button type="button" onclick="window.location.href='/Page_choix_client_ou_entreprise'">
+            Se créer un compte
+        </button>
+    </div>
+
+    <footer>
+        <div>
+            &copy; 2025 - PSI_application_C__web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+</body>
+</html>
+
