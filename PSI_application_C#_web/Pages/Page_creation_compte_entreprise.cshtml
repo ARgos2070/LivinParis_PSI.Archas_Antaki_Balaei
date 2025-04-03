@@ -17,10 +17,14 @@
 <body>
     <header>
     </header>
-
     <div>
         <h1>Création de votre compte</h1>
         <form method="post">
+            <div>
+                <label asp-for="saisie_nom_entreprise">Nom de l'entreprise :</label>
+                <input type="text" asp-for="saisie_nom_entreprise" maxlength="50" />
+                <p>@ViewData["Erreur_nom_entreprise"]</p>
+            </div>
             <div>
                 <label asp-for="saisie_prenom">Prénom du référent :</label>
                 <input type="text" asp-for="saisie_prenom" maxlength="50" />
@@ -28,53 +32,77 @@
             </div>
             <div>
                 <label asp-for="saisie_nom">Nom du référent :</label>
-                <input type="text" asp-for="saisie_nom" maxlength="50"/>
+                <input type="text" asp-for="saisie_nom" maxlength="50" />
                 <p>@ViewData["Erreur_nom"]</p>
             </div>
             <div>
                 <label asp-for="saisie_mot_de_passe">Mot de passe :</label>
-                <input type="text" asp-for="saisie_mot_de_passe" maxlength="50"/>
+                <input type="text" asp-for="saisie_mot_de_passe" maxlength="50" />
                 <p>@ViewData["Erreur_mot_de_passe"]</p>
             </div>
+            <p>Adresse de l'entreprise</p>
+            <small>(Le service Livin'Paris n'est disponible qu'en région parisienne, veuillez entrer une adresses située dans ce secteur)</small>
             <div>
-                <label asp-for="saisie_adresse">Adresse de l'entreprise :</label>
-                <input type="text" asp-for="saisie_adresse" maxlength="50"/>
-                <p>@ViewData["Erreur_adresse"]</p>
+                <label asp-for="saisie_adresse_num_rue">N° :</label>
+                <input type="text" asp-for="saisie_adresse_num_rue" maxlength="3" pattern="\d{1,3}" required />
+                <p>@ViewData["Erreur_adresse_num_rue"]</p>
+            </div>
+            <div>
+                <label asp-for="saisie_adresse_nom_rue">Rue :</label>
+                <input type="text" asp-for="saisie_adresse_nom_rue" maxlength="40" />
+                <p>@ViewData["Erreur_adresse_nom_rue"]</p>
+            </div>
+            <div>
+                <label asp-for="saisie_adresse_ville">Ville :</label>
+                <input type="text" asp-for="saisie_adresse_ville" maxlength="30" />
+                <p>@ViewData["Erreur_adresse_ville"]</p>
             </div>
             <div>
                 <label asp-for="saisie_num_tel">Numéro de téléphone du référent :</label>
                 <input type="text" asp-for="saisie_num_tel" maxlength="10" pattern="\d{10}" required />
                 <small>Veuillez entrer un numéro de téléphone à 10 chiffres.</small>
+                <p>@ViewData["Erreur_num_tel"]</p>
                 <!-- <p>@ViewData["Erreur_num_tel"]</p> C'est un peu inutilie car comme on veut forcer la saisie de chiffres et non de lettres, il faut forcément entrer quelque chose -->
             </div>
-            
-            <h1>Voulez-vous être un client de notre service ?</h1>
-            <label>
-                <input type="radio" name="est_client" value="true" @(Model.saisie_est_client == true ? "checked" : "") />
-                Oui
-            </label>
-            <label>
-                <input type="radio" name="est_client" value="false" @(Model.saisie_est_client == false ? "checked" : "") />
-                Non
-            </label>
-            <h1>Voulez-vous être un cuisinier de notre service ?</h1>
-            <label>
-                <input type="radio" name="est_cuisinier" value="true" @(Model.saisie_est_cuisinier == true ? "checked" : "") />
-                Oui
-            </label>
-            <label>
-                <input type="radio" name="est_cuisinier" value="false" @(Model.saisie_est_cuisinier == false ? "checked" : "") />
-                Non
-            </label>
-            <h1>Voulez-vous être un livreur de notre service ?</h1>
-            <label>
-                <input type="radio" name="est_livreur" value="true" @(Model.saisie_est_livreur == true ? "checked" : "") />
-                Oui
-            </label>
-            <label>
-                <input type="radio" name="est_livreur" value="false" @(Model.saisie_est_livreur == false ? "checked" : "") />
-                Non
-            </label>
+            <div>
+                <label asp-for="saisie_adresse_mail">Adresse mail de l'entreprise :</label>
+                <input type="text" asp-for="saisie_adresse_mail" maxlength="50" />
+                <p>@ViewData["Erreur_adresse_mail"]</p>
+            </div>
+            <div>
+                <p>Voulez-vous être un client de notre service ?</p>
+                <label>
+                    <input type="radio" asp-for="saisie_est_client" value="true" />
+                    Oui
+                </label>
+                <label>
+                    <input type="radio" asp-for="saisie_est_client" value="false" />
+                    Non
+                </label>
+            </div>
+            <div>
+                <p>Voulez-vous être un cuisinier de notre service ?</p>
+                <label>
+                    <input type="radio" asp-for="saisie_est_cuisinier" value="true" />
+                    Oui
+                </label>
+                <label>
+                    <input type="radio" asp-for="saisie_est_cuisinier" value="false" />
+                    Non
+                </label>
+            </div>
+            <div>
+                <p>Voulez-vous être un livreur de notre service ?</p>
+                <label>
+                    <input type="radio" asp-for="saisie_est_livreur" value="true" />
+                    Oui
+                </label>
+                <label>
+                    <input type="radio" asp-for="saisie_est_livreur" value="false" />
+                    Non
+                </label>
+            </div>
+            <p>@ViewData["Erreur_client"]</p>
             <button type="submit">Soumettre le choix</button>
         </form>
     </div>

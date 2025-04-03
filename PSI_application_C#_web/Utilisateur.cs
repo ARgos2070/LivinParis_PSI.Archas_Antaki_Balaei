@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace maquette_interface_C_
+namespace PSI_application_C__web
 {
-    internal class Utilisateur
+    public class Utilisateur
     {
         #region Attributs
         private int id_utilisateur;
@@ -15,27 +15,83 @@ namespace maquette_interface_C_
         private string nom_utilisateur;
         private string prenom_utilisateur;
         private string adresse_utilisateur;
-        private int num_utilisateur;
+        private string num_utilisateur;
+        private string adresse_mail_utilisateur;
         private bool utilisateur_est_entreprise;
         private string nom_entreprise_utilisateur;
+        private int nbre_signalements_contre_utilisateur;
         #endregion
 
-        #region Constructeurs
-        public Utilisateur(string mot_de_passe_utilisateur, string nom_utilisateur, string prenom_utilisateur, string adresse_utilisateur, int num_utilisateur, bool utilisateur_est_entreprise, string nom_entreprise_utilisateur)
+        #region Constructeur
+        public Utilisateur(string mot_de_passe_utilisateur, string nom_utilisateur, string prenom_utilisateur, string adresse_utilisateur, string num_utilisateur, string adresse_mail_utilisateur, bool utilisateur_est_entreprise, string nom_entreprise_utilisateur)
         {
-            this.id_utilisateur = identifiant_determine_depuis_bdd();
+            this.id_utilisateur = Identifiant_utilisateur_determine_depuis_bdd();
             this.mot_de_passe_utilisateur = mot_de_passe_utilisateur;
             this.nom_utilisateur= nom_utilisateur;
             this.prenom_utilisateur = prenom_utilisateur;
             this.adresse_utilisateur = adresse_utilisateur;
             this.num_utilisateur = num_utilisateur;
+            this.adresse_mail_utilisateur = adresse_mail_utilisateur;
             this.utilisateur_est_entreprise = utilisateur_est_entreprise;
             this.nom_entreprise_utilisateur = nom_entreprise_utilisateur;
+            this.nbre_signalements_contre_utilisateur = 0;
+        }
+        #endregion
+
+        #region Propriétés
+        public int Id_utilisateur
+        {
+            get { return this.id_utilisateur; }
+        }
+
+        public string Mot_de_passe_utilisateur
+        {
+            get { return this.mot_de_passe_utilisateur; }
+        }
+
+        public string Nom_utilisateur 
+        { 
+            get { return this.nom_utilisateur; } 
+        }
+
+        public string Prenom_utilisateur 
+        { 
+            get { return this.prenom_utilisateur; } 
+        }
+
+        public string Adresse_utilisateur 
+        { 
+            get { return this.adresse_utilisateur; } 
+        }
+
+        public string Num_utilisateur 
+        { 
+            get { return this.num_utilisateur; } 
+        }
+
+        public string Adresse_mail_utilisateur 
+        {
+            get { return this.adresse_mail_utilisateur; } 
+        }
+
+        public bool Utilisateur_est_entreprise 
+        {
+            get { return this.utilisateur_est_entreprise; } 
+        }
+
+        public string Nom_entreprise_utilisateur 
+        { 
+            get { return this.nom_entreprise_utilisateur; } 
+        }
+
+        public int Nbre_signalements_contre_utilisateur
+        {
+            get { return this.nbre_signalements_contre_utilisateur; }
         }
         #endregion
 
         #region Méthodes
-        public static int identifiant_determine_depuis_bdd()
+        public static int Identifiant_utilisateur_determine_depuis_bdd()
         {
             try
             {
@@ -73,14 +129,55 @@ namespace maquette_interface_C_
         }
 
 
+        public static void CreationUtilisateurAvecVariablesRoleVides(Utilisateur user)
+        {
+            string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+            MySqlConnection connection = new MySqlConnection(ligneConnexion);
+            connection.Open();
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandText = "INSERT INTO Utilisateur VALUES (" +
+                user.id_utilisateur + ", '" +
+                user.mot_de_passe_utilisateur + "', '" +
+                user.nom_utilisateur + "', '" +
+                user.prenom_utilisateur + "', '" +
+                user.adresse_utilisateur + "', '" +
+                user.num_utilisateur + "', '" +
+                user.adresse_mail_utilisateur + "', " +
+                user.utilisateur_est_entreprise + ", '" +
+                user.nom_entreprise_utilisateur + "', " +
+                user.nbre_signalements_contre_utilisateur + ");";
+            command.ExecuteNonQuery();
+            command.Dispose();
+            connection.Close();
+            Console.WriteLine("Message juste après l'ajout à la base de donnée, user.num_utilisateur est : " + user.num_utilisateur);
+        }
 
+        public static void RadierUtilisateur(Utilisateur user)
+        {
+            string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+            MySqlConnection connection = new MySqlConnection(ligneConnexion);
+            connection.Open();
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandText = "DELETE FROM Utilisateur WHERE ID_utilisateur = " + user.id_utilisateur + ";";
+            command.ExecuteNonQuery();
+            command.Dispose();
+            connection.Close();
+        }
 
+        public void UnSignalementRecu()
+        {
+            this.nbre_signalements_contre_utilisateur++;
+            if (this.nbre_signalements_contre_utilisateur >= 3)
+            {
+                RadierUtilisateur(this);
+            }
+        }
 
         public string toString()
         {
             string chaine = "";
             chaine = this.id_utilisateur.ToString() + this.mot_de_passe_utilisateur.ToString() + this.nom_utilisateur.ToString() + this.prenom_utilisateur.ToString() 
-                + this.adresse_utilisateur.ToString() + this.num_utilisateur.ToString() + this.utilisateur_est_entreprise.ToString() + this.nom_entreprise_utilisateur.ToString();
+                + this.adresse_utilisateur.ToString() + this.num_utilisateur.ToString() + this.adresse_mail_utilisateur.ToString() + this.utilisateur_est_entreprise.ToString() + this.nom_entreprise_utilisateur.ToString();
             return chaine;
         }
         #endregion
