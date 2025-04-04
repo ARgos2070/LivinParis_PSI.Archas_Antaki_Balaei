@@ -159,7 +159,7 @@ namespace PSI_application_C__web
                     lecture_count = reader["COUNT(ID_Cuisinier)"].ToString();
 
                 }
-                if (!String.IsNullOrEmpty(lecture_count))
+                if (lecture_count == "1")
                 {
                     est_cuisinier = true;
                 }

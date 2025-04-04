@@ -131,7 +131,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT COUNT(ID_Client) FROM Livreur WHERE ID_utilisateur = '" + id_utilisateur + "';";
+                command.CommandText = "SELECT COUNT(ID_Client) FROM Client WHERE ID_utilisateur = '" + id_utilisateur + "';";
                 MySqlDataReader reader;
                 reader = command.ExecuteReader();
                 string lecture_count = "";
@@ -140,7 +140,9 @@ namespace PSI_application_C__web
                     lecture_count = reader["COUNT(ID_Client)"].ToString();
 
                 }
-                if (!String.IsNullOrEmpty(lecture_count))
+                Console.WriteLine(lecture_count);
+                Console.WriteLine(id_utilisateur);
+                if (lecture_count == "1")
                 {
                     est_client = true;
                 }

@@ -17,9 +17,11 @@ namespace PSI_application_C__web.Pages
         public void OnGet()
         {
             string id_utilisateur = (string)TempData["Id_utilisateur"];
+            Console.WriteLine("Voici l'id reçu : " + id_utilisateur);
             Est_cuisinier = Cuisinier.UtilisateurEstCuisinier(id_utilisateur);
             Est_client = Client.UtilisateurEstClient(id_utilisateur);
             Est_livreur = Livreur.UtilisateurEstLivreur(id_utilisateur);
+            Console.WriteLine(Est_cuisinier + " "+ Est_client + " " + Est_livreur);
         }
 
         public IActionResult OnPost()

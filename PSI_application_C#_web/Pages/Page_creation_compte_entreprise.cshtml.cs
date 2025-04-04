@@ -199,7 +199,6 @@ namespace PSI_application_C__web.Pages
             string adresse_utilisateur = saisie_adresse_num_rue + " " + saisie_adresse_nom_rue + ", " + saisie_adresse_ville;
             string adresse_mail_utilisateur = saisie_adresse_mail;
             string num_utilisateur = saisie_num_tel;
-            //Console.WriteLine("Numéro en entier : " + num_utilisateur);
             bool utilisateur_est_entreprise = true;
             string nom_entreprise_utilisateur = saisie_nom_entreprise;
             bool est_client = saisie_est_client;
@@ -262,7 +261,7 @@ namespace PSI_application_C__web.Pages
                 Livreur.AjoutLivreurBDD(livreur_cree);
             }
 
-            return RedirectToPage("Page_creation_plat");
+            return RedirectToPage("Page_accueil_connecte");
         }
     }
 }

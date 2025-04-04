@@ -254,7 +254,7 @@ namespace PSI_application_C__web.Pages
                 Livreur livreur_cree = new Livreur(particulier_cree);
                 Livreur.AjoutLivreurBDD(livreur_cree);
             }
-            return RedirectToPage("Page_1er_chargement");
+            return RedirectToPage("Page_accueil_connecte");
         }
     }
 }

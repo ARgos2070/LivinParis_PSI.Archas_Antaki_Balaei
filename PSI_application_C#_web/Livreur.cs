@@ -131,7 +131,7 @@ namespace PSI_application_C__web
                     lecture_count = reader["COUNT(ID_Livreur)"].ToString();
 
                 }
-                if (!String.IsNullOrEmpty(lecture_count))
+                if (lecture_count == "1")
                 {
                     est_livreur = true;
                 }
