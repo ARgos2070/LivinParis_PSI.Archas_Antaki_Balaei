@@ -134,7 +134,7 @@ namespace PSI_application_C__web.Pages
             return est_correct;
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
             bool id_utilisateur_valide = Utilisateur.Identifiant_utilisateur_nouveau_dans_bdd(saisie_id_utilisateur);
             bool prenom_valide = saisie_prenom != null && saisie_prenom.Length > 0;
@@ -180,7 +180,7 @@ namespace PSI_application_C__web.Pages
             }
             if (await Adresse_a_coordonees.GetCoords(saisie_adresse_num_rue + " " + saisie_adresse_nom_rue, saisie_adresse_ville, saisie_adresse_code_postal, "France") == false)
             {
-                ViewData["Erreur_adresse_non dans le reseau"] = "L'adresse n'est pas en region parisienne.";
+                ViewData["Erreur_adresse_reseau"] = "Notre servie ne dessert pas cette adresse.";
             }
             if (num_tel_valide == false)
             {
@@ -195,7 +195,8 @@ namespace PSI_application_C__web.Pages
                 ViewData["Erreur_client"] = "Il faut que vous séléctionnez au moins un rôle.";
             }
             if (id_utilisateur_valide == false || prenom_valide == false || nom_valide == false || mot_de_passe_valide == false || adresse_num_rue_valide == false || adresse_nom_rue_valide == false || adresse_ville_valide == false || adresse_mail_valide == false || num_tel_valide == false
-                ||adresse_code_postal_valide == false || !EstPasUtilisateurSansRole(saisie_est_client, saisie_est_cuisinier, saisie_est_livreur))
+                ||adresse_code_postal_valide == false || !EstPasUtilisateurSansRole(saisie_est_client, saisie_est_cuisinier, saisie_est_livreur)
+                || await Adresse_a_coordonees.GetCoords(saisie_adresse_num_rue + " " + saisie_adresse_nom_rue, saisie_adresse_ville, saisie_adresse_code_postal, "France") == false)
             {
                 return Page();
             }
