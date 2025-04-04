@@ -17,8 +17,8 @@ namespace PSI_application_C__web
         #endregion
 
         #region Constructeurs
-        public Cuisinier(string mot_de_passe_utilisateur, string nom_utilisateur, string prenom_utilisateur, string adresse_utilisateur, string num_utilisateur, string adresse_mail_utilisateur, bool utilisateur_est_entreprise, string nom_entreprise_utilisateur) :
-            base(mot_de_passe_utilisateur, nom_utilisateur, prenom_utilisateur, adresse_utilisateur, num_utilisateur, adresse_mail_utilisateur, utilisateur_est_entreprise, nom_entreprise_utilisateur)
+        public Cuisinier(string id_utilisateur, string mot_de_passe_utilisateur, string nom_utilisateur, string prenom_utilisateur, string adresse_utilisateur, string num_utilisateur, string adresse_mail_utilisateur, bool utilisateur_est_entreprise, string nom_entreprise_utilisateur) :
+            base(id_utilisateur, mot_de_passe_utilisateur, nom_utilisateur, prenom_utilisateur, adresse_utilisateur, num_utilisateur, adresse_mail_utilisateur, utilisateur_est_entreprise, nom_entreprise_utilisateur)
         {
             this.id_cuisinier = Identifiant_cuisinier_determine_depuis_bdd();
             this.nbre_plat_propose_cuisinier = 0;
@@ -26,8 +26,8 @@ namespace PSI_application_C__web
             this.nbre_commandes_cuisinees_cuisinier = 0;
         }
 
-        public Cuisinier(Utilisateur user, int id_client, int Nbre_commandes_passees_client)
-       : base(user.Mot_de_passe_utilisateur, user.Nom_utilisateur, user.Prenom_utilisateur,
+        public Cuisinier(Utilisateur user)
+       : base(user.Id_utilisateur, user.Mot_de_passe_utilisateur, user.Nom_utilisateur, user.Prenom_utilisateur,
               user.Adresse_utilisateur, user.Num_utilisateur, user.Adresse_mail_utilisateur,
               user.Utilisateur_est_entreprise, user.Nom_entreprise_utilisateur)
         {
@@ -35,6 +35,30 @@ namespace PSI_application_C__web
             this.nbre_plat_propose_cuisinier = 0;
             this.plat_du_jour_cuisinier = "";
             this.nbre_commandes_cuisinees_cuisinier = 0;
+        }
+        #endregion
+
+        #region Propriétés
+        public int Id_cuisinier
+        {
+            get { return id_cuisinier; }
+        }
+
+        public int Nbre_plat_propose_cuisinier
+        {
+            get { return nbre_plat_propose_cuisinier; }
+            set { nbre_plat_propose_cuisinier = value; }
+        }
+
+        public string Plat_du_jour_cuisinier
+        {
+            get { return plat_du_jour_cuisinier; }
+            set { plat_du_jour_cuisinier = value; }
+        }
+
+        public int Nbre_commandes_cuisinees_cuisinier
+        {
+            get { return nbre_commandes_cuisinees_cuisinier; }
         }
         #endregion
 
@@ -76,16 +100,45 @@ namespace PSI_application_C__web
             }
         }
 
+        public static void AjoutCuisinierBDD(Cuisinier cuisinier)
+        {
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "INSERT INTO Cuisinier (ID_Cuisinier, Nbre_plat_proposé_Cuisinier, Plat_du_jour_Cuisinier, Nbre_commandes_cuisinees_cuisinier, ID_utilisateur) VALUES (" +
+                    cuisinier.id_cuisinier + ", " +
+                    cuisinier.nbre_plat_propose_cuisinier + ", '" +
+                    cuisinier.plat_du_jour_cuisinier + "', " +
+                    cuisinier.nbre_commandes_cuisinees_cuisinier + ", '" +
+                    cuisinier.Id_utilisateur + "');";
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            { Console.WriteLine(e.ToString()); }
+            
+        }
+
         public static void RadierCuisinier(Cuisinier cuisinier) //Inutile car les clés étrangères ont été déclarée en cascade, donc il suffit de supprimer l'utilisateur pour supprimer le cuisinier, à voir si on laisse en cascade pour plus tard
         {
-            string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
-            MySqlConnection connection = new MySqlConnection(ligneConnexion);
-            connection.Open();
-            MySqlCommand command = connection.CreateCommand();
-            command.CommandText = "DELETE FROM Cuisinier WHERE ID_Cuisinier = " + cuisinier.id_cuisinier + ";";
-            command.ExecuteNonQuery();
-            command.Dispose();
-            connection.Close();
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "DELETE FROM Cuisinier WHERE ID_Cuisinier = " + cuisinier.id_cuisinier + ";";
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            { Console.WriteLine(e.ToString()); }
+            
         }
 
         public void UnPlatAjouteeAuMenu()

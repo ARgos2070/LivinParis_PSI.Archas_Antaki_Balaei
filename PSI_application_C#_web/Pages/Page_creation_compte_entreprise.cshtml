@@ -20,6 +20,12 @@
     <div>
         <h1>Création de votre compte</h1>
         <form method="post">
+            <small>La différence entre majuscule et minuscule n'a pas à être prise en compte dans l'identifiant</small>
+            <div>
+                <label asp-for="saisie_id_utilisateur">Choisissez votre pseudo (id utilisateur) :</label>
+                <input type="text" asp-for="saisie_id_utilisateur" maxlength="50" />
+                <p>@ViewData["Erreur_id_utilisateur"]</p>
+            </div>
             <div>
                 <label asp-for="saisie_nom_entreprise">Nom de l'entreprise :</label>
                 <input type="text" asp-for="saisie_nom_entreprise" maxlength="50" />

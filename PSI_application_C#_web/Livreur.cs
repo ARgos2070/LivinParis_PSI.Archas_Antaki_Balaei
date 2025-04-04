@@ -12,23 +12,26 @@ namespace PSI_application_C__web
         #region Attributs
         private int id_livreur;
         private int gain_livreur;
+        private int nbre_commandes_livrees_livreur;
         #endregion
 
         #region Constructeurs
-        public Livreur(string mot_de_passe_utilisateur, string nom_utilisateur, string prenom_utilisateur, string adresse_utilisateur, string num_utilisateur, string adresse_mail_utilisateur, bool utilisateur_est_entreprise, string nom_entreprise_utilisateur) :
-            base(mot_de_passe_utilisateur, nom_utilisateur, prenom_utilisateur, adresse_utilisateur, num_utilisateur, adresse_mail_utilisateur, utilisateur_est_entreprise, nom_entreprise_utilisateur)
+        public Livreur(string id_utilisateur, string mot_de_passe_utilisateur, string nom_utilisateur, string prenom_utilisateur, string adresse_utilisateur, string num_utilisateur, string adresse_mail_utilisateur, bool utilisateur_est_entreprise, string nom_entreprise_utilisateur) :
+            base(id_utilisateur, mot_de_passe_utilisateur, nom_utilisateur, prenom_utilisateur, adresse_utilisateur, num_utilisateur, adresse_mail_utilisateur, utilisateur_est_entreprise, nom_entreprise_utilisateur)
         {
             this.id_livreur = Identifiant_livreur_determine_depuis_bdd();
             this.gain_livreur = 0;
+            this.nbre_commandes_livrees_livreur = 0;
         }
 
-        public Livreur(Utilisateur user, int id_client, int Nbre_commandes_passees_client)
-       : base(user.Mot_de_passe_utilisateur, user.Nom_utilisateur, user.Prenom_utilisateur,
+        public Livreur(Utilisateur user)
+       : base(user.Id_utilisateur, user.Mot_de_passe_utilisateur, user.Nom_utilisateur, user.Prenom_utilisateur,
               user.Adresse_utilisateur, user.Num_utilisateur, user.Adresse_mail_utilisateur,
               user.Utilisateur_est_entreprise, user.Nom_entreprise_utilisateur)
         {
             this.id_livreur = Identifiant_livreur_determine_depuis_bdd();
             this.gain_livreur = 0;
+            this.nbre_commandes_livrees_livreur = 0;
         }
         #endregion
 
@@ -70,16 +73,44 @@ namespace PSI_application_C__web
             }
         }
 
-        public static void RadierClient(Livreur livreur) //Inutile car les clés étrangères ont été déclarée en cascade, donc il suffit de supprimer l'utilisateur pour supprimer le livreur, à voir si on laisse en cascade pour plus tard
+        public static void AjoutLivreurBDD(Livreur livreur)
         {
-            string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
-            MySqlConnection connection = new MySqlConnection(ligneConnexion);
-            connection.Open();
-            MySqlCommand command = connection.CreateCommand();
-            command.CommandText = "DELETE FROM Livreur WHERE ID_Livreur = " + livreur.id_livreur + ";";
-            command.ExecuteNonQuery();
-            command.Dispose();
-            connection.Close();
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "INSERT INTO Livreur (ID_Livreur, Gain_Livreur, Nbre_commandes_livrees_livreur, ID_utilisateur) VALUES (" +
+                    livreur.id_livreur + ", " +
+                    livreur.gain_livreur + ", " +
+                    livreur.nbre_commandes_livrees_livreur + ", '" +
+                    livreur.Id_utilisateur + "');";
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            { Console.WriteLine(e.ToString()); }
+            
+        }
+
+        public static void RadierLivreur(Livreur livreur) //Inutile car les clés étrangères ont été déclarée en cascade, donc il suffit de supprimer l'utilisateur pour supprimer le livreur, à voir si on laisse en cascade pour plus tard
+        {
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "DELETE FROM Livreur WHERE ID_Livreur = " + livreur.id_livreur + ";";
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            { Console.WriteLine(e.ToString()); }
+            
         }
 
         public void GainGagne(int gain_livraison)

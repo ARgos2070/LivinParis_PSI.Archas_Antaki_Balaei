@@ -10,7 +10,7 @@ namespace PSI_application_C__web
     public class Utilisateur
     {
         #region Attributs
-        private int id_utilisateur;
+        private string id_utilisateur;
         private string mot_de_passe_utilisateur;
         private string nom_utilisateur;
         private string prenom_utilisateur;
@@ -23,9 +23,9 @@ namespace PSI_application_C__web
         #endregion
 
         #region Constructeur
-        public Utilisateur(string mot_de_passe_utilisateur, string nom_utilisateur, string prenom_utilisateur, string adresse_utilisateur, string num_utilisateur, string adresse_mail_utilisateur, bool utilisateur_est_entreprise, string nom_entreprise_utilisateur)
+        public Utilisateur(string id_utilisateur, string mot_de_passe_utilisateur, string nom_utilisateur, string prenom_utilisateur, string adresse_utilisateur, string num_utilisateur, string adresse_mail_utilisateur, bool utilisateur_est_entreprise, string nom_entreprise_utilisateur)
         {
-            this.id_utilisateur = Identifiant_utilisateur_determine_depuis_bdd();
+            this.id_utilisateur = id_utilisateur;
             this.mot_de_passe_utilisateur = mot_de_passe_utilisateur;
             this.nom_utilisateur= nom_utilisateur;
             this.prenom_utilisateur = prenom_utilisateur;
@@ -39,7 +39,7 @@ namespace PSI_application_C__web
         #endregion
 
         #region Propriétés
-        public int Id_utilisateur
+        public string Id_utilisateur
         {
             get { return this.id_utilisateur; }
         }
@@ -91,77 +91,87 @@ namespace PSI_application_C__web
         #endregion
 
         #region Méthodes
-        public static int Identifiant_utilisateur_determine_depuis_bdd()
+        public static bool Identifiant_utilisateur_nouveau_dans_bdd(string id_utilisateur_test)
         {
             try
             {
-                int identifiant = 0;
+                bool est_unique = false;
                 string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT MAX(ID_utilisateur) AS ID_utilisateur_maximum FROM Utilisateur;";
+                command.CommandText = "SELECT COUNT(ID_utilisateur) AS ID_utilisateur_similaire FROM Utilisateur WHERE ID_utilisateur = '" + id_utilisateur_test + "';";
                 MySqlDataReader reader;
                 reader = command.ExecuteReader();
-                string lecture_id_max = "";
+                string lecture = "";
                 while (reader.Read())
                 {
-                    lecture_id_max = reader["ID_utilisateur_maximum"].ToString();
+                    lecture = reader["ID_utilisateur_similaire"].ToString();
 
                 }
-                if ( String.IsNullOrEmpty(lecture_id_max))
+                if (int.TryParse(lecture, out int resultat))
                 {
-                    identifiant = 1;
+                    if (resultat == 0)
+                    {
+                        est_unique = true;
+                    }
                 }
-                else
-                {
-                    identifiant = int.Parse(lecture_id_max);
-                    identifiant++;
-                }
-                connection.Close();
-                return identifiant;
+                return est_unique;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-                return -1;
+                Console.WriteLine("Il y a eu une erreur ici");
+                return false;
             }
         }
 
 
-        public static void CreationUtilisateurAvecVariablesRoleVides(Utilisateur user)
+        public static void AjoutUtilisateurBDD(Utilisateur user)
         {
-            string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
-            MySqlConnection connection = new MySqlConnection(ligneConnexion);
-            connection.Open();
-            MySqlCommand command = connection.CreateCommand();
-            command.CommandText = "INSERT INTO Utilisateur VALUES (" +
-                user.id_utilisateur + ", '" +
-                user.mot_de_passe_utilisateur + "', '" +
-                user.nom_utilisateur + "', '" +
-                user.prenom_utilisateur + "', '" +
-                user.adresse_utilisateur + "', '" +
-                user.num_utilisateur + "', '" +
-                user.adresse_mail_utilisateur + "', " +
-                user.utilisateur_est_entreprise + ", '" +
-                user.nom_entreprise_utilisateur + "', " +
-                user.nbre_signalements_contre_utilisateur + ");";
-            command.ExecuteNonQuery();
-            command.Dispose();
-            connection.Close();
-            Console.WriteLine("Message juste après l'ajout à la base de donnée, user.num_utilisateur est : " + user.num_utilisateur);
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "INSERT INTO Utilisateur (ID_utilisateur, Mot_de_passe_utilisateur, Nom_utilisateur, Prénom_utilisateur, Adresse_utilisateur, Num_tel_utilisateur, adresse_mail_utilisateur, Utilisateur_est_entreprise, Nom_entreprise, Nbre_signalements_contre_utilisateur) VALUES ('" +
+                    user.id_utilisateur + "', '" +
+                    user.mot_de_passe_utilisateur + "', '" +
+                    user.nom_utilisateur + "', '" +
+                    user.prenom_utilisateur + "', '" +
+                    user.adresse_utilisateur + "', '" +
+                    user.num_utilisateur + "', '" +
+                    user.adresse_mail_utilisateur + "', " +
+                    user.utilisateur_est_entreprise + ", '" +
+                    user.nom_entreprise_utilisateur + "', " +
+                    user.nbre_signalements_contre_utilisateur + ");";
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+                Console.WriteLine("Message juste après l'ajout à la base de donnée, user.num_utilisateur est : " + user.num_utilisateur);
+            }
+            catch (Exception e)
+            { Console.WriteLine(e.ToString()); }
+            
         }
 
         public static void RadierUtilisateur(Utilisateur user)
         {
-            string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
-            MySqlConnection connection = new MySqlConnection(ligneConnexion);
-            connection.Open();
-            MySqlCommand command = connection.CreateCommand();
-            command.CommandText = "DELETE FROM Utilisateur WHERE ID_utilisateur = " + user.id_utilisateur + ";";
-            command.ExecuteNonQuery();
-            command.Dispose();
-            connection.Close();
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "DELETE FROM Utilisateur WHERE ID_utilisateur = '" + user.id_utilisateur + "';";
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            { Console.WriteLine(e.ToString()); }
+            
         }
 
         public void UnSignalementRecu()

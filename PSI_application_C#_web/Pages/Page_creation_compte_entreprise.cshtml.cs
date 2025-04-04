@@ -1,11 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MySqlX.XDevAPI;
 
 namespace PSI_application_C__web.Pages
 {
     public class Page_creation_compte_entrepriseModel : PageModel
     {
         private readonly ILogger<Page_creation_compte_entrepriseModel> _logger;
+
+        [BindProperty]
+        public string saisie_id_utilisateur { get; set; }
 
         [BindProperty]
         public string saisie_prenom { get; set; } // Pour le prénom
@@ -71,17 +75,26 @@ namespace PSI_application_C__web.Pages
                 if (num_tel_saisie[0] == '0')
                 {
                     est_correct = true;
-                    //for (int i = 1; i<num_tel_saisie.Length; i++)
-                    //{
-                    //    switch(num_tel_saisie[i])
-                    //    {
-                    //        case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
-                    //            break;
-                    //        default:
-                    //            est_correct= false;
-                    //            break;
-                    //    }
-                    //}
+                    for (int i = 1; i < num_tel_saisie.Length; i++)
+                    {
+                        switch (num_tel_saisie[i])
+                        {
+                            case '0':
+                            case '1':
+                            case '2':
+                            case '3':
+                            case '4':
+                            case '5':
+                            case '6':
+                            case '7':
+                            case '8':
+                            case '9':
+                                break;
+                            default:
+                                est_correct = false;
+                                break;
+                        }
+                    }
                 }
             }
             return est_correct;
@@ -120,6 +133,7 @@ namespace PSI_application_C__web.Pages
 
         public IActionResult OnPost()
         {
+            bool id_utilisateur_valide = Utilisateur.Identifiant_utilisateur_nouveau_dans_bdd(saisie_id_utilisateur);
             bool prenom_valide = saisie_prenom != null && saisie_prenom.Length > 0;
             bool nom_valide = saisie_nom != null && saisie_nom.Length > 0;
             bool mot_de_passe_valide = saisie_mot_de_passe != null && saisie_mot_de_passe.Length > 0;
@@ -129,6 +143,10 @@ namespace PSI_application_C__web.Pages
             bool num_tel_valide = EstNumeroTelCorrect(saisie_num_tel);
             bool adresse_mail_valide = EstAdresseMailCorrect(saisie_adresse_mail);
             bool nom_entreprise_valide = saisie_nom_entreprise != null && saisie_nom_entreprise.Length > 0;
+            if (!id_utilisateur_valide)
+            {
+                ViewData["Erreur_id_utilisateur"] = "Ce pseudonyme (id utilisateur) a déjà été pris. Veuillez en choisir un autre.";
+            }
             if (!prenom_valide)
             {
                 ViewData["Erreur_prenom"] = "Un prénom est requis.";
@@ -169,12 +187,12 @@ namespace PSI_application_C__web.Pages
             {
                 ViewData["Erreur_client"] = "Il faut que vous séléctionnez au moins un rôle.";
             }
-            if (!prenom_valide || !nom_valide || !mot_de_passe_valide || !adresse_num_rue_valide || !adresse_nom_rue_valide || !adresse_ville_valide || !adresse_mail_valide || !num_tel_valide || !nom_entreprise_valide
+            if (!id_utilisateur_valide || !prenom_valide || !nom_valide || !mot_de_passe_valide || !adresse_num_rue_valide || !adresse_nom_rue_valide || !adresse_ville_valide || !adresse_mail_valide || !num_tel_valide || !nom_entreprise_valide
                 || !EstPasUtilisateurSansRole(saisie_est_client, saisie_est_cuisinier, saisie_est_livreur))
             {
                 return Page();
             }
-            //Console.WriteLine("Numéro en saisie : " + saisie_num_tel);
+            string id_utilisateur = saisie_id_utilisateur;
             string prenom_utilisateur = saisie_prenom;
             string nom_utilisateur = saisie_nom;
             string mot_de_passe_utilisateur = saisie_mot_de_passe;
@@ -184,14 +202,58 @@ namespace PSI_application_C__web.Pages
             //Console.WriteLine("Numéro en entier : " + num_utilisateur);
             bool utilisateur_est_entreprise = true;
             string nom_entreprise_utilisateur = saisie_nom_entreprise;
-            Utilisateur entreprise_creee = new Utilisateur(mot_de_passe_utilisateur, nom_utilisateur, prenom_utilisateur, adresse_utilisateur, num_utilisateur, adresse_mail_utilisateur, true, nom_entreprise_utilisateur);
-            Utilisateur.CreationUtilisateurAvecVariablesRoleVides(entreprise_creee);
-            //test
-            //if (!est_entreprise)
-            //{
-            //    return RedirectToPage("Page_1er_chargement");
-            //}
-            return RedirectToPage("Ajout_plat");
+            bool est_client = saisie_est_client;
+            bool est_cuisinier = saisie_est_cuisinier;
+            bool est_livreur = saisie_est_livreur;
+            Utilisateur entreprise_creee = new Utilisateur(id_utilisateur, mot_de_passe_utilisateur, nom_utilisateur, prenom_utilisateur, adresse_utilisateur, num_utilisateur, adresse_mail_utilisateur, true, nom_entreprise_utilisateur);
+            Utilisateur.AjoutUtilisateurBDD(entreprise_creee);
+            if (est_client == true && est_cuisinier == true && est_livreur == true)
+            {
+                Client client_cree = new Client(entreprise_creee);
+                Client.AjoutClientBDD(client_cree);
+                Cuisinier cuisinier_cree = new Cuisinier(entreprise_creee);
+                Cuisinier.AjoutCuisinierBDD(cuisinier_cree);
+                Livreur livreur_cree = new Livreur(entreprise_creee);
+                Livreur.AjoutLivreurBDD(livreur_cree);
+            }
+            if (est_client == false && est_cuisinier == true && est_livreur == true)
+            {
+                Cuisinier cuisinier_cree = new Cuisinier(entreprise_creee);
+                Cuisinier.AjoutCuisinierBDD(cuisinier_cree);
+                Livreur livreur_cree = new Livreur(entreprise_creee);
+                Livreur.AjoutLivreurBDD(livreur_cree);
+            }
+            if (est_client == true && est_cuisinier == false && est_livreur == true)
+            {
+                Client client_cree = new Client(entreprise_creee);
+                Client.AjoutClientBDD(client_cree);
+                Livreur livreur_cree = new Livreur(entreprise_creee);
+                Livreur.AjoutLivreurBDD(livreur_cree);
+            }
+            if (est_client == true && est_cuisinier == true && est_livreur == false)
+            {
+                Client client_cree = new Client(entreprise_creee);
+                Client.AjoutClientBDD(client_cree);
+                Cuisinier cuisinier_cree = new Cuisinier(entreprise_creee);
+                Cuisinier.AjoutCuisinierBDD(cuisinier_cree);
+            }
+            if (est_client == true && est_cuisinier == false && est_livreur == false)
+            {
+                Client client_cree = new Client(entreprise_creee);
+                Client.AjoutClientBDD(client_cree);
+            }
+            if (est_client == false && est_cuisinier == true && est_livreur == false)
+            {
+                Cuisinier cuisinier_cree = new Cuisinier(entreprise_creee);
+                Cuisinier.AjoutCuisinierBDD(cuisinier_cree);
+            }
+            if (est_client == false && est_cuisinier == false && est_livreur == true)
+            {
+                Livreur livreur_cree = new Livreur(entreprise_creee);
+                Livreur.AjoutLivreurBDD(livreur_cree);
+            }
+
+            return RedirectToPage("Page_creation_plat");
         }
     }
 }

@@ -4,9 +4,12 @@ using System;
 
 namespace PSI_application_C__web.Pages
 {
-    public class Page_creation_compte_clientModel : PageModel
+    public class Page_creation_compte_particulierModel : PageModel
     {
-        private readonly ILogger<Page_creation_compte_clientModel> _logger;
+        private readonly ILogger<Page_creation_compte_particulierModel> _logger;
+
+        [BindProperty]
+        public string saisie_id_utilisateur { get; set; }
 
         [BindProperty]
         public string saisie_prenom { get; set; } // Pour le prénom
@@ -55,7 +58,7 @@ namespace PSI_application_C__web.Pages
         [BindProperty]
         public bool saisie_est_livreur { get; set; }
 
-        public Page_creation_compte_clientModel(ILogger<Page_creation_compte_clientModel> logger)
+        public Page_creation_compte_particulierModel(ILogger<Page_creation_compte_particulierModel> logger)
         {
             _logger = logger;
         }
@@ -130,6 +133,7 @@ namespace PSI_application_C__web.Pages
 
         public IActionResult OnPost()
         {
+            bool id_utilisateur_valide = Utilisateur.Identifiant_utilisateur_nouveau_dans_bdd(saisie_id_utilisateur);
             bool prenom_valide = saisie_prenom != null && saisie_prenom.Length > 0;
             bool nom_valide = saisie_nom != null && saisie_nom.Length > 0;
             bool mot_de_passe_valide = saisie_mot_de_passe != null && saisie_mot_de_passe.Length > 0;
@@ -138,64 +142,119 @@ namespace PSI_application_C__web.Pages
             bool adresse_ville_valide = saisie_adresse_ville != null && saisie_adresse_ville.Length > 0;
             bool num_tel_valide = EstNumeroTelCorrect(saisie_num_tel);
             bool adresse_mail_valide = EstAdresseMailCorrect(saisie_adresse_mail);
-            if (!prenom_valide)
+            if (id_utilisateur_valide == false)
+            {
+                ViewData["Erreur_id_utilisateur"] = "Ce pseudonyme (id utilisateur) a déjà été pris. Veuillez en choisir un autre.";
+            }
+            if (prenom_valide == false)
             {
                 ViewData["Erreur_prenom"] = "Un prénom est requis.";
             }
-            if (!nom_valide)
+            if (nom_valide == false)
             {
                 ViewData["Erreur_nom"] = "Un nom est requis.";
             }
-            if (!mot_de_passe_valide)
+            if (mot_de_passe_valide == false)
             {
                 ViewData["Erreur_mot_de_passe"] = "Un mot de passe est requis.";
             }
-            if (!adresse_num_rue_valide)
+            if (adresse_num_rue_valide == false)
             {
                 ViewData["Erreur_adresse_num_rue"] = "Un numéro de rue est requis.";
             }
-            if (!adresse_nom_rue_valide)
+            if (adresse_nom_rue_valide == false)
             {
                 ViewData["Erreur_adresse_nom_rue"] = "Un nom de rue est requis.";
             }
-            if (!adresse_ville_valide)
+            if (adresse_ville_valide == false)
             {
                 ViewData["Erreur_adresse_ville"] = "Une ville est requise.";
             }
-            if (!num_tel_valide)
+            if (num_tel_valide == false)
             {
                 ViewData["Erreur_num_tel"] = "Il faut que votre numéro de téléphone commence par un 0.";
             }
-            if (!adresse_mail_valide)
+            if (adresse_mail_valide == false)
             {
                 ViewData["Erreur_adresse_mail"] = "Une adresse mail correcte est requise.";
             }
-            if (!EstPasUtilisateurSansRole(saisie_est_client, saisie_est_cuisinier, saisie_est_livreur))
+            if (EstPasUtilisateurSansRole(saisie_est_client, saisie_est_cuisinier, saisie_est_livreur) == false)
             {
                 ViewData["Erreur_client"] = "Il faut que vous séléctionnez au moins un rôle.";
             }
-            if (!prenom_valide || !nom_valide || !mot_de_passe_valide || !adresse_num_rue_valide || !adresse_nom_rue_valide || !adresse_ville_valide || !adresse_mail_valide || !num_tel_valide
+            if (id_utilisateur_valide == false || prenom_valide == false || nom_valide == false || mot_de_passe_valide == false || adresse_num_rue_valide == false || adresse_nom_rue_valide == false || adresse_ville_valide == false || adresse_mail_valide == false || num_tel_valide == false
                 || !EstPasUtilisateurSansRole(saisie_est_client, saisie_est_cuisinier, saisie_est_livreur))
             {
                 return Page();
             }
-            //Console.WriteLine("Numéro en saisie : " + saisie_num_tel);
+            string id_utilisateur = saisie_id_utilisateur;
             string prenom_utilisateur = saisie_prenom;
             string nom_utilisateur = saisie_nom;
             string mot_de_passe_utilisateur = saisie_mot_de_passe;
             string adresse_utilisateur = saisie_adresse_num_rue + " " + saisie_adresse_nom_rue + ", " + saisie_adresse_ville;
             string adresse_mail_utilisateur = saisie_adresse_mail;
             string num_utilisateur = saisie_num_tel;
-            Console.WriteLine("Numéro en entier : " + num_utilisateur);
             bool utilisateur_est_entreprise = true;
             string nom_entreprise_utilisateur = saisie_nom_entreprise;
-            Utilisateur client_cree = new Utilisateur(mot_de_passe_utilisateur, nom_utilisateur, prenom_utilisateur, adresse_utilisateur, num_utilisateur, adresse_mail_utilisateur, false, "NULL");
-            Utilisateur.CreationUtilisateurAvecVariablesRoleVides(client_cree);
-            //if (!est_entreprise)
-            //{
-            //    return RedirectToPage("Page_1er_chargement");
-            //}
-            return RedirectToPage("Ajout_plat");
+            bool est_client = saisie_est_client;
+            bool est_cuisinier = saisie_est_cuisinier;
+            bool est_livreur = saisie_est_livreur;
+            Utilisateur particulier_cree = new Utilisateur(id_utilisateur, mot_de_passe_utilisateur, nom_utilisateur, prenom_utilisateur, adresse_utilisateur, num_utilisateur, adresse_mail_utilisateur, false, null);
+            Utilisateur.AjoutUtilisateurBDD(particulier_cree);
+            if (est_client == true && est_cuisinier == true && est_livreur == true)
+            {
+                Client client_cree = new Client(particulier_cree);
+                Client.AjoutClientBDD(client_cree);
+                Cuisinier cuisinier_cree = new Cuisinier(particulier_cree);
+                Cuisinier.AjoutCuisinierBDD(cuisinier_cree);
+                TempData["Id_cuisinier"] = cuisinier_cree.Id_cuisinier;
+                Livreur livreur_cree = new Livreur(particulier_cree);
+                Livreur.AjoutLivreurBDD(livreur_cree);
+                return RedirectToPage("Page_creation_plat");
+            }
+            if (est_client == false && est_cuisinier == true && est_livreur == true)
+            {
+                Cuisinier cuisinier_cree = new Cuisinier(particulier_cree);
+                Cuisinier.AjoutCuisinierBDD(cuisinier_cree);
+                TempData["Id_cuisinier"] = cuisinier_cree.Id_cuisinier;
+                Livreur livreur_cree = new Livreur(particulier_cree);
+                Livreur.AjoutLivreurBDD(livreur_cree);
+                return RedirectToPage("Page_creation_plat");
+            }
+            if (est_client == true && est_cuisinier == false && est_livreur == true)
+            {
+                Client client_cree = new Client(particulier_cree);
+                Client.AjoutClientBDD(client_cree);
+                Livreur livreur_cree = new Livreur(particulier_cree);
+                Livreur.AjoutLivreurBDD(livreur_cree);
+            }
+            if (est_client == true && est_cuisinier == true && est_livreur == false)
+            {
+                Client client_cree = new Client(particulier_cree);
+                Client.AjoutClientBDD(client_cree);
+                Cuisinier cuisinier_cree = new Cuisinier(particulier_cree);
+                Cuisinier.AjoutCuisinierBDD(cuisinier_cree);
+                TempData["Id_cuisinier"] = cuisinier_cree.Id_cuisinier;
+                return RedirectToPage("Page_creation_plat");
+            }
+            if (est_client == true && est_cuisinier == false && est_livreur == false)
+            {
+                Client client_cree = new Client(particulier_cree);
+                Client.AjoutClientBDD(client_cree);
+            }
+            if (est_client == false && est_cuisinier == true && est_livreur == false)
+            {
+                Cuisinier cuisinier_cree = new Cuisinier(particulier_cree);
+                Cuisinier.AjoutCuisinierBDD(cuisinier_cree);
+                TempData["Id_cuisinier"] = cuisinier_cree.Id_cuisinier;
+                return RedirectToPage("Page_creation_plat");
+            }
+            if (est_client == false && est_cuisinier == false && est_livreur == true)
+            {
+                Livreur livreur_cree = new Livreur(particulier_cree);
+                Livreur.AjoutLivreurBDD(livreur_cree);
+            }
+            return RedirectToPage("Page_1er_chargement");
         }
     }
 }
