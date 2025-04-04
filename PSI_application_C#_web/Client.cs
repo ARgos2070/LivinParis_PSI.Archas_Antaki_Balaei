@@ -122,6 +122,39 @@ namespace PSI_application_C__web
             
         }
 
+        public static bool UtilisateurEstClient(string id_utilisateur)
+        {
+            bool est_client = false;
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT COUNT(ID_Client) FROM Livreur WHERE ID_utilisateur = '" + id_utilisateur + "';";
+                MySqlDataReader reader;
+                reader = command.ExecuteReader();
+                string lecture_count = "";
+                while (reader.Read())
+                {
+                    lecture_count = reader["COUNT(ID_Client)"].ToString();
+
+                }
+                if (!String.IsNullOrEmpty(lecture_count))
+                {
+                    est_client = true;
+                }
+                connection.Close();
+                return est_client;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                Console.WriteLine("Il y a une erreur dans la recherche de client");
+                return false;
+            }
+        }
+
         public void UneCommandePassee()
         {
             this.nbre_commandes_passees_client++;

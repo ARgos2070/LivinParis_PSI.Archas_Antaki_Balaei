@@ -113,6 +113,39 @@ namespace PSI_application_C__web
             
         }
 
+        public static bool UtilisateurEstLivreur(string id_utilisateur)
+        {
+            bool est_livreur = false;
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT COUNT(ID_Livreur) FROM Livreur WHERE ID_utilisateur = '" + id_utilisateur + "';";
+                MySqlDataReader reader;
+                reader = command.ExecuteReader();
+                string lecture_count = "";
+                while (reader.Read())
+                {
+                    lecture_count = reader["COUNT(ID_Livreur)"].ToString();
+
+                }
+                if (!String.IsNullOrEmpty(lecture_count))
+                {
+                    est_livreur = true;
+                }
+                connection.Close();
+                return est_livreur;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                Console.WriteLine("Il y a une erreur dans la recherche de livreur");
+                return false;
+            }
+        }
+
         public void GainGagne(int gain_livraison)
         {
             this.gain_livreur += gain_livraison;
