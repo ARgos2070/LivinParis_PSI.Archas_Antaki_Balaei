@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSI_application_C#_web", "PSI_application_C#_web\PSI_application_C#_web.csproj", "{135784C7-01A3-4A5C-BBF2-4202A090750F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PSI_application_C#_web", "PSI_application_C#_web\PSI_application_C#_web.csproj", "{135784C7-01A3-4A5C-BBF2-4202A090750F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_LivinParis", "Test_LivinParis\Test_LivinParis.csproj", "{A0C27240-3408-4B64-A836-30C43E6DED9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{135784C7-01A3-4A5C-BBF2-4202A090750F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{135784C7-01A3-4A5C-BBF2-4202A090750F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{135784C7-01A3-4A5C-BBF2-4202A090750F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0C27240-3408-4B64-A836-30C43E6DED9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C27240-3408-4B64-A836-30C43E6DED9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C27240-3408-4B64-A836-30C43E6DED9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C27240-3408-4B64-A836-30C43E6DED9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
