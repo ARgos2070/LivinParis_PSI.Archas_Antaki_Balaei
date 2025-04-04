@@ -30,17 +30,17 @@
     <main>
         <h1>Voici vos Statistiques</h1>
 
-        <div>
+        <table>
             @foreach (List<string> stat in Model.CookStats)
             {
                 <tr>
                     @foreach(string element in stat)
                     {
-                        <tr>@element</tr>
+                        <td>@element</td>
                     }
                 </tr>
             }
-        </div>
+        </table>
         
 
     </main>
