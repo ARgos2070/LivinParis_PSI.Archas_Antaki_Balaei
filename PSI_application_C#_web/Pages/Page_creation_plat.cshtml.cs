@@ -176,7 +176,7 @@ namespace PSI_application_C__web.Pages
             Console.WriteLine("Voici la clé étrangère : " +  id_cuisinier_plat);
             Plat plat_cree = new Plat(id_plat, nom_plat, type_plat, pr_cmb_de_personnes_plat, prix_par_perso_plat, date_fabrication_plat, date_peremption_plat, nationalite_plat, regime_alimentaire_plat, ingredients_principaux_plat, id_cuisinier_plat);
             Plat.AjoutPlatBDD(plat_cree);
-            return RedirectToPage("Page_1er_chargement");
+            return RedirectToPage("Page_accueil_connecte");
         }
 
     }

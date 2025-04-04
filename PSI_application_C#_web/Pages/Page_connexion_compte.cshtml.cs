@@ -24,7 +24,7 @@ namespace PSI_application_C__web.Pages
         {
         }
 
-        public static bool IdentifiantExistePas(string identifiant_saisi)
+        public static bool IdentifiantExiste(string identifiant_saisi)
         {
             bool existe = false;
             try
@@ -106,7 +106,7 @@ namespace PSI_application_C__web.Pages
             }
             else
             {
-                if (IdentifiantExistePas(saisie_id_connexion) == false)
+                if (IdentifiantExiste(saisie_id_connexion) == false)
                 {
                     ViewData["Erreur_id_utilisateur_incorrect"] = "Ce pseudonyme (id utilisateur) n'est pas correct. Veuillez réessayer.";
                 }
@@ -114,12 +114,13 @@ namespace PSI_application_C__web.Pages
                 {
                     ViewData["Erreur_mot_de_passe_incorrect"] = "Ce mot de passe n'est pas valide.";
                 }
-                if (IdentifiantExistePas(saisie_id_connexion) == false || MotDePasseCorrect(saisie_id_connexion, saisie_mot_de_passe_connexion) == false)
+                if (IdentifiantExiste(saisie_id_connexion) == false || MotDePasseCorrect(saisie_id_connexion, saisie_mot_de_passe_connexion) == false)
                 {
                     return Page();
                 }
                 else
                 {
+                    TempData["Id_utilisateur"] = saisie_id_connexion;
                     return RedirectToPage("Page_accueil_connecte");
                 }
             }
