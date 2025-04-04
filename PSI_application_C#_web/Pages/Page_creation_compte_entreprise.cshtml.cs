@@ -215,6 +215,8 @@ namespace PSI_application_C__web.Pages
                 Cuisinier.AjoutCuisinierBDD(cuisinier_cree);
                 Livreur livreur_cree = new Livreur(entreprise_creee);
                 Livreur.AjoutLivreurBDD(livreur_cree);
+                TempData["Id_cuisinier"] = cuisinier_cree.Id_cuisinier;
+                return RedirectToPage("Page_creation_plat");
             }
             if (est_client == false && est_cuisinier == true && est_livreur == true)
             {
@@ -222,6 +224,8 @@ namespace PSI_application_C__web.Pages
                 Cuisinier.AjoutCuisinierBDD(cuisinier_cree);
                 Livreur livreur_cree = new Livreur(entreprise_creee);
                 Livreur.AjoutLivreurBDD(livreur_cree);
+                TempData["Id_cuisinier"] = cuisinier_cree.Id_cuisinier;
+                return RedirectToPage("Page_creation_plat");
             }
             if (est_client == true && est_cuisinier == false && est_livreur == true)
             {
@@ -236,6 +240,8 @@ namespace PSI_application_C__web.Pages
                 Client.AjoutClientBDD(client_cree);
                 Cuisinier cuisinier_cree = new Cuisinier(entreprise_creee);
                 Cuisinier.AjoutCuisinierBDD(cuisinier_cree);
+                TempData["Id_cuisinier"] = cuisinier_cree.Id_cuisinier;
+                return RedirectToPage("Page_creation_plat");
             }
             if (est_client == true && est_cuisinier == false && est_livreur == false)
             {
@@ -246,6 +252,8 @@ namespace PSI_application_C__web.Pages
             {
                 Cuisinier cuisinier_cree = new Cuisinier(entreprise_creee);
                 Cuisinier.AjoutCuisinierBDD(cuisinier_cree);
+                TempData["Id_cuisinier"] = cuisinier_cree.Id_cuisinier;
+                return RedirectToPage("Page_creation_plat");
             }
             if (est_client == false && est_cuisinier == false && est_livreur == true)
             {
