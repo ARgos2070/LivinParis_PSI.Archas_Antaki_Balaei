@@ -15,8 +15,6 @@ namespace PSI_application_C__web
         private string nom_utilisateur;
         private string prenom_utilisateur;
         private string adresse_utilisateur;
-        private string longitude_adresse_utilisateur;
-        private string latitude_adresse_utilisateur;
         private string num_utilisateur;
         private string adresse_mail_utilisateur;
         private bool utilisateur_est_entreprise;
@@ -32,8 +30,6 @@ namespace PSI_application_C__web
             this.nom_utilisateur= nom_utilisateur;
             this.prenom_utilisateur = prenom_utilisateur;
             this.adresse_utilisateur = adresse_utilisateur;
-            this.longitude_adresse_utilisateur = "";
-            this.latitude_adresse_utilisateur = "";
             this.num_utilisateur = num_utilisateur;
             this.adresse_mail_utilisateur = adresse_mail_utilisateur;
             this.utilisateur_est_entreprise = utilisateur_est_entreprise;
@@ -66,16 +62,6 @@ namespace PSI_application_C__web
         public string Adresse_utilisateur 
         { 
             get { return this.adresse_utilisateur; } 
-        }
-
-        public string Longitude_adresse_utilisateur
-        {
-            get { return this.adresse_utilisateur; }
-        }
-
-        public string Latitude_adresse_utilisateur
-        {
-            get { return this.adresse_utilisateur; }
         }
 
         public string Num_utilisateur 
