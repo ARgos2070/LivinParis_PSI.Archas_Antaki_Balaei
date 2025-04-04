@@ -41,6 +41,14 @@ namespace PSI_application_C__web
             }
         }
 
+        public static async Task<GeocodingResult> GetCoordsGeocodingResult(string street, string ville, string code_postal, string Pays)
+        {
+            string apiKey = "d223a8ca27d54e1fa8ab51a9571518b1";
+            string address = street + ", " + ville + ", " + code_postal + ", " + Pays;
+            GeocodingResult Resultat = await GetCoordinatesFromAddress(apiKey, address);
+            return Resultat;
+        }
+
         private static async Task<GeocodingResult> GetCoordinatesFromAddress(string apiKey, string address)
         {
             string baseUrl = "https://api.opencagedata.com/geocode/v1/json";
@@ -86,7 +94,7 @@ namespace PSI_application_C__web
             }
         }
 
-        struct GeocodingResult
+        public struct GeocodingResult
         {
             public double Latitude;
             public double Longitude;
