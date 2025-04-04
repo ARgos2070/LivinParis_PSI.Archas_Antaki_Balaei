@@ -108,6 +108,16 @@ namespace PSI_application_C__web
                 Console.WriteLine(e.ToString());
             }
         }
+
+        //public static void CheminDeLivraison(string adresse_depart, string adresse_fin)
+        //{
+        //    string num_et_rue_depart = "";
+        //    string ville_depart = "";
+        //    string code_postal_depart = "";
+            
+        //    Graphe lesmetros = new Graphes();
+        //    List<string> resultat = await lesmetros.Chemin_le_plus_court("parametrre");
+        //}
         #endregion
     }
 }

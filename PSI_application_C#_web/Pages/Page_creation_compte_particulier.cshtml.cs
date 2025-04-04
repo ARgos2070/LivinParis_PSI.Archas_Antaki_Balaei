@@ -204,7 +204,7 @@ namespace PSI_application_C__web.Pages
             string prenom_utilisateur = saisie_prenom;
             string nom_utilisateur = saisie_nom;
             string mot_de_passe_utilisateur = saisie_mot_de_passe;
-            string adresse_utilisateur = saisie_adresse_num_rue + " " + saisie_adresse_nom_rue + ", " + saisie_adresse_ville;
+            string adresse_utilisateur = saisie_adresse_num_rue + " " + saisie_adresse_nom_rue + ", " + saisie_adresse_ville + ", " + saisie_adresse_code_postal;
             string adresse_mail_utilisateur = saisie_adresse_mail;
             string num_utilisateur = saisie_num_tel;
             bool utilisateur_est_entreprise = true;
