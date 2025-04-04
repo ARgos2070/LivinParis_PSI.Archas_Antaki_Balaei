@@ -110,12 +110,6 @@ namespace PSI_application_C__web.Pages
             bool date_peremption_valide = DateCorrecte(saisie_date_peremption_plat_jour, saisie_date_peremption_plat_mois, saisie_date_peremption_plat_annee, true);
             bool ordre_date_fab_peremp_valide = DateFabInferieureDatePeremp(saisie_date_fabrication_plat_jour, saisie_date_fabrication_plat_mois, saisie_date_fabrication_plat_annee,
                 saisie_date_peremption_plat_jour, saisie_date_peremption_plat_mois, saisie_date_peremption_plat_annee);
-            //bool date_fabrication_jour_valide = saisie_date_fabrication_plat_jour != null && saisie_date_fabrication_plat_jour.Length > 0;
-            //bool date_fabrication_mois_valide = saisie_date_fabrication_plat_mois != null && saisie_date_fabrication_plat_mois.Length > 0;
-            //bool date_fabrication_annee_valide = saisie_date_fabrication_plat_annee != null && saisie_date_fabrication_plat_annee.Length > 0;
-            //bool date_peremption_jour_valide = saisie_date_peremption_plat_jour != null && saisie_date_peremption_plat_jour.Length > 0;
-            //bool date_peremption_mois_valide = saisie_date_peremption_plat_mois != null && saisie_date_peremption_plat_mois.Length > 0;
-            //bool date_peremption_annee_valide = saisie_date_peremption_plat_annee != null && saisie_date_peremption_plat_annee.Length > 0;
             bool nationalite_plat_valide = saisie_nationalite_plat != null && saisie_nationalite_plat.Length > 0;
             bool regime_alimentaire_plat_valide = saisie_regime_alimentaire_plat != null && saisie_regime_alimentaire_plat.Length > 0;
             bool ingredients_principaux_plat_valide = saisie_ingredients_principaux_plat != null && saisie_ingredients_principaux_plat.Length > 0;
@@ -148,30 +142,6 @@ namespace PSI_application_C__web.Pages
             {
                 ViewData["Erreur_ordre_date"] = "Vos dates ne collent pas.";
             }
-            //if (!date_fabrication_jour_valide)
-            //{
-            //    ViewData["Erreur_date_fabrication_plat_jour"] = "Le jour de fabrication est requis.";
-            //}
-            //if (!date_fabrication_mois_valide)
-            //{
-            //    ViewData["Erreur_date_fabrication_plat_mois"] = "Le mois de fabrication est requis.";
-            //}
-            //if (!date_fabrication_annee_valide)
-            //{
-            //    ViewData["Erreur_date_fabrication_plat_annee"] = "L'année de fabrication est requise.";
-            //}
-            //if (!date_peremption_jour_valide)
-            //{
-            //    ViewData["Erreur_date_peremption_plat_jour"] = "Le jour de péremption est requis.";
-            //}
-            //if (!date_peremption_mois_valide)
-            //{
-            //    ViewData["Erreur_date_peremption_plat_mois"] = "Le mois de péremption est requis.";
-            //}
-            //if (!date_peremption_annee_valide)
-            //{
-            //    ViewData["Erreur_date_peremption_plat_annee"] = "L'année de péremption est requise.";
-            //}
             if (!nationalite_plat_valide)
             {
                 ViewData["Erreur_nationalite_plat"] = "La nationalité du plat est requise.";

@@ -1,0 +1,53 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_statistiqueModel
+@{
+    ViewData["Title"] = "Page statistique";
+    Layout = null;
+
+    bool Est_cuisinier = true;
+    bool Est_client = true;
+    bool Est_livreur = true;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Voici vos Statistiques</h1>
+
+        <div>
+            @foreach (List<string> stat in Model.CookStats)
+            {
+                <tr>
+                    @foreach(string element in stat)
+                    {
+                        <tr>@element</tr>
+                    }
+                </tr>
+            }
+        </div>
+        
+
+    </main>
+
+    <footer style="text-align: center; margin-top: 40px;">
+        &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+    </footer>
+</body>
+</html>
+
