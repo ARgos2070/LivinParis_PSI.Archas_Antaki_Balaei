@@ -134,7 +134,7 @@ namespace PSI_application_C__web.Pages
             return est_correct;
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
             bool id_utilisateur_valide = Utilisateur.Identifiant_utilisateur_nouveau_dans_bdd(saisie_id_utilisateur);
             bool prenom_valide = saisie_prenom != null && saisie_prenom.Length > 0;
@@ -178,7 +178,7 @@ namespace PSI_application_C__web.Pages
             {
                 ViewData["Erreur_adresse_code_postal"] = "Un code postal est requis.";
             }
-            if (await Adresse_a_coordonees.GetCoords(saisie_adresse_ville, ville, code_postal, pays);)
+            if (await Adresse_a_coordonees.GetCoords(saisie_adresse_num_rue + " " + adresse_nom_rue_valide, saisie_adresse_ville, saisie_adresse_code_postal, "France"))
             {
                 ViewData["Erreur_adresse_code_postal"] = "Un code postal est requis.";
             }
