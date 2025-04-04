@@ -33,6 +33,9 @@ namespace PSI_application_C__web.Pages
         public string saisie_adresse_ville { get; set; }
 
         [BindProperty]
+        public string saisie_adresse_code_postal { get; set; }
+
+        [BindProperty]
         public string saisie_num_tel { get; set; } //On déclare le numéro de téléphone sous la forme d'un string
                                                    //car si on le déclare directement en int, la valeur par défaut de num_tel
                                                    //sera 0, et cette valeur par défaut apparaîtra dans le champs (non rempli)
@@ -140,6 +143,7 @@ namespace PSI_application_C__web.Pages
             bool adresse_num_rue_valide = saisie_adresse_num_rue != null && saisie_adresse_num_rue.Length > 0;
             bool adresse_nom_rue_valide = saisie_adresse_nom_rue != null && saisie_adresse_nom_rue.Length > 0;
             bool adresse_ville_valide = saisie_adresse_ville != null && saisie_adresse_ville.Length > 0;
+            bool adresse_code_postal_valide = saisie_adresse_code_postal != null && saisie_adresse_code_postal.Length > 0;
             bool num_tel_valide = EstNumeroTelCorrect(saisie_num_tel);
             bool adresse_mail_valide = EstAdresseMailCorrect(saisie_adresse_mail);
             bool nom_entreprise_valide = saisie_nom_entreprise != null && saisie_nom_entreprise.Length > 0;
@@ -171,6 +175,10 @@ namespace PSI_application_C__web.Pages
             {
                 ViewData["Erreur_adresse_ville"] = "Une ville est requise.";
             }
+            if (adresse_code_postal_valide == false)
+            {
+                ViewData["Erreur_adresse_code_postal"] = "Un code postal est requis.";
+            }
             if (!num_tel_valide)
             {
                 ViewData["Erreur_num_tel"] = "Il faut que votre numéro de téléphone commence par un 0.";
@@ -188,7 +196,7 @@ namespace PSI_application_C__web.Pages
                 ViewData["Erreur_client"] = "Il faut que vous séléctionnez au moins un rôle.";
             }
             if (!id_utilisateur_valide || !prenom_valide || !nom_valide || !mot_de_passe_valide || !adresse_num_rue_valide || !adresse_nom_rue_valide || !adresse_ville_valide || !adresse_mail_valide || !num_tel_valide || !nom_entreprise_valide
-                || !EstPasUtilisateurSansRole(saisie_est_client, saisie_est_cuisinier, saisie_est_livreur))
+                || adresse_code_postal_valide == false || !EstPasUtilisateurSansRole(saisie_est_client, saisie_est_cuisinier, saisie_est_livreur))
             {
                 return Page();
             }
