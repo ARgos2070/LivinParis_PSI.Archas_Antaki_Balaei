@@ -64,6 +64,11 @@
                 <p>@ViewData["Erreur_adresse_ville"]</p>
             </div>
             <div>
+                <label asp-for="saisie_adresse_code_postal">Code postal :</label>
+                <input type="text" asp-for="saisie_adresse_code_postal" maxlength="5" pattern="\d{5}" required />
+                <p>@ViewData["Erreur_adresse_code_postal"]</p>
+            </div>
+            <div>
                 <label asp-for="saisie_num_tel">Numéro de téléphone du référent :</label>
                 <input type="text" asp-for="saisie_num_tel" maxlength="10" pattern="\d{10}" required />
                 <small>Veuillez entrer un numéro de téléphone à 10 chiffres.</small>
