@@ -178,9 +178,9 @@ namespace PSI_application_C__web.Pages
             {
                 ViewData["Erreur_adresse_code_postal"] = "Un code postal est requis.";
             }
-            if (await Adresse_a_coordonees.GetCoords(saisie_adresse_ville, ville, code_postal, pays);)
+            if (await Adresse_a_coordonees.GetCoords(saisie_adresse_num_rue + " " + saisie_adresse_nom_rue, saisie_adresse_ville, saisie_adresse_code_postal, "France") == false)
             {
-                ViewData["Erreur_adresse_code_postal"] = "Un code postal est requis.";
+                ViewData["Erreur_adresse_non dans le reseau"] = "L'adresse n'est pas en region parisienne.";
             }
             if (num_tel_valide == false)
             {
