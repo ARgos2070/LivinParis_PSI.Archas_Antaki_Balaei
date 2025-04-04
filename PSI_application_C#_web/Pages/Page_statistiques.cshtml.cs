@@ -28,11 +28,11 @@ namespace PSI_application_C__web.Pages
                 while (readerer.Read())
                 {
                     List<string> stat = new List<string>();
-                    stat.Add(readerer["Nom_utilisateur"].ToString());
-                    stat.Add(readerer["Prenom_utilisateur"].ToString());
-                    stat.Add(readerer["nbre_plat_propose_cuisinier"].ToString());
-                    stat.Add(readerer["plat_du_jour_cuisinier"].ToString());
-                    stat.Add(readerer["nbre_commandes_cuisinees_cuisinier"].ToString());
+                    //stat.Add(readerer["Nom_utilisateur"].ToString());
+                    //stat.Add(readerer["Prenom_utilisateur"].ToString());
+                    stat.Add(readerer["Nbre_plat_proposé_Cuisinier"].ToString());
+                    stat.Add(readerer["Plat_du_jour_Cuisinier"].ToString());
+                    stat.Add(readerer["Nbre_commandes_cuisinees_cuisinier"].ToString());
 
                     CookStats.Add(stat);
                 }
