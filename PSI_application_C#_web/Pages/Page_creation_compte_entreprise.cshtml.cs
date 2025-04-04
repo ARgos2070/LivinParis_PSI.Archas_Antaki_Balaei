@@ -207,6 +207,7 @@ namespace PSI_application_C__web.Pages
             bool est_livreur = saisie_est_livreur;
             Utilisateur entreprise_creee = new Utilisateur(id_utilisateur, mot_de_passe_utilisateur, nom_utilisateur, prenom_utilisateur, adresse_utilisateur, num_utilisateur, adresse_mail_utilisateur, true, nom_entreprise_utilisateur);
             Utilisateur.AjoutUtilisateurBDD(entreprise_creee);
+            TempData["Id_utilisateur"] = id_utilisateur;
             if (est_client == true && est_cuisinier == true && est_livreur == true)
             {
                 Client client_cree = new Client(entreprise_creee);
