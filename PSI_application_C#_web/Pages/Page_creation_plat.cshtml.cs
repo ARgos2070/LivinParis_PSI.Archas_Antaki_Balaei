@@ -18,7 +18,7 @@ namespace PSI_application_C__web.Pages
         public string saisie_pr_cmb_de_personnes_plat { get; set; } // Pour le nom
 
         [BindProperty]
-        public string saisie_prix_par_perso_plat { get; set; }
+        public string saisie_prix_par_portion_plat { get; set; }
 
         [BindProperty]
         public string saisie_date_fabrication_plat_jour { get; set; }
@@ -47,6 +47,9 @@ namespace PSI_application_C__web.Pages
         [BindProperty]
         public string saisie_ingredients_principaux_plat { get; set; }
 
+        [BindProperty]
+        public bool saisie_choix_plat_du_jour { get; set; }
+
         public Page_creation_platModel(ILogger<Page_creation_platModel> logger)
         {
             _logger = logger;
@@ -54,6 +57,7 @@ namespace PSI_application_C__web.Pages
 
         public void OnGet()
         {
+            TempData["Id_utilisateur_session"] = TempData["Id_utilisateur_session"];
         }
 
         public static bool DateCorrecte(string jour, string mois, string annee, bool peremption)
@@ -105,7 +109,7 @@ namespace PSI_application_C__web.Pages
             bool nom_plat_valide = saisie_nom_plat != null && saisie_nom_plat.Length > 0;
             bool type_plat_valide = saisie_type_plat != null && saisie_type_plat.Length > 0;
             bool pr_cmb_de_personnes_plat_valide = saisie_pr_cmb_de_personnes_plat != null && saisie_pr_cmb_de_personnes_plat.Length > 0;
-            bool prix_par_perso_plat_valide = saisie_prix_par_perso_plat != null && saisie_prix_par_perso_plat.Length > 0;
+            bool prix_par_portion_plat_valide = saisie_prix_par_portion_plat != null && saisie_prix_par_portion_plat.Length > 0;
             bool date_fabrication_valide = DateCorrecte(saisie_date_fabrication_plat_jour, saisie_date_fabrication_plat_mois, saisie_date_fabrication_plat_annee, false);
             bool date_peremption_valide = DateCorrecte(saisie_date_peremption_plat_jour, saisie_date_peremption_plat_mois, saisie_date_peremption_plat_annee, true);
             bool ordre_date_fab_peremp_valide = DateFabInferieureDatePeremp(saisie_date_fabrication_plat_jour, saisie_date_fabrication_plat_mois, saisie_date_fabrication_plat_annee,
@@ -126,7 +130,7 @@ namespace PSI_application_C__web.Pages
             {
                 ViewData["Erreur_pr_cmb_de_personnes_plat"] = "Le nombre de personnes est requis.";
             }
-            if (!prix_par_perso_plat_valide)
+            if (!prix_par_portion_plat_valide)
             {
                 ViewData["Erreur_prix_par_perso_plat"] = "Un prix par personne est requis.";
             }
@@ -155,7 +159,7 @@ namespace PSI_application_C__web.Pages
                 ViewData["Erreur_ingredients_principaux_plat"] = "Les ingrédients principaux sont requis.";
             }
 
-            if (!nom_plat_valide || !type_plat_valide || !pr_cmb_de_personnes_plat_valide || !prix_par_perso_plat_valide ||
+            if (!nom_plat_valide || !type_plat_valide || !pr_cmb_de_personnes_plat_valide || !prix_par_portion_plat_valide ||
                 !nationalite_plat_valide || !regime_alimentaire_plat_valide || !ingredients_principaux_plat_valide || 
                 date_fabrication_valide == false || date_peremption_valide == false ||ordre_date_fab_peremp_valide == false)
             {
@@ -165,17 +169,26 @@ namespace PSI_application_C__web.Pages
             string nom_plat = saisie_nom_plat;
             string type_plat = saisie_type_plat;
             int pr_cmb_de_personnes_plat = int.Parse(saisie_pr_cmb_de_personnes_plat);
-            string transition = saisie_prix_par_perso_plat.Replace('.', ',');
-            double prix_par_perso_plat = double.Parse(transition);
+            string transition = saisie_prix_par_portion_plat.Replace('.', ',');
+            double prix_par_portion_plat = double.Parse(transition);
             string date_fabrication_plat = saisie_date_fabrication_plat_annee + "-" + saisie_date_fabrication_plat_mois + "-" + saisie_date_fabrication_plat_jour;
             string date_peremption_plat = saisie_date_peremption_plat_annee + "-" + saisie_date_peremption_plat_mois + "-" + saisie_date_peremption_plat_jour;
             string nationalite_plat = saisie_nationalite_plat;
             string regime_alimentaire_plat = saisie_regime_alimentaire_plat;
             string ingredients_principaux_plat = saisie_ingredients_principaux_plat;
+            bool choix_plat_du_jour = saisie_choix_plat_du_jour;
+            //int id_cuisinier_plat = (int)TempData["Id_cuisinier"];
             int id_cuisinier_plat = (int)TempData["Id_cuisinier"];
-            Console.WriteLine("Voici la clé étrangère : " +  id_cuisinier_plat);
-            Plat plat_cree = new Plat(id_plat, nom_plat, type_plat, pr_cmb_de_personnes_plat, prix_par_perso_plat, date_fabrication_plat, date_peremption_plat, nationalite_plat, regime_alimentaire_plat, ingredients_principaux_plat, id_cuisinier_plat);
+            Plat plat_cree = new Plat(id_plat, nom_plat, type_plat, pr_cmb_de_personnes_plat, prix_par_portion_plat, date_fabrication_plat, date_peremption_plat, nationalite_plat, regime_alimentaire_plat, ingredients_principaux_plat, id_cuisinier_plat);
             Plat.AjoutPlatBDD(plat_cree);
+            Cuisinier.CuisinierAjouteUnPlatAsonMenu(id_cuisinier_plat);
+            if (Cuisinier.CuisinierSansPlatDuJour(id_cuisinier_plat) || choix_plat_du_jour)
+            {
+                Cuisinier.DeclarerUnNouveauPlatDuJour(id_cuisinier_plat, nom_plat);
+            }
+            //string perpetuation = (string)TempData["Id_utilisateur"];
+            //Console.WriteLine("id_utilisateur_transitoire : " + perpetuation);
+            //TempData["Id_utilisateur"] = perpetuation;
             return RedirectToPage("Page_accueil_connecte");
         }
 

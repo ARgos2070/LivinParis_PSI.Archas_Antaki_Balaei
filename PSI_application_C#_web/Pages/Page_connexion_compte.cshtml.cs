@@ -120,7 +120,7 @@ namespace PSI_application_C__web.Pages
                 }
                 else
                 {
-                    TempData["Id_utilisateur"] = saisie_id_connexion;
+                    TempData["Id_utilisateur_session"] = saisie_id_connexion;
                     return RedirectToPage("Page_accueil_connecte");
                 }
             }

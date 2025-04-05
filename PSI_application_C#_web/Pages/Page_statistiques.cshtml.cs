@@ -13,6 +13,7 @@ namespace PSI_application_C__web.Pages
         
         public void OnGet()
         {
+            TempData["Id_utilisateur_session"] = TempData["Id_utilisateur_session"];
             this.CookStats = new List<List<string>>();
 
             try

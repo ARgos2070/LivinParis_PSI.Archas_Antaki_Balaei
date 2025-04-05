@@ -182,8 +182,7 @@ namespace PSI_application_C__web.Pages
             }
             if (adresse_valide == false)
             {
-                ViewData["Erreur_adresse_reseau"] = "Notre servie ne dessert pas cette adresse.";
-                Console.WriteLine("Pourquoi l'erreur ne s'affiche pas");
+                ViewData["Erreur_adresse_reseau"] = "Notre service ne dessert pas cette adresse.";
             }
             if (num_tel_valide == false)
             {
@@ -217,7 +216,7 @@ namespace PSI_application_C__web.Pages
             bool est_livreur = saisie_est_livreur;
             Utilisateur particulier_cree = new Utilisateur(id_utilisateur, mot_de_passe_utilisateur, nom_utilisateur, prenom_utilisateur, adresse_utilisateur, num_utilisateur, adresse_mail_utilisateur, false, null);
             Utilisateur.AjoutUtilisateurBDD(particulier_cree);
-            TempData["Id_utilisateur"] = id_utilisateur;
+            TempData["Id_utilisateur_session"] = id_utilisateur;
             if (est_client == true && est_cuisinier == true && est_livreur == true)
             {
                 Client client_cree = new Client(particulier_cree);

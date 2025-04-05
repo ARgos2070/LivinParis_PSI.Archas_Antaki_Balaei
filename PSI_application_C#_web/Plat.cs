@@ -9,7 +9,7 @@ namespace PSI_application_C__web
         private string nom_plat;
         private string type_plat;
         private int pr_cmb_de_personnes_plat;
-        private double prix_par_perso_plat;
+        private double prix_par_portion_plat;
         private string date_fabrication_plat;
         private string date_perempetion_plat;
         private string nationalite_plat;
@@ -27,13 +27,14 @@ namespace PSI_application_C__web
             this.nom_plat = nom_plat;
             this.type_plat = type_plat;
             this.pr_cmb_de_personnes_plat = pr_cmb_de_personnes_plat;
-            this.prix_par_perso_plat = prix_par_perso_plat;
+            this.prix_par_portion_plat = prix_par_perso_plat;
             this.date_fabrication_plat = date_fabrication_plat;
             this.date_perempetion_plat = date_perempetion_plat;
             this.nationalite_plat = nationalite_plat;
             this.regime_alimentaire_plat = regime_alimentaire_plat;
             this.ingredients_principaux_plat = ingredients_principaux_plat;
             this.id_cuisinier_plat = id_cuisinier_plat;
+
         }
         #endregion
 
@@ -75,7 +76,6 @@ namespace PSI_application_C__web
             }
         }
 
-
         public static void AjoutPlatBDD(Plat plat)
         {
             try
@@ -84,12 +84,12 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "INSERT INTO Plat (ID_Plat, Nom_plat, Type_Plat, Pr_cmb_de_personnes_Plat, Prix_par_perso_Plat, date_fabrication_plat, date_péremption_plat, Nationalité_cuisine_Plat, Régime_alimentaire_Plat, Ingrédients_principaux_Plat, ID_Cuisinier) VALUES (" +
+                command.CommandText = "INSERT INTO Plat (ID_Plat, Nom_plat, Type_Plat, Pr_cmb_de_personnes_Plat, Prix_par_portion_Plat, date_fabrication_plat, date_péremption_plat, Nationalité_cuisine_Plat, Régime_alimentaire_Plat, Ingrédients_principaux_Plat, ID_Cuisinier) VALUES (" +
                     plat.id_plat + ", '" +
                     plat.nom_plat + "', '" +
                     plat.type_plat + "', " +
                     plat.pr_cmb_de_personnes_plat + ", " +
-                    plat.prix_par_perso_plat + ", '" +
+                    plat.prix_par_portion_plat + ", '" +
                     plat.date_fabrication_plat + "', '" +
                     plat.date_perempetion_plat + "', '" +
                     plat.nationalite_plat + "', '" +
@@ -174,7 +174,7 @@ namespace PSI_application_C__web
             { Console.WriteLine(e.ToString()); }
         }
 
-        public void MettreAjourAttributPrix_par_perso(double nouveau_prix_par_perso)
+        public void MettreAjourAttributPrix_par_portion(double nouveau_prix_par_portion)
         {
             try
             {
@@ -182,7 +182,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Prix_par_perso_Plat = " + nouveau_prix_par_perso + "WHERE ID_Plat =" + this.id_plat + ";";
+                command.CommandText = "UPDATE Plat SET Prix_par_portion_Plat = " + nouveau_prix_par_portion + "WHERE ID_Plat =" + this.id_plat + ";";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();

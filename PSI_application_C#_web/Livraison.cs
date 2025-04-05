@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.ComponentModel;
 
 namespace PSI_application_C__web
 {
@@ -109,17 +110,49 @@ namespace PSI_application_C__web
             }
         }
 
-        public static void CheminDeLivraison(string adresse_depart, string adresse_fin)
+
+        /// <summary>
+        /// La méthode calcule le chemin de livraison le plus court entre 2 adresses
+        /// </summary>
+        /// <param name="adresse_depart">Adresse de départ format: numéro et rue, ville, code postal</param>
+        /// <param name="adresse_arrivee">Adresse d’arrivée format : numéro et rue, ville, code postal</param>
+        /// <returns>
+        /// retourne une liste des noms des stations pour le chemin le plus court entre les 2 adresses
+        /// </returns>
+        public async static Task<List<string>> CheminDeLivraison(string adresse_depart, string adresse_arrivee)
         {
-            //string num_et_rue_depart = "";
-            //string ville_depart = "";
-            //string code_postal_depart = "";
-            //for (int i)
-            //string num_et_rue_arrivee = "";
-            //string ville_arrivee = "";
-            //string code_postal_arrivee = "";
-            //Graphe lesmetros = new Graphes();
-            //List<string> resultat = await lesmetros.Chemin_le_plus_court("parametrre");
+            string num_et_rue_depart = "";
+            string ville_depart = "";
+            string code_postal_depart = "";
+            string[] composant_adresse_depart = adresse_depart.Split(',');
+            for (int i=0; i<composant_adresse_depart.Length; i++)
+            {
+                composant_adresse_depart[i] = composant_adresse_depart[i].Trim();
+                switch(i)
+                {
+                    case 0: num_et_rue_depart = composant_adresse_depart[i]; break;
+                    case 1: ville_depart = composant_adresse_depart[i]; break;
+                    default: code_postal_depart = composant_adresse_depart[i]; break;
+                }
+            }
+            string num_et_rue_arrivee = "";
+            string ville_arrivee = "";
+            string code_postal_arrivee = "";
+            string[] composant_adresse_arrivee = adresse_arrivee.Split(',');
+            for (int i = 0; i < composant_adresse_arrivee.Length; i++)
+            {
+                composant_adresse_arrivee[i] = composant_adresse_arrivee[i].Trim();
+                switch (i)
+                {
+                    case 0: num_et_rue_arrivee = composant_adresse_arrivee[i]; break;
+                    case 1: ville_arrivee = composant_adresse_arrivee[i]; break;
+                    default: code_postal_arrivee = composant_adresse_arrivee[i]; break;
+                }
+            }
+            Graphe lesmetros = new Graphe();
+            List<string> resultat = await lesmetros.Chemin_le_plus_court(num_et_rue_depart, ville_depart, code_postal_depart, "France",
+                num_et_rue_arrivee, ville_arrivee, code_postal_arrivee, "France");
+            return resultat;
         }
         #endregion
     }

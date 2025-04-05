@@ -113,37 +113,44 @@ namespace PSI_application_C__web
             
         }
 
-        public static bool UtilisateurEstLivreur(string id_utilisateur)
+        /// <summary>
+        /// Récupère l'identifiant du livreur associé à un utilisateur donné à partir de son identifiant utilisateur
+        /// </summary>
+        /// <param name="id_utilisateur">L'identifiant de l'utilisateur dont on souhaite retrouver l'identifiant livreur</param>
+        /// <returns>
+        /// Un entier représentant l'identifiant du livreur si trouvé, sinon 0
+        /// </returns>
+        public static int IdLivreurDunUtilisateur(string id_utilisateur)
         {
-            bool est_livreur = false;
+            int id_livreur = 0;
             try
             {
                 string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT COUNT(ID_Livreur) FROM Livreur WHERE ID_utilisateur = '" + id_utilisateur + "';";
+                command.CommandText = "SELECT ID_Livreur FROM Livreur WHERE ID_utilisateur = '" + id_utilisateur + "';";
                 MySqlDataReader reader;
                 reader = command.ExecuteReader();
-                string lecture_count = "";
+                string lecture_id = "";
                 while (reader.Read())
                 {
-                    lecture_count = reader["COUNT(ID_Livreur)"].ToString();
+                    lecture_id = reader["ID_Livreur"].ToString();
 
                 }
-                if (lecture_count == "1")
+                if (!String.IsNullOrEmpty(lecture_id))
                 {
-                    est_livreur = true;
+                    id_livreur = int.Parse(lecture_id);
                 }
+                command.Dispose();
                 connection.Close();
-                return est_livreur;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-                Console.WriteLine("Il y a une erreur dans la recherche de livreur");
-                return false;
+                Console.WriteLine("Il y a une erreur dans la recherche de cuisinier");
             }
+            return id_livreur;
         }
 
         public void GainGagne(int gain_livraison)
