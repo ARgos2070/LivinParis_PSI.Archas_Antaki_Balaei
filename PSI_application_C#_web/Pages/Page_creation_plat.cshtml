@@ -44,6 +44,12 @@
                 <input type="text" asp-for="saisie_prix_par_portion_plat" maxlength="8" pattern="^\d+([.,]\d{1,2})?$" required />
                 <p>@ViewData["Erreur_prix_par_perso_plat"]</p>
             </div>
+
+            <div>
+                <label asp-for="saisie_nbre_portion_dispo_plat">Nombre de portions disponibles :</label>
+                <input type="text" asp-for="saisie_nbre_portion_dispo_plat" maxlength="8" pattern="\d" required />
+                <p>@ViewData["Erreur_nbre_portion_dispo_plat"]</p>
+            </div>
             <p>Date de fabrication :</p>
             <div>
                 <label asp-for="saisie_date_fabrication_plat_jour">Jour :</label>

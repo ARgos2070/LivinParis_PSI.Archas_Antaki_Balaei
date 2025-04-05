@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Tls.Crypto;
 
 namespace PSI_application_C__web
 {
@@ -10,6 +11,7 @@ namespace PSI_application_C__web
         private string type_plat;
         private int pr_cmb_de_personnes_plat;
         private double prix_par_portion_plat;
+        private int nbre_portion_dispo_plat;
         private string date_fabrication_plat;
         private string date_perempetion_plat;
         private string nationalite_plat;
@@ -19,15 +21,16 @@ namespace PSI_application_C__web
         #endregion
 
         #region Constructeur
-        public Plat(int id_plat, string nom_plat, string type_plat, int pr_cmb_de_personnes_plat, double prix_par_perso_plat,
+        public Plat(int id_plat, string nom_plat, string type_plat, int pr_cmb_de_personnes_plat, double prix_par_perso_plat, int nbre_portion_dispo_plat,
                     string date_fabrication_plat, string date_perempetion_plat, string nationalite_plat, string regime_alimentaire_plat,
                     string ingredients_principaux_plat, int id_cuisinier_plat)
         {
             this.id_plat = id_plat;
-            this.nom_plat = nom_plat.ToLower().Trim();
-            this.type_plat = type_plat.ToLower().Trim();
+            this.nom_plat = nom_plat.Trim();
+            this.type_plat = type_plat.Trim();
             this.pr_cmb_de_personnes_plat = pr_cmb_de_personnes_plat;
             this.prix_par_portion_plat = prix_par_perso_plat;
+            this.nbre_portion_dispo_plat = nbre_portion_dispo_plat;
             this.date_fabrication_plat = date_fabrication_plat;
             this.date_perempetion_plat = date_perempetion_plat;
             this.nationalite_plat = nationalite_plat.ToLower().Trim();
@@ -62,6 +65,11 @@ namespace PSI_application_C__web
         public double Prix_par_portion_plat
         {
             get { return this.prix_par_portion_plat; }
+        }
+
+        public int Nbre_portion_dispo_plat
+        {
+            get { return this.nbre_portion_dispo_plat; }
         }
 
         public string Date_fabrication_plat
@@ -142,12 +150,13 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "INSERT INTO Plat (ID_Plat, Nom_plat, Type_Plat, Pr_cmb_de_personnes_Plat, Prix_par_portion_Plat, date_fabrication_plat, date_péremption_plat, Nationalité_cuisine_Plat, Régime_alimentaire_Plat, Ingrédients_principaux_Plat, ID_Cuisinier) VALUES (" +
+                command.CommandText = "INSERT INTO Plat (ID_Plat, Nom_plat, Type_Plat, Pr_cmb_de_personnes_Plat, Prix_par_portion_Plat, nbre_portion_dispo_plat, date_fabrication_plat, date_péremption_plat, Nationalité_cuisine_Plat, Régime_alimentaire_Plat, Ingrédients_principaux_Plat, ID_Cuisinier) VALUES (" +
                     plat.id_plat + ", '" +
                     plat.nom_plat + "', '" +
                     plat.type_plat + "', " +
                     plat.pr_cmb_de_personnes_plat + ", " +
-                    plat.prix_par_portion_plat + ", '" +
+                    plat.prix_par_portion_plat + ", " +
+                    plat.nbre_portion_dispo_plat + ", '" +
                     plat.date_fabrication_plat + "', '" +
                     plat.date_perempetion_plat + "', '" +
                     plat.nationalite_plat + "', '" +
@@ -208,6 +217,7 @@ namespace PSI_application_C__web
                         reader.GetString("Type_Plat"),
                         reader.GetInt32("Pr_cmb_de_personnes_Plat"),
                         reader.GetDouble("Prix_par_portion_Plat"),
+                        reader.GetInt32("nbre_portion_dispo_plat"),
                         reader.GetString("date_fabrication_plat"),
                         reader.GetString("date_péremption_plat"),
                         reader.GetString("Nationalité_cuisine_Plat"),
@@ -301,6 +311,7 @@ namespace PSI_application_C__web
                         reader.GetString("Type_Plat"),
                         reader.GetInt32("Pr_cmb_de_personnes_Plat"),
                         reader.GetDouble("Prix_par_portion_Plat"),
+                        reader.GetInt32("nbre_portion_dispo_plat"),
                         reader.GetString("date_fabrication_plat"),
                         reader.GetString("date_péremption_plat"),
                         reader.GetString("Nationalité_cuisine_Plat"),
@@ -340,6 +351,7 @@ namespace PSI_application_C__web
                         reader.GetString("Type_Plat"),
                         reader.GetInt32("Pr_cmb_de_personnes_Plat"),
                         reader.GetDouble("Prix_par_portion_Plat"),
+                        reader.GetInt32("nbre_portion_dispo_plat"),
                         reader.GetString("date_fabrication_plat"),
                         reader.GetString("date_péremption_plat"),
                         reader.GetString("Nationalité_cuisine_Plat"),
@@ -419,6 +431,23 @@ namespace PSI_application_C__web
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
                 command.CommandText = "UPDATE Plat SET Prix_par_portion_Plat = " + nouveau_prix_par_portion + "WHERE ID_Plat =" + this.id_plat + ";";
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            { Console.WriteLine(e.ToString()); }
+        }
+
+        public void MettreAjourAttributNbre_portion_dispo(int nouveau_nbre_portion_dispo)
+        {
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "UPDATE Plat SET nbre_portion_dispo_plat = " + nouveau_nbre_portion_dispo + "WHERE ID_Plat =" + this.id_plat + ";";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();

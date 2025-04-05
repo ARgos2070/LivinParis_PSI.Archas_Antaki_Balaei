@@ -25,15 +25,15 @@ namespace PSI_application_C__web
         #region Constructeur
         public Utilisateur(string id_utilisateur, string mot_de_passe_utilisateur, string nom_utilisateur, string prenom_utilisateur, string adresse_utilisateur, string num_utilisateur, string adresse_mail_utilisateur, bool utilisateur_est_entreprise, string nom_entreprise_utilisateur)
         {
-            this.id_utilisateur = id_utilisateur.ToLower().Trim();
-            this.mot_de_passe_utilisateur = mot_de_passe_utilisateur.ToLower().Trim();
-            this.nom_utilisateur= nom_utilisateur.ToLower().Trim();
-            this.prenom_utilisateur = prenom_utilisateur.ToLower().Trim();
-            this.adresse_utilisateur = adresse_utilisateur.ToLower().Trim();
+            this.id_utilisateur = id_utilisateur.Trim();
+            this.mot_de_passe_utilisateur = mot_de_passe_utilisateur.Trim();
+            this.nom_utilisateur= nom_utilisateur.Trim();
+            this.prenom_utilisateur = prenom_utilisateur.Trim();
+            this.adresse_utilisateur = adresse_utilisateur.Trim();
             this.num_utilisateur = num_utilisateur;
             this.adresse_mail_utilisateur = adresse_mail_utilisateur.ToLower().Trim();
             this.utilisateur_est_entreprise = utilisateur_est_entreprise;
-            this.nom_entreprise_utilisateur = nom_entreprise_utilisateur.ToLower().Trim();
+            this.nom_entreprise_utilisateur = nom_entreprise_utilisateur;
             this.nbre_signalements_contre_utilisateur = 0;
         }
         #endregion
