@@ -25,28 +25,51 @@
 
     <main>
         <h1>Bienvenue dans la carte des plats :</h1>
-        <form>
+        <form method="post">
+
             <div>
                 <p>Comment voulez-vous afficher les plats ?</p>
+                <p>Afficher tout ?</p>
                 <label>
                     <input type="radio" asp-for="saisie_afficher_tout" value="true" />
-                    Afficher tout
+                    Oui
                 </label>
+                <label>
+                    <input type="radio" asp-for="saisie_afficher_tout" value="false" />
+                    Non
+                </label>
+                <p>Afficher par nationalité ?</p>
                 <label>
                     <input type="radio" asp-for="saisie_afficher_par_nationalite" value="true" />
-                    Par nationalité
+                    Oui
                 </label>
                 <label>
-                    <input type="radio" asp-for="saisie_afficher_par_ingredient" value="true" />
-                    Par ingrédient
+                    <input type="radio" asp-for="saisie_afficher_par_nationalite" value="false" />
+                    Non
+                </label><p>Afficher par régime alimentaire ?</p>
+                <label>
+                    <input type="radio" asp-for="saisie_afficher_par_regime_alimentaire" value="true" />
+                    Oui
                 </label>
+                <label>
+                    <input type="radio" asp-for="saisie_afficher_par_regime_alimentaire" value="false" />
+                    Non
+                </label><p>Afficher par prix croissant ?</p>
                 <label>
                     <input type="radio" asp-for="saisie_afficher_par_prix_croissant" value="true" />
-                    Par prix croissant
+                    Oui
                 </label>
                 <label>
+                    <input type="radio" asp-for="saisie_afficher_par_prix_croissant" value="false" />
+                    Non
+                </label><p>Afficher par prix decroissant ?</p>
+                <label>
                     <input type="radio" asp-for="saisie_afficher_par_prix_decroissant" value="true" />
-                    Par prix décroissant
+                    Oui
+                </label>
+                <label>
+                    <input type="radio" asp-for="saisie_afficher_par_prix_decroissant" value="false" />
+                    Non
                 </label>
             </div>
             <p>@ViewData["Erreur_affichage"]</p>

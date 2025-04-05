@@ -90,6 +90,7 @@ namespace PSI_application_C__web
                     identifiant = int.Parse(lecture_id_max);
                     identifiant++;
                 }
+                reader.Close();
                 connection.Close();
                 return identifiant;
             }
@@ -173,6 +174,43 @@ namespace PSI_application_C__web
             }
             return id_cuisinier;
         }
+
+        /// <summary>
+        /// Récupère l'identifiant utilisateur associé à un cuisinier donné à partir de son identifiant cuisinier
+        /// </summary>
+        /// <param name="id_cuisinier">
+        /// L'identifiant unique du cuisinier dans la bdd
+        /// </param>
+        /// <returns>
+        /// Une chaîne représentant l'ID de l'utilisateur associé au cuisinier spécifié
+        /// Retourne une chaîne vide si aucun utilisateur n'est trouvé ou erreur
+        /// </returns>
+        public static string IdUtilisateurDunCuisinier(int id_cuisinier)
+        {
+            string id_utilisateur = "";
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT ID_utilisateur FROM Cuisinier WHERE ID_Cuisinier = " + id_cuisinier + ";";
+                MySqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    id_utilisateur = reader["ID_utilisateur"].ToString();
+                }
+                reader.Close();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return id_utilisateur;
+        }
+
 
         /// <summary>
         /// Incrémente de 1 le nombre de plats proposés par un cuisinier dans la bdd

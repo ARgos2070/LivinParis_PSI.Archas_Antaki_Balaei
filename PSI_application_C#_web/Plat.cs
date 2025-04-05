@@ -38,6 +38,63 @@ namespace PSI_application_C__web
         }
         #endregion
 
+        #region Propriétés
+        public int Id_plat
+        {
+            get { return this.id_plat; }
+        }
+
+        public string Nom_plat
+        {
+            get { return this.nom_plat; }
+        }
+
+        public string Type_plat
+        {
+            get { return this.type_plat; }
+        }
+
+        public int Pr_cmb_de_personnes_plat
+        {
+            get { return this.pr_cmb_de_personnes_plat; }
+        }
+
+        public double Prix_par_portion_plat
+        {
+            get { return this.prix_par_portion_plat; }
+        }
+
+        public string Date_fabrication_plat
+        {
+            get { return this.date_fabrication_plat; }
+        }
+
+        public string Date_perempetion_plat
+        {
+            get { return this.date_perempetion_plat; }
+        }
+
+        public string Nationalite_plat
+        {
+            get { return this.nationalite_plat; }
+        }
+
+        public string Regime_alimentaire_plat
+        {
+            get { return this.regime_alimentaire_plat; }
+        }
+
+        public string Ingredients_principaux_plat
+        {
+            get { return this.ingredients_principaux_plat; }
+        }
+
+        public int Id_cuisinier_plat
+        {
+            get { return this.id_cuisinier_plat; }
+        }
+        #endregion
+
         #region Méthodes
         public static int Identifiant_plat_determine_depuis_bdd()
         {
@@ -66,6 +123,7 @@ namespace PSI_application_C__web
                     identifiant = int.Parse(lecture_id_max);
                     identifiant++;
                 }
+                reader.Close();
                 connection.Close();
                 return identifiant;
             }
@@ -122,6 +180,85 @@ namespace PSI_application_C__web
             catch (Exception e)
             { Console.WriteLine(e.ToString()); }
         }
+
+        /// <summary>
+        /// Récupère tous les plats enregistrés dans la bdd
+        /// </summary>
+        /// <returns>
+        /// Une liste d'objets <see cref="Plat"/> représentant tous les plats stockés dans la table "Plat"
+        /// Si une erreur survient lors de la lecture, une liste vide est retournée
+        /// </returns>
+        public static List<Plat> ObtenirTousLesPlats()
+        {
+            List<Plat> plats = new List<Plat>();
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM Plat;";
+                MySqlDataReader reader = command.ExecuteReader();
+                Console.WriteLine("Je suis passé par là");
+                while (reader.Read())
+                {
+                    
+                    Plat plat = new Plat(
+                        reader.GetInt32("ID_Plat"),
+                        reader.GetString("Nom_plat"),
+                        reader.GetString("Type_Plat"),
+                        reader.GetInt32("Pr_cmb_de_personnes_Plat"),
+                        reader.GetDouble("Prix_par_portion_Plat"),
+                        reader.GetString("date_fabrication_plat"),
+                        reader.GetString("date_péremption_plat"),
+                        reader.GetString("Nationalité_cuisine_Plat"),
+                        reader.GetString("Régime_alimentaire_Plat"),
+                        reader.GetString("Ingrédients_principaux_Plat"),
+                        reader.GetInt32("ID_Cuisinier")
+                    );
+                    plats.Add(plat);
+                }
+                reader.Close();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return plats;
+        }
+
+        public static List<string> RechercherTousLesTuplesDuneColonne(string nom_colonne)
+        {
+            List<string> liste = new List<string>();
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT DISTINCT " + nom_colonne + " FROM Plat;";
+                MySqlDataReader reader;
+                reader = command.ExecuteReader();
+                string lecture_tuple = "";
+                while (reader.Read())
+                {
+                    lecture_tuple = reader[nom_colonne].ToString();
+                    if (!String.IsNullOrEmpty(lecture_tuple))
+                    {
+                        liste.Add(lecture_tuple);
+                    }
+                }
+                reader.Close();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return liste;
+        }
+
 
         public void MettreAjourAttributNom(string nouveau_nom)
         {

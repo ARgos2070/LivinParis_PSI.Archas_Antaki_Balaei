@@ -55,6 +55,7 @@ namespace PSI_application_C__web
                     identifiant = int.Parse(lecture_id_max);
                     identifiant++;
                 }
+                reader.Close();
                 connection.Close();
                 return identifiant;
             }

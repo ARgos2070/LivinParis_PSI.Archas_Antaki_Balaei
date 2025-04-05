@@ -116,6 +116,8 @@ namespace PSI_application_C__web
                         est_unique = true;
                     }
                 }
+                reader.Close();
+                connection.Close();
                 return est_unique;
             }
             catch (Exception e)

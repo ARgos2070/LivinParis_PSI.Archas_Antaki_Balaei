@@ -1,0 +1,57 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_ecriture_filtre_commandeModel
+@{
+    ViewData["Title"] = "Page écriture filtre";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Bienvenue dans la carte des plats :</h1>
+        <form method="post">
+
+            <div>
+
+                <div>
+                    <label asp-for="saisie_filtre">Donner l'id du plat que vous souhaité prendre :</label>
+                    <input type="text" asp-for="saisie_filtre" maxlength="50" />
+                </div>
+            </div>
+            <p>@ViewData["Erreur_saisie_filtre_vide"]</p>
+            <p>@ViewData["Erreur_saisie_filtre_inconnue"]</p>
+            <button type="submit">Soumettre le choix</button>
+        </form>
+        @if (Model.Liste_tuple != null && Model.Liste_tuple.Count > 0)
+        {
+            <h2>Liste des tuples de :</h2>
+            @foreach (var tuple in Model.Liste_tuple)
+            {
+                <p>@tuple</p>
+            }
+        }
+    </main>
+
+    <footer style="text-align: center; margin-top: 40px;">
+        &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+    </footer>
+</body>
+</html>
+
+
