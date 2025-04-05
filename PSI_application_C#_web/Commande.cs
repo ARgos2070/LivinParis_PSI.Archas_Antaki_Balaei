@@ -8,13 +8,13 @@ namespace PSI_application_C__web
         #region Attributs
         private int id_commande;
         private double prix_commande;
-        private DateTime date_commande;
+        private string date_commande;
         private int taille_commande;
         private int id_client;
         #endregion
 
         #region Constructeur
-        public Commande(int id_commande, double prix_commande, DateTime date_commande, int taille_commande, int id_client)
+        public Commande(int id_commande, double prix_commande, string date_commande, int taille_commande, int id_client)
         {
             this.id_commande = id_commande;
             this.prix_commande = prix_commande;
@@ -72,7 +72,7 @@ namespace PSI_application_C__web
                 command.CommandText = "INSERT INTO Commande (ID_Commande, Prix_Commande, Date_Commande, Taille_Commande, ID_Client) VALUES (" +
                     commande.id_commande + ", " +
                     commande.prix_commande + ", '" +
-                    commande.date_commande.ToString("yyyy-MM-dd HH:mm:ss") + "', " +
+                    commande.date_commande + "', " +
                     commande.taille_commande + ", " +
                     commande.id_client + ");";
                 command.ExecuteNonQuery();

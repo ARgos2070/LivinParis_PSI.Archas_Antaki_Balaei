@@ -13,7 +13,6 @@ namespace PSI_application_C__web.Pages
         [BindProperty]
         public string saisie_id_plat_voulu { get; set; }
 
-        [BindProperty]
         public List<Plat> Plats { get; set; }
 
         public Page_affichage_platModel(ILogger<Page_affichage_platModel> logger)
@@ -32,8 +31,28 @@ namespace PSI_application_C__web.Pages
             bool afficher_par_prix_decroissant = (bool)TempData["Affiche_prix_decroissant"];
             if (afficher_tout)
             {
-                Plats = Plat.ObtenirTousLesPlats();
+                Plats = Plat.RechercherTousLesTuplesPlats();
                 Console.WriteLine($"Nombre de plats récupérés : {Plats.Count}");
+            }
+            if (afficher_par_nationalite)
+            {
+                string filtre = TempData["Filtre"].ToString();
+                string valeur_filtre = TempData["Valeur_filtre"].ToString();
+                Plats = Plat.RechercherTousLesTuplesPlatPourUnFiltreFixe(filtre, valeur_filtre);
+            }
+            if (afficher_par_regime_alimentaire)
+            {
+                string filtre = TempData["Filtre"].ToString();
+                string valeur_filtre = TempData["Valeur_filtre"].ToString();
+                Plats = Plat.RechercherTousLesTuplesPlatPourUnFiltreFixe(filtre, valeur_filtre);
+            }
+            if (afficher_par_prix_croissant)
+            {
+                Plats = Plat.RechercherTousLesTuplesPlatOrdonnePrix("ASC");
+            }
+            if (afficher_par_prix_decroissant)
+            {
+                Plats = Plat.RechercherTousLesTuplesPlatOrdonnePrix("DESC");
             }
         }
 

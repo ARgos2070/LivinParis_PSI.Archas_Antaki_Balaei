@@ -11,17 +11,17 @@ namespace PSI_application_C__web
         private string adresse_initiale_livraison;
         private string adresse_finale_livraison;
         private double prix_livraison;
-        private DateTime date_livraison;
+        private string date_livraison;
         private int id_commande;
         private int id_livreur;
         #endregion
 
         #region Constructeur
-        public Livraison(int id_livraison, string adresse_initiale_livraison, string adresse_finale_livraison, double prix_livraison, DateTime date_livraison, int id_commande, int id_livreur)
+        public Livraison(int id_livraison, string adresse_initiale_livraison, string adresse_finale_livraison, double prix_livraison, string date_livraison, int id_commande, int id_livreur)
         {
             this.id_livraison = id_livraison;
-            this.adresse_initiale_livraison = adresse_initiale_livraison;
-            this.adresse_finale_livraison = adresse_finale_livraison;
+            this.adresse_initiale_livraison = adresse_initiale_livraison.ToLower().Trim();
+            this.adresse_finale_livraison = adresse_finale_livraison.ToLower().Trim();
             this.prix_livraison = prix_livraison;
             this.date_livraison = date_livraison;
             this.id_commande = id_commande;
@@ -79,7 +79,7 @@ namespace PSI_application_C__web
                     livraison.adresse_initiale_livraison + "', '" +
                     livraison.adresse_finale_livraison + "', " +
                     livraison.prix_livraison + ", '" +
-                    livraison.date_livraison.ToString("yyyy-MM-dd HH:mm:ss") + "', " +
+                    livraison.date_livraison + "', " +
                     livraison.id_commande + ", " +
                     livraison.id_livreur + ");";
                 command.ExecuteNonQuery();

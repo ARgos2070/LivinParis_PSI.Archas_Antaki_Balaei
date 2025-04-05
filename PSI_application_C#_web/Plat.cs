@@ -24,15 +24,15 @@ namespace PSI_application_C__web
                     string ingredients_principaux_plat, int id_cuisinier_plat)
         {
             this.id_plat = id_plat;
-            this.nom_plat = nom_plat;
-            this.type_plat = type_plat;
+            this.nom_plat = nom_plat.ToLower().Trim();
+            this.type_plat = type_plat.ToLower().Trim();
             this.pr_cmb_de_personnes_plat = pr_cmb_de_personnes_plat;
             this.prix_par_portion_plat = prix_par_perso_plat;
             this.date_fabrication_plat = date_fabrication_plat;
             this.date_perempetion_plat = date_perempetion_plat;
-            this.nationalite_plat = nationalite_plat;
-            this.regime_alimentaire_plat = regime_alimentaire_plat;
-            this.ingredients_principaux_plat = ingredients_principaux_plat;
+            this.nationalite_plat = nationalite_plat.ToLower().Trim();
+            this.regime_alimentaire_plat = regime_alimentaire_plat.ToLower().Trim();
+            this.ingredients_principaux_plat = ingredients_principaux_plat.ToLower().Trim();
             this.id_cuisinier_plat = id_cuisinier_plat;
 
         }
@@ -188,7 +188,7 @@ namespace PSI_application_C__web
         /// Une liste d'objets <see cref="Plat"/> représentant tous les plats stockés dans la table "Plat"
         /// Si une erreur survient lors de la lecture, une liste vide est retournée
         /// </returns>
-        public static List<Plat> ObtenirTousLesPlats()
+        public static List<Plat> RechercherTousLesTuplesPlats()
         {
             List<Plat> plats = new List<Plat>();
             try
@@ -199,7 +199,6 @@ namespace PSI_application_C__web
                 MySqlCommand command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM Plat;";
                 MySqlDataReader reader = command.ExecuteReader();
-                Console.WriteLine("Je suis passé par là");
                 while (reader.Read())
                 {
                     
@@ -228,6 +227,15 @@ namespace PSI_application_C__web
             return plats;
         }
 
+        /// <summary>
+        /// Récupère tous les tuples distincts d'une colonne spécifique dans la table Plat
+        /// </summary>
+        /// <param name="nom_colonne">
+        /// Le nom de la colonne dont on souhaite extraire les valeurs distinctes
+        /// </param>
+        /// <returns>
+        /// Une liste de chaînes contenant toutes les valeurs distinctes non nulles et non vides de la colonne spécifiée
+        /// </returns>
         public static List<string> RechercherTousLesTuplesDuneColonne(string nom_colonne)
         {
             List<string> liste = new List<string>();
@@ -259,6 +267,97 @@ namespace PSI_application_C__web
             return liste;
         }
 
+        /// <summary>
+        /// Recherche tous les plats dans la base de données correspondant à un filtre spécifique donné
+        /// </summary>
+        /// <param name="filtre">
+        /// Le nom de la colonne sur laquelle appliquer le filtre
+        /// </param>
+        /// <param name="valeur_filtre">
+        /// La valeur à filtrer dans la colonne spécifiée
+        /// </param>
+        /// <returns>
+        /// Une liste d'objets <see cref="Plat"/> correspondant aux lignes de la table Plat 
+        /// qui satisfont la condition de filtrage
+        /// </returns>
+        public static List<Plat> RechercherTousLesTuplesPlatPourUnFiltreFixe(string filtre, string valeur_filtre)
+        {
+            List<Plat> plats = new List<Plat>();
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM Plat WHERE " + filtre + " = '" + valeur_filtre + "';";
+                MySqlDataReader reader = command.ExecuteReader();
+                Console.WriteLine("Je suis passé par là");
+                while (reader.Read())
+                {
+
+                    Plat plat = new Plat(
+                        reader.GetInt32("ID_Plat"),
+                        reader.GetString("Nom_plat"),
+                        reader.GetString("Type_Plat"),
+                        reader.GetInt32("Pr_cmb_de_personnes_Plat"),
+                        reader.GetDouble("Prix_par_portion_Plat"),
+                        reader.GetString("date_fabrication_plat"),
+                        reader.GetString("date_péremption_plat"),
+                        reader.GetString("Nationalité_cuisine_Plat"),
+                        reader.GetString("Régime_alimentaire_Plat"),
+                        reader.GetString("Ingrédients_principaux_Plat"),
+                        reader.GetInt32("ID_Cuisinier")
+                    );
+                    plats.Add(plat);
+                }
+                reader.Close();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return plats;
+        }
+
+        public static List<Plat> RechercherTousLesTuplesPlatOrdonnePrix(string ordre_de_classement)
+        {
+            List<Plat> plats = new List<Plat>();
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM Plat ORDER BY Prix_par_portion_Plat " + ordre_de_classement+ ";";
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    Plat plat = new Plat(
+                        reader.GetInt32("ID_Plat"),
+                        reader.GetString("Nom_plat"),
+                        reader.GetString("Type_Plat"),
+                        reader.GetInt32("Pr_cmb_de_personnes_Plat"),
+                        reader.GetDouble("Prix_par_portion_Plat"),
+                        reader.GetString("date_fabrication_plat"),
+                        reader.GetString("date_péremption_plat"),
+                        reader.GetString("Nationalité_cuisine_Plat"),
+                        reader.GetString("Régime_alimentaire_Plat"),
+                        reader.GetString("Ingrédients_principaux_Plat"),
+                        reader.GetInt32("ID_Cuisinier")
+                    );
+                    plats.Add(plat);
+                }
+                reader.Close();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return plats;
+        }
 
         public void MettreAjourAttributNom(string nouveau_nom)
         {

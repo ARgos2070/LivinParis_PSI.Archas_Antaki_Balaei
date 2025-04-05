@@ -33,16 +33,15 @@ namespace PSI_application_C__web.Pages
             {
                 Console.WriteLine("liste tuple est null");
             }
-            
+            TempData["Filtre"] = filtre;
         }
 
         public static bool SaisieEstTuple(List<string> liste_tuple,string saisie)
         {
             bool est_tuple = false;
-            Console.WriteLine("voila le count de cette liste de fonction : " + liste_tuple.Count);
             for (int i = 0; i < liste_tuple.Count; i++)
             {
-                if (liste_tuple[i] == saisie.ToLower().Trim())
+                if (liste_tuple[i].ToLower().Trim() == saisie.ToLower().Trim())
                 {
                     est_tuple = true;
                 }
@@ -52,23 +51,27 @@ namespace PSI_application_C__web.Pages
 
         public IActionResult OnPost()
         {
+            string filtre = TempData["Filtre"].ToString();
             if (saisie_filtre == null || saisie_filtre.Length == 0)
             {
                 ViewData["Erreur_saisie_filtre_vide"] = "Il faut saisir quelque chose pour le filtre.";
+                TempData["Filtre"] = filtre;
                 return Page();
             }
-            if (Liste_tuple == null)
-            {
-                Console.WriteLine("liste tuple est null");
-            }
+            
+            Console.WriteLine("C'est l'histoire d'un tyrrty" + filtre);
+            Liste_tuple = Plat.RechercherTousLesTuplesDuneColonne(filtre);
+
             if (SaisieEstTuple(Liste_tuple, saisie_filtre) == false)
             {
                 ViewData["Erreur_saisie_filtre_inconnue"] = "Il faut saisir un des choix proposé ci-dessous pour le filtre.";
+                TempData["Filtre"] = filtre;
                 return Page();
             }
+            TempData["Filtre"] = filtre;
             TempData["Liste_tuple_filtre"] = Liste_tuple;
             TempData["Valeur_filtre"] = saisie_filtre.ToLower().Trim();
-            return RedirectToPage("Page_accueil_connecte");
+            return RedirectToPage("Page_affichage_plat");
         }
     }
 }
