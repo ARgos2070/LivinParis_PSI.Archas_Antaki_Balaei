@@ -1,4 +1,5 @@
 # Extensions à installer dans Visual Studi Community
+Il faut installer le pack developpement web et ASP.NET
 ![Capture d’écran 2025-03-29 095300](https://github.com/user-attachments/assets/9b3a870c-cfcd-4f64-b5b0-7b89732dedd5)
 
 
