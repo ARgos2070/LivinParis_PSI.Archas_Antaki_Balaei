@@ -16,10 +16,19 @@
 
   <ItemGroup>
     <Compile Remove="Pages\Ajout_plat.cshtml.cs" />
+    <Compile Remove="Pages\Error.cshtml.cs" />
+    <Compile Remove="Pages\Index.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Pages\Ajout_plat.cshtml" />
+    <Content Remove="Pages\Error.cshtml" />
+    <Content Remove="Pages\Index.cshtml" />
+    <Content Remove="Pages\Shared\_Layout.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Pages\Shared\_Layout.cshtml.css" />
   </ItemGroup>
 
   <ItemGroup>
