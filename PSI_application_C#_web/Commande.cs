@@ -117,6 +117,39 @@ namespace PSI_application_C__web
             }
         }
 
+        public static List<Commande> RechercherTousLesTuplesCommande(string parametre_optionnel)
+        {
+            List<Commande> commandes = new List<Commande>();
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM Commande " + parametre_optionnel + ";";
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    Commande commande = new Commande(
+                        reader.GetInt32("ID_Commande"),
+                        reader.GetDouble("Prix_Commande"),
+                        reader.GetString("Date_Commande"),
+                        reader.GetInt32("Taille_Commande"),
+                        reader.GetInt32("ID_Client")
+                    );
+                    commandes.Add(commande);
+                }
+                reader.Close();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return commandes;
+        }
+
         /// <summary>
         /// Met à jour le nombre de portions commandées dans une commande existante en bdd
         /// </summary>
@@ -178,6 +211,44 @@ namespace PSI_application_C__web
             {
                 Console.WriteLine(e.ToString());
             }
+        }
+
+        public static List<List<string>> RechercherHistoriqueCommandeClient(int id_client)
+        {
+            List<List<string>> historique_commandes = new List<List<string>>();
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT c.ID_Commande, c.Prix_Commande, c.Date_Commande, c.Taille_Commande, p.ID_Plat, p.Nom_plat, p.Type_Plat, p.Pr_cmb_de_personnes_Plat, p.Prix_par_portion_Plat, cont.nbre_portion_commendee_contient FROM Commande c JOIN Contient cont ON c.ID_Commande = cont.ID_Commande JOIN Plat p ON cont.ID_Plat = p.ID_Plat WHERE c.ID_Client = " + id_client + ";";
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    List<string> commande = new List<string>
+                    {
+                            reader["ID_Commande"].ToString(),
+                            reader["Prix_Commande"].ToString(),
+                            reader["Date_Commande"].ToString(),
+                            reader["Taille_Commande"].ToString(),
+                            reader["ID_Plat"].ToString(),
+                            reader["Nom_plat"].ToString(),
+                            reader["Type_Plat"].ToString(),
+                            reader["Pr_cmb_de_personnes_Plat"].ToString(),
+                            reader["Prix_par_portion_Plat"].ToString(),
+                            reader["nbre_portion_commendee_contient"].ToString()
+                    };
+                    historique_commandes.Add(commande);
+                }
+                reader.Close();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return historique_commandes;
         }
         #endregion
     }

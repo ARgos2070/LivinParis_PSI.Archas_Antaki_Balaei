@@ -271,7 +271,7 @@ namespace PSI_application_C__web
         /// Une liste d'objets <see cref="Plat"/> représentant tous les plats stockés dans la table "Plat"
         /// Si une erreur survient lors de la lecture, une liste vide est retournée
         /// </returns>
-        public static List<Plat> RechercherTousLesTuplesPlat()
+        public static List<Plat> RechercherTousLesTuplesPlat(string parametre_optionnel)
         {
             List<Plat> plats = new List<Plat>();
             try
@@ -280,7 +280,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM Plat WHERE nbre_portion_dispo_plat >=1;";
+                command.CommandText = "SELECT * FROM Plat WHERE nbre_portion_dispo_plat >=1 " + parametre_optionnel + ";";
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

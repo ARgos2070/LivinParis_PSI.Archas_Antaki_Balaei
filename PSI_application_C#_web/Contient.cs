@@ -61,6 +61,37 @@ namespace PSI_application_C__web
                 Console.WriteLine(e.ToString());
             }
         }
+
+        public static List<Contient> RechercherTousLesTuplesCommande(string parametre_optionnel)
+        {
+            List<Contient> contients = new List<Contient>();
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM Commande " + parametre_optionnel +";";
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+
+                    Contient contient = new Contient(
+                        reader.GetInt32("ID_Plat"),
+                        reader.GetInt32("ID_Commande"),
+                        reader.GetInt32("nbre_portion_commendee_contient")
+                    );
+                    contients.Add(contient);
+                }
+                reader.Close();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return contients;
+        }
         #endregion
     }
 }

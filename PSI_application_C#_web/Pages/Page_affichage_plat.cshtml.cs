@@ -40,8 +40,7 @@ namespace PSI_application_C__web.Pages
             bool afficher_par_prix_decroissant = (bool)TempData["Affiche_prix_decroissant"];
             if (afficher_tout)
             {
-                Plats = Plat.RechercherTousLesTuplesPlat();
-                Console.WriteLine($"Nombre de plats récupérés : {Plats.Count}");
+                Plats = Plat.RechercherTousLesTuplesPlat("");
             }
             if (afficher_par_nationalite)
             {
@@ -83,7 +82,7 @@ namespace PSI_application_C__web.Pages
             bool afficher_par_prix_decroissant = (bool)TempData["Affiche_prix_decroissant"];
             if (afficher_tout)
             {
-                Plats = Plat.RechercherTousLesTuplesPlat();
+                Plats = Plat.RechercherTousLesTuplesPlat("");
                 Console.WriteLine($"Nombre de plats récupérés : {Plats.Count}");
             }
             if (afficher_par_nationalite)
