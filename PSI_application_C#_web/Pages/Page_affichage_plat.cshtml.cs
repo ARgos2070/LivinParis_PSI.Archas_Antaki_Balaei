@@ -13,6 +13,9 @@ namespace PSI_application_C__web.Pages
         [BindProperty]
         public string saisie_id_plat_voulu { get; set; }
 
+        [BindProperty]
+        public string saisie_nbre_plat_voulu { get; set; }
+
         public List<Plat> Plats { get; set; }
 
         public Page_affichage_platModel(ILogger<Page_affichage_platModel> logger)
@@ -161,21 +164,63 @@ namespace PSI_application_C__web.Pages
                 Console.WriteLine("Recharge réussie de la page");
                 return Page();
             }
-            bool continuer_commande = (bool)TempData["Continuer_commande"];
-            if (continuer_commande)
+
+            if (saisie_nbre_plat_voulu == null || saisie_nbre_plat_voulu.Length == 0)
             {
-                return RedirectToPage("Page_1er_chargement");
+                ViewData["Erreur_saisie_nbre_plat_voulu"] = "Il faut saisir un nombre de portion voulu";
+                TempData["Affiche_tout"] = TempData["Affiche_tout"];
+                TempData["Affiche_nationalite"] = TempData["Affiche_nationalite"];
+                TempData["Affiche_regime_alimentaire"] = TempData["Affiche_regime_alimentaire"];
+                TempData["Affiche_prix_croissant"] = TempData["Affiche_prix_croissant"];
+                TempData["Affiche_prix_decroissant"] = TempData["Affiche_prix_decroissant"];
+                return Page();
             }
+            
+            if (int.Parse(saisie_nbre_plat_voulu) > Plat.ConnaitreNbrePortionDispo(int.Parse(saisie_id_plat_voulu)))
+            {
+                ViewData["Erreur_saisie_nbre_plat_voulu"] = "Il faut saisir le nombre de portions voulues dans la limite des stocks disponibles";
+                TempData["Affiche_tout"] = TempData["Affiche_tout"];
+                TempData["Affiche_nationalite"] = TempData["Affiche_nationalite"];
+                TempData["Affiche_regime_alimentaire"] = TempData["Affiche_regime_alimentaire"];
+                TempData["Affiche_prix_croissant"] = TempData["Affiche_prix_croissant"];
+                TempData["Affiche_prix_decroissant"] = TempData["Affiche_prix_decroissant"];
+                return Page();
+            }
+            int id_plat = int.Parse(saisie_id_plat_voulu);
+            int nbre_portion_voulue = int.Parse(saisie_nbre_plat_voulu);
+            string lecture_id_commande_anterieure = TempData["Id_commande_memoire"].ToString();
+            Console.WriteLine("voici ce l'id de la commande antérieure marqué en mémoire : " + lecture_id_commande_anterieure);
+            int id_commande_anterieure = int.Parse(lecture_id_commande_anterieure);
+            if (id_commande_anterieure != 0)
+            {
+                Contient contient = new Contient(id_plat, id_commande_anterieure, nbre_portion_voulue);
+                Contient.AjoutContientBDD(contient);
+                int nouveau_nbre_portion_disponible = Plat.ConnaitreNbrePortionDispo(id_plat) - nbre_portion_voulue;
+                Plat.MettreAjourAttributNbre_portion_dispo(id_plat, nouveau_nbre_portion_disponible);
+                Commande.MettreAjourAttributTailleCommande(id_commande_anterieure, nbre_portion_voulue);
+                double prix_maj_commande = nbre_portion_voulue * Plat.ConnaitrePrixPortion(id_plat);
+                Commande.MettreAjourAttributPrixCommande(id_commande_anterieure, prix_maj_commande);
+                TempData["Id_commande_memoire"] = id_commande_anterieure;
+                return Page();
+            }
+            
             int id_commande = Commande.Identifiant_commande_determine_depuis_bdd();
-            double prix_commande = 0;
+            double prix_commande = nbre_portion_voulue * Plat.ConnaitrePrixPortion(id_plat);
             string date_actuelle = ObtenirDateActuelle();
-            int taille_commande = 1;
+            int taille_commande = nbre_portion_voulue;
             string id_utilisateur = TempData["Id_utilisateur_session"].ToString();
             TempData["Id_utilisateur_session"] = id_utilisateur;
             int id_client = Client.IdClientDunUtilisateur(id_utilisateur);
+            
             Commande commande_cree = new Commande(id_commande, prix_commande, date_actuelle, taille_commande, id_client);
-            //Initialiser le contient
-            //Update le prix avec celui du plat
+            Commande.AjoutCommandeBDD(commande_cree);
+            Contient contient_cree = new Contient(id_plat, id_commande, nbre_portion_voulue);
+            Contient.AjoutContientBDD(contient_cree);
+            Console.WriteLine("nbre portion voulue : " + nbre_portion_voulue);
+            int nouveau_nbre_portion_dispo = Plat.ConnaitreNbrePortionDispo(id_plat) - nbre_portion_voulue;
+            Console.WriteLine("nbre portion voulue : " + nouveau_nbre_portion_dispo);
+            Plat.MettreAjourAttributNbre_portion_dispo(id_plat, nouveau_nbre_portion_dispo);
+            TempData["Id_commande_memoire"] = id_commande;
             return RedirectToPage("Page_1er_chargement");
         }
     }

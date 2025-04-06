@@ -43,6 +43,7 @@ namespace PSI_application_C__web.Pages
             TempData["Id_cuisinier"] = id_cuisinier_connecte;
             TempData["Id_client"] = id_client_connecte;
             TempData["Id_livreur"] = id_livreur_connecte;
+            TempData["Id_commande_memoire"] = 0;
             Console.WriteLine("idclient" + id_client_connecte + " idcuisinier" + id_cuisinier_connecte + " idlivreur" + id_livreur_connecte);
         }
 

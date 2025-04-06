@@ -33,8 +33,14 @@
                     <label asp-for="saisie_id_plat_voulu">Donner l'id du plat que vous souhaité prendre :</label>
                     <input type="text" asp-for="saisie_id_plat_voulu" maxlength="3" pattern="\d{1,3}" required />
                 </div>
+                <p>@ViewData["Erreur_saisie_id_vide"]</p>
+                <div>
+                    <label asp-for="saisie_nbre_plat_voulu">Donner le nombre de portion que vous souhaité commander :</label>
+                    <input type="text" asp-for="saisie_nbre_plat_voulu" maxlength="2" pattern="\d{1,2}" required />
+                </div>
+                <p>@ViewData["Erreur_saisie_nbre_plat_voulu"]</p>
             </div>
-            <p>@ViewData["Erreur_saisie_id_vide"]</p>
+            
             <button type="submit">Soumettre le choix</button>
         </form>
         @if (Model.Plats != null && Model.Plats.Count > 0)
@@ -49,6 +55,7 @@
                         <p style="margin: 5px 0;"><strong>Type :</strong> @plat.Type_plat</p>
                         <p style="margin: 5px 0;"><strong>Nombre de personnes :</strong> @plat.Pr_cmb_de_personnes_plat</p>
                         <p style="margin: 5px 0;"><strong>Prix par portion :</strong> @plat.Prix_par_portion_plat €</p>
+                        <p style="margin: 5px 0;"><strong>Nombre de portions disponibles :</strong> @plat.Nbre_portion_dispo_plat</p>
                         <p style="margin: 5px 0;"><strong>Date de fabrication :</strong> @plat.Date_fabrication_plat</p>
                         <p style="margin: 5px 0;"><strong>Date de péremption :</strong> @plat.Date_perempetion_plat</p>
                         <p style="margin: 5px 0;"><strong>Nationalité :</strong> @plat.Nationalite_plat</p>

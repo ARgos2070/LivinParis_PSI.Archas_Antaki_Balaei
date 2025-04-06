@@ -41,7 +41,7 @@
 
             <div>
                 <label asp-for="saisie_prix_par_portion_plat">Prix par personne :</label>
-                <input type="text" asp-for="saisie_prix_par_portion_plat" maxlength="8" pattern="^\d+([.,]\d{1,2})?$" required />
+                <input type="text" asp-for="saisie_prix_par_portion_plat" maxlength="8" pattern="^\d+([.]\d{1,2})?$" required />
                 <p>@ViewData["Erreur_prix_par_perso_plat"]</p>
             </div>
 

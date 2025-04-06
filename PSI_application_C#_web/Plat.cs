@@ -155,7 +155,7 @@ namespace PSI_application_C__web
                     plat.nom_plat + "', '" +
                     plat.type_plat + "', " +
                     plat.pr_cmb_de_personnes_plat + ", " +
-                    plat.prix_par_portion_plat + ", " +
+                    plat.prix_par_portion_plat.ToString().Replace(',', '.') + ", " +
                     plat.nbre_portion_dispo_plat + ", '" +
                     plat.date_fabrication_plat + "', '" +
                     plat.date_perempetion_plat + "', '" +
@@ -173,7 +173,7 @@ namespace PSI_application_C__web
             }
         }
 
-        public static void SupprimerPlat(Plat plat)
+        public static void SupprimerPlat(int id_plat)
         {
             try
             {
@@ -181,7 +181,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "DELETE FROM Plat WHERE ID_Plat = " + plat.id_plat + ";";
+                command.CommandText = "DELETE FROM Plat WHERE ID_Plat = " + id_plat + ";";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -342,6 +342,7 @@ namespace PSI_application_C__web
                     }
                 }
                 reader.Close();
+                command.Dispose();
                 connection.Close();
             }
             catch (Exception e)
@@ -405,6 +406,17 @@ namespace PSI_application_C__web
             return plats;
         }
 
+        /// <summary>
+        /// Récupère tous les plats disponibles dans la base de données, triés par prix selon l'ordre spécifié
+        /// </summary>
+        /// <param name="ordre_de_classement">
+        /// Chaîne indiquant l'ordre de tri des plats par prix
+        /// Utilisez "ASC" pour un tri croissant et "DESC" pour un tri décroissant
+        /// </param>
+        /// <returns>
+        /// Une liste d'objets <see cref="Plat"/> représentant les plats disponibles, triés par prix
+        /// Retourne une liste vide en cas d'erreur ou si aucun plat n'est disponible
+        /// </returns>
         public static List<Plat> RechercherTousLesTuplesPlatOrdonnePrix(string ordre_de_classement)
         {
             List<Plat> plats = new List<Plat>();
@@ -436,6 +448,7 @@ namespace PSI_application_C__web
                     plats.Add(plat);
                 }
                 reader.Close();
+                command.Dispose();
                 connection.Close();
             }
             catch (Exception e)
@@ -443,6 +456,70 @@ namespace PSI_application_C__web
                 Console.WriteLine(e.ToString());
             }
             return plats;
+        }
+
+        public static double ConnaitrePrixPortion(int id_plat)
+        {
+            double prix_portion = 0;
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT Prix_par_portion_Plat FROM Plat WHERE ID_Plat = " + id_plat + ";";
+                MySqlDataReader reader;
+                reader = command.ExecuteReader();
+                string lecture_prix_portion = "";
+                while (reader.Read())
+                {
+                    lecture_prix_portion = reader["Prix_par_portion_Plat"].ToString().Replace('.', ',');
+
+                }
+                prix_portion = double.Parse(lecture_prix_portion);
+                reader.Close();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            { Console.WriteLine(e.ToString()); }
+            return prix_portion;
+        }
+
+        /// <summary>
+        /// Récupère le nombre de portions disponibles pour un plat spécifique à partir de la base de données
+        /// </summary>
+        /// <param name="id_plat">Identifiant du plat dont on souhaite connaître le nombre de portions disponibles</param>
+        /// <returns>
+        /// Un entier représentant le nombre de portions disponibles pour le plat correspondant à l'identifiant fourni
+        /// Retourne 0 si aucun plat n'est trouvé ou en cas d'erreur lors de l'exécution
+        /// </returns>
+        public static int ConnaitreNbrePortionDispo(int id_plat)
+        {
+            int nbre_dispo = 0;
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT nbre_portion_dispo_plat FROM Plat WHERE ID_Plat = " + id_plat + ";";
+                MySqlDataReader reader;
+                reader = command.ExecuteReader();
+                string lecture_nbre_dispo = "";
+                while (reader.Read())
+                {
+                    lecture_nbre_dispo = reader["nbre_portion_dispo_plat"].ToString();
+                    
+                }
+                nbre_dispo = int.Parse(lecture_nbre_dispo);
+                reader.Close();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            { Console.WriteLine(e.ToString()); }
+            return nbre_dispo;
         }
 
         public void MettreAjourAttributNom(string nouveau_nom)
@@ -513,7 +590,7 @@ namespace PSI_application_C__web
             { Console.WriteLine(e.ToString()); }
         }
 
-        public void MettreAjourAttributNbre_portion_dispo(int nouveau_nbre_portion_dispo)
+        public static void MettreAjourAttributNbre_portion_dispo(int id_plat, int nouveau_nbre_portion_dispo)
         {
             try
             {
@@ -521,7 +598,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET nbre_portion_dispo_plat = " + nouveau_nbre_portion_dispo + "WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
+                command.CommandText = "UPDATE Plat SET nbre_portion_dispo_plat = " + nouveau_nbre_portion_dispo + " WHERE ID_Plat =" + id_plat + " AND nbre_portion_dispo_plat >=1;";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();

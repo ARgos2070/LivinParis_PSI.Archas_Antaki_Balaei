@@ -8,13 +8,15 @@ namespace PSI_application_C__web
         #region Attributs
         private int id_plat;
         private int id_commande;
+        private int nbre_portion_commendee_contient;
         #endregion
 
         #region Constructeur
-        public Contient(int id_plat, int id_commande)
+        public Contient(int id_plat, int id_commande, int nbre_portion_commendee_contient)
         {
             this.id_plat = id_plat;
             this.id_commande = id_commande;
+            this.nbre_portion_commendee_contient = nbre_portion_commendee_contient;
         }
         #endregion
 
@@ -27,9 +29,10 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "INSERT INTO Contient (ID_Plat, ID_Commande) VALUES (" +
+                command.CommandText = "INSERT INTO Contient (ID_Plat, ID_Commande, nbre_portion_commendee_contient) VALUES (" +
                     contient.id_plat + ", " +
-                    contient.id_commande + ");";
+                    contient.id_commande + ", " +
+                    contient.nbre_portion_commendee_contient + ");";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
