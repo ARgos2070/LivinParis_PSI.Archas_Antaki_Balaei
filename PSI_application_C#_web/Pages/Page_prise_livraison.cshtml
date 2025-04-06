@@ -24,7 +24,19 @@
     </header>
 
     <main>
-        
+        <h1>Voici Les Commandes pas encore en Route</h1>
+
+        <table>
+            @foreach (List<string> stat in Model.CommandesNonLivree)
+            {
+                <tr>
+                    @foreach (string element in stat)
+                    {
+                        <td>@element</td>
+                    }
+                </tr>
+            }
+        </table>
     </main>
 
     <footer style="text-align: center; margin-top: 40px;">
