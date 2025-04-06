@@ -26,7 +26,7 @@ namespace PSI_application_C__web.Pages
 
             string filtre = TempData["Filtre"].ToString();
             Console.WriteLine("C'est l'histoire d'un projet qui chute de 50 étages, jusque là tout va bien");
-            Liste_tuple = Plat.RechercherTousLesTuplesDuneColonne(filtre);
+            Liste_tuple = Plat.RechercherTousLesTuplesDuneColonne(filtre, "WHERE nbre_portion_dispo_plat >=1");
             Console.WriteLine("liste de tuple count : " + Liste_tuple.Count);
             TempData["Liste_tuple_filtre"] = TempData["Liste_tuple_filtre"] as List<string>;
             if (Liste_tuple == null)
@@ -58,7 +58,7 @@ namespace PSI_application_C__web.Pages
                 TempData["Filtre"] = filtre;
                 return Page();
             }
-            Liste_tuple = Plat.RechercherTousLesTuplesDuneColonne(filtre);
+            Liste_tuple = Plat.RechercherTousLesTuplesDuneColonne(filtre, "WHERE nbre_portion_dispo_plat >=1");
 
             if (SaisieEstTuple(Liste_tuple, saisie_filtre) == false)
             {

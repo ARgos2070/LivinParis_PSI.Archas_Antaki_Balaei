@@ -198,7 +198,7 @@ namespace PSI_application_C__web
         /// <param name="nom_filtre">Nom de la colonne à filtrer, il est facultatif</param>
         /// <param name="valeur_filtre">Valeur à rechercher dans la colonne spécifiée, il est facultatif</param>
         /// <returns>Retourne true si un plat correspondant est trouvé, sinon false</returns>
-        public static bool IdPlatExiste(int id_saisi, string nom_filtre, string valeur_filtre)
+        public static bool IdPlatExiste(int id_saisi, string nom_filtre, string valeur_filtre, string param_optionnel)
         {
             bool id_existe = false;
             if (nom_filtre == null ||  nom_filtre.Length == 0 ||valeur_filtre == null || valeur_filtre.Length == 0)
@@ -209,7 +209,7 @@ namespace PSI_application_C__web
                     MySqlConnection connection = new MySqlConnection(ligneConnexion);
                     connection.Open();
                     MySqlCommand command = connection.CreateCommand();
-                    command.CommandText = "SELECT COUNT(*) FROM Plat WHERE ID_Plat = " + id_saisi + " AND nbre_portion_dispo_plat >=1;";
+                    command.CommandText = "SELECT COUNT(*) FROM Plat WHERE ID_Plat = " + id_saisi + " " + param_optionnel + ";";
                     MySqlDataReader reader;
                     reader = command.ExecuteReader();
                     string lecture_id = "";
@@ -280,7 +280,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM Plat WHERE nbre_portion_dispo_plat >=1 " + parametre_optionnel + ";";
+                command.CommandText = "SELECT * FROM Plat " + parametre_optionnel + ";";
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -320,7 +320,7 @@ namespace PSI_application_C__web
         /// <returns>
         /// Une liste de chaînes contenant toutes les valeurs distinctes non nulles et non vides de la colonne spécifiée
         /// </returns>
-        public static List<string> RechercherTousLesTuplesDuneColonne(string nom_colonne)
+        public static List<string> RechercherTousLesTuplesDuneColonne(string nom_colonne, string param_optionnel)
         {
             List<string> liste = new List<string>();
             try
@@ -329,7 +329,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT DISTINCT " + nom_colonne + " FROM Plat WHERE nbre_portion_dispo_plat >=1;";
+                command.CommandText = "SELECT DISTINCT " + nom_colonne + " FROM Plat " + param_optionnel + ";";
                 MySqlDataReader reader;
                 reader = command.ExecuteReader();
                 string lecture_tuple = "";
@@ -365,7 +365,7 @@ namespace PSI_application_C__web
         /// Une liste d'objets <see cref="Plat"/> correspondant aux lignes de la table Plat 
         /// qui satisfont la condition de filtrage
         /// </returns>
-        public static List<Plat> RechercherTousLesTuplesPlatPourUnFiltreFixe(string filtre, string valeur_filtre)
+        public static List<Plat> RechercherTousLesTuplesPlatPourUnFiltreFixe(string filtre, string valeur_filtre, string param_optionnel)
         {
             List<Plat> plats = new List<Plat>();
             try
@@ -374,7 +374,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM Plat WHERE " + filtre + " = '" + valeur_filtre + "' AND nbre_portion_dispo_plat >=1;";
+                command.CommandText = "SELECT * FROM Plat WHERE " + filtre + " = '" + valeur_filtre + "' " + param_optionnel + ";";
                 MySqlDataReader reader = command.ExecuteReader();
                 Console.WriteLine("Je suis passé par là");
                 while (reader.Read())
@@ -417,7 +417,7 @@ namespace PSI_application_C__web
         /// Une liste d'objets <see cref="Plat"/> représentant les plats disponibles, triés par prix
         /// Retourne une liste vide en cas d'erreur ou si aucun plat n'est disponible
         /// </returns>
-        public static List<Plat> RechercherTousLesTuplesPlatOrdonnePrix(string ordre_de_classement)
+        public static List<Plat> RechercherTousLesTuplesPlatOrdonnePrix(string ordre_de_classement, string param_optionnel)
         {
             List<Plat> plats = new List<Plat>();
             try
@@ -426,7 +426,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM Plat WHERE nbre_portion_dispo_plat >=1 ORDER BY Prix_par_portion_Plat " + ordre_de_classement+ ";";
+                command.CommandText = "SELECT * FROM Plat " + param_optionnel + " ORDER BY Prix_par_portion_Plat " + ordre_de_classement+ ";";
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

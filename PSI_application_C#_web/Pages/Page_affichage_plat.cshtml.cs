@@ -40,13 +40,13 @@ namespace PSI_application_C__web.Pages
             bool afficher_par_prix_decroissant = (bool)TempData["Affiche_prix_decroissant"];
             if (afficher_tout)
             {
-                Plats = Plat.RechercherTousLesTuplesPlat("");
+                Plats = Plat.RechercherTousLesTuplesPlat("WHERE nbre_portion_dispo_plat >=1");
             }
             if (afficher_par_nationalite)
             {
                 string filtre = TempData["Filtre"].ToString();
                 string valeur_filtre = TempData["Valeur_filtre"].ToString();
-                Plats = Plat.RechercherTousLesTuplesPlatPourUnFiltreFixe(filtre, valeur_filtre);
+                Plats = Plat.RechercherTousLesTuplesPlatPourUnFiltreFixe(filtre, valeur_filtre, "AND nbre_portion_dispo_plat >=1");
                 TempData["Filtre"] = filtre;
                 TempData["Valeur_filtre"] = valeur_filtre;
             }
@@ -54,17 +54,17 @@ namespace PSI_application_C__web.Pages
             {
                 string filtre = TempData["Filtre"].ToString();
                 string valeur_filtre = TempData["Valeur_filtre"].ToString();
-                Plats = Plat.RechercherTousLesTuplesPlatPourUnFiltreFixe(filtre, valeur_filtre);
+                Plats = Plat.RechercherTousLesTuplesPlatPourUnFiltreFixe(filtre, valeur_filtre, "AND nbre_portion_dispo_plat >=1");
                 TempData["Filtre"] = filtre;
                 TempData["Valeur_filtre"] = valeur_filtre;
             }
             if (afficher_par_prix_croissant)
             {
-                Plats = Plat.RechercherTousLesTuplesPlatOrdonnePrix("ASC");
+                Plats = Plat.RechercherTousLesTuplesPlatOrdonnePrix("ASC", "WHERE nbre_portion_dispo_plat >=1");
             }
             if (afficher_par_prix_decroissant)
             {
-                Plats = Plat.RechercherTousLesTuplesPlatOrdonnePrix("DESC");
+                Plats = Plat.RechercherTousLesTuplesPlatOrdonnePrix("DESC", "WHERE nbre_portion_dispo_plat >=1");
             }
             TempData["Affiche_tout"] = afficher_tout;
             TempData["Affiche_nationalite"] = afficher_par_nationalite;
@@ -82,28 +82,28 @@ namespace PSI_application_C__web.Pages
             bool afficher_par_prix_decroissant = (bool)TempData["Affiche_prix_decroissant"];
             if (afficher_tout)
             {
-                Plats = Plat.RechercherTousLesTuplesPlat("");
+                Plats = Plat.RechercherTousLesTuplesPlat("WHERE nbre_portion_dispo_plat >=1");
                 Console.WriteLine($"Nombre de plats récupérés : {Plats.Count}");
             }
             if (afficher_par_nationalite)
             {
                 string filtre = TempData["Filtre"].ToString();
                 string valeur_filtre = TempData["Valeur_filtre"].ToString();
-                Plats = Plat.RechercherTousLesTuplesPlatPourUnFiltreFixe(filtre, valeur_filtre);
+                Plats = Plat.RechercherTousLesTuplesPlatPourUnFiltreFixe(filtre, valeur_filtre, "AND nbre_portion_dispo_plat >=1");
             }
             if (afficher_par_regime_alimentaire)
             {
                 string filtre = TempData["Filtre"].ToString();
                 string valeur_filtre = TempData["Valeur_filtre"].ToString();
-                Plats = Plat.RechercherTousLesTuplesPlatPourUnFiltreFixe(filtre, valeur_filtre);
+                Plats = Plat.RechercherTousLesTuplesPlatPourUnFiltreFixe(filtre, valeur_filtre, "AND nbre_portion_dispo_plat >=1");
             }
             if (afficher_par_prix_croissant)
             {
-                Plats = Plat.RechercherTousLesTuplesPlatOrdonnePrix("ASC");
+                Plats = Plat.RechercherTousLesTuplesPlatOrdonnePrix("ASC", "WHERE nbre_portion_dispo_plat >=1");
             }
             if (afficher_par_prix_decroissant)
             {
-                Plats = Plat.RechercherTousLesTuplesPlatOrdonnePrix("DESC");
+                Plats = Plat.RechercherTousLesTuplesPlatOrdonnePrix("DESC", "WHERE nbre_portion_dispo_plat >=1");
             }
             if (saisie_id_plat_voulu == null || saisie_id_plat_voulu.Length == 0)
             {
@@ -122,7 +122,7 @@ namespace PSI_application_C__web.Pages
                 string valeur_filtre = TempData["Valeur_filtre"].ToString();
                 TempData["Filtre"] = filtre;
                 TempData["Valeur_filtre"] = valeur_filtre;
-                if (Plat.IdPlatExiste(int.Parse(saisie_id_plat_voulu), filtre, valeur_filtre) == false)
+                if (Plat.IdPlatExiste(int.Parse(saisie_id_plat_voulu), filtre, valeur_filtre, "AND nbre_portion_dispo_plat >=1") == false)
                 {
                     ViewData["Erreur_saisie_id_vide"] = "Il faut saisir une id proposé parmis celle ci-dessous";
                     TempData["Affiche_tout"] = TempData["Affiche_tout"];
@@ -140,7 +140,7 @@ namespace PSI_application_C__web.Pages
                 string valeur_filtre = TempData["Valeur_filtre"].ToString();
                 TempData["Filtre"] = filtre;
                 TempData["Valeur_filtre"] = valeur_filtre;
-                if (Plat.IdPlatExiste(int.Parse(saisie_id_plat_voulu), filtre, valeur_filtre) == false)
+                if (Plat.IdPlatExiste(int.Parse(saisie_id_plat_voulu), filtre, valeur_filtre, "AND nbre_portion_dispo_plat >=1") == false)
                 {
                     ViewData["Erreur_saisie_id_vide"] = "Il faut saisir une id proposé parmis celle ci-dessous";
                     TempData["Affiche_tout"] = TempData["Affiche_tout"];
@@ -152,7 +152,7 @@ namespace PSI_application_C__web.Pages
                     return Page();
                 }
             }
-            if (Plat.IdPlatExiste(int.Parse(saisie_id_plat_voulu), "", "") == false)
+            if (Plat.IdPlatExiste(int.Parse(saisie_id_plat_voulu), "", "", "AND nbre_portion_dispo_plat >=1") == false)
             {
                 ViewData["Erreur_saisie_id_vide"] = "Il faut saisir une id proposé parmis celle ci-dessous";
                 TempData["Affiche_tout"] = TempData["Affiche_tout"];
