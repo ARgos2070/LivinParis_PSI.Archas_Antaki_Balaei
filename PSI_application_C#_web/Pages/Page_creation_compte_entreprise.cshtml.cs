@@ -147,6 +147,8 @@ namespace PSI_application_C__web.Pages
             bool num_tel_valide = EstNumeroTelCorrect(saisie_num_tel);
             bool adresse_mail_valide = EstAdresseMailCorrect(saisie_adresse_mail);
             bool nom_entreprise_valide = saisie_nom_entreprise != null && saisie_nom_entreprise.Length > 0;
+            bool adresse_valide = await Adresse_a_coordonees.GetCoords(saisie_adresse_num_rue + " " + saisie_adresse_nom_rue,
+                saisie_adresse_ville, saisie_adresse_code_postal, "France");
             if (!id_utilisateur_valide)
             {
                 ViewData["Erreur_id_utilisateur"] = "Ce pseudonyme (id utilisateur) a déjà été pris. Veuillez en choisir un autre.";
@@ -179,9 +181,9 @@ namespace PSI_application_C__web.Pages
             {
                 ViewData["Erreur_adresse_code_postal"] = "Un code postal est requis.";
             }
-            if (await Adresse_a_coordonees.GetCoords(saisie_adresse_num_rue + " " + adresse_nom_rue_valide, saisie_adresse_ville, saisie_adresse_code_postal, "France") == false)
+            if (adresse_valide == false)
             {
-                ViewData["Erreur_adresse_reseau"] = "Notre servie ne dessert pas cette adresse.";
+                ViewData["Erreur_adresse_reseau"] = "Notre service ne dessert pas cette adresse.";
             }
             if (!num_tel_valide)
             {
@@ -219,7 +221,7 @@ namespace PSI_application_C__web.Pages
             bool est_livreur = saisie_est_livreur;
             Utilisateur entreprise_creee = new Utilisateur(id_utilisateur, mot_de_passe_utilisateur, nom_utilisateur, prenom_utilisateur, adresse_utilisateur, num_utilisateur, adresse_mail_utilisateur, true, nom_entreprise_utilisateur);
             Utilisateur.AjoutUtilisateurBDD(entreprise_creee);
-            TempData["Id_utilisateur"] = id_utilisateur;
+            TempData["Id_utilisateur_session"] = id_utilisateur;
             if (est_client == true && est_cuisinier == true && est_livreur == true)
             {
                 Client client_cree = new Client(entreprise_creee);

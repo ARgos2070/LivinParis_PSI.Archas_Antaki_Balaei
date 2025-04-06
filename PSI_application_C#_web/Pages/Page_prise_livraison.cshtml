@@ -1,7 +1,7 @@
 ﻿@page
-@model PSI_application_C__web.Pages.Page_statistiqueModel
+@model PSI_application_C__web.Pages.Page_prise_livraisonModel
 @{
-    ViewData["Title"] = "Page statistique";
+    ViewData["Title"] = "Page prise livraison";
     Layout = null;
 }
 
@@ -24,26 +24,11 @@
     </header>
 
     <main>
-        <h1>Voici vos Statistiques</h1>
-
-        <table>
-            @foreach (List<string> stat in Model.CookStats)
-            {
-                <tr>
-                    @foreach(string element in stat)
-                    {
-                        <td>@element</td>
-                    }
-                </tr>
-            }
-        </table>
         
-
     </main>
 
     <footer style="text-align: center; margin-top: 40px;">
-        &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+        &copy; 2025 - Application - <a asp-page="/Privacy">Privacy</a>
     </footer>
 </body>
 </html>
-

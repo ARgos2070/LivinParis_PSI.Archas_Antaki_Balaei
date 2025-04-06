@@ -90,6 +90,7 @@ namespace PSI_application_C__web
                     identifiant = int.Parse(lecture_id_max);
                     identifiant++;
                 }
+                reader.Close();
                 connection.Close();
                 return identifiant;
             }
@@ -141,37 +142,175 @@ namespace PSI_application_C__web
             
         }
 
-        public static bool UtilisateurEstCuisinier(string id_utilisateur)
+        public static int IdCuisinierDunUtilisateur(string id_utilisateur)
         {
-            bool est_cuisinier = false;
+            int id_cuisinier = 0;
             try
             {
                 string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT COUNT(ID_Cuisinier) FROM Cuisinier WHERE ID_utilisateur = '" + id_utilisateur + "';";
+                command.CommandText = "SELECT ID_Cuisinier FROM Cuisinier WHERE ID_utilisateur = '" + id_utilisateur + "';";
                 MySqlDataReader reader;
                 reader = command.ExecuteReader();
-                string lecture_count = "";
+                string lecture_id = "";
                 while (reader.Read())
                 {
-                    lecture_count = reader["COUNT(ID_Cuisinier)"].ToString();
+                    lecture_id = reader["ID_Cuisinier"].ToString();
 
                 }
-                if (lecture_count == "1")
+                if (!String.IsNullOrEmpty(lecture_id))
                 {
-                    est_cuisinier = true;
+                    id_cuisinier = int.Parse(lecture_id);
                 }
+                command.Dispose();
                 connection.Close();
-                return est_cuisinier;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
                 Console.WriteLine("Il y a une erreur dans la recherche de cuisinier");
-                return false;
             }
+            return id_cuisinier;
+        }
+
+        /// <summary>
+        /// Récupère l'identifiant utilisateur associé à un cuisinier donné à partir de son identifiant cuisinier
+        /// </summary>
+        /// <param name="id_cuisinier">
+        /// L'identifiant unique du cuisinier dans la bdd
+        /// </param>
+        /// <returns>
+        /// Une chaîne représentant l'ID de l'utilisateur associé au cuisinier spécifié
+        /// Retourne une chaîne vide si aucun utilisateur n'est trouvé ou erreur
+        /// </returns>
+        public static string IdUtilisateurDunCuisinier(int id_cuisinier)
+        {
+            string id_utilisateur = "";
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT ID_utilisateur FROM Cuisinier WHERE ID_Cuisinier = " + id_cuisinier + ";";
+                MySqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    id_utilisateur = reader["ID_utilisateur"].ToString();
+                }
+                reader.Close();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return id_utilisateur;
+        }
+
+
+        /// <summary>
+        /// Incrémente de 1 le nombre de plats proposés par un cuisinier dans la bdd
+        /// </summary>
+        /// <param name="id_cuisinier_parametre">ID unique du cuisinier dans la bdd</param>
+        public static void CuisinierAjouteUnPlatAsonMenu(int id_cuisinier_parametre)
+        {
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "UPDATE Cuisinier SET Nbre_plat_proposé_Cuisinier = Nbre_plat_proposé_Cuisinier + 1 WHERE ID_Cuisinier = " + id_cuisinier_parametre + ";";
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            { Console.WriteLine(e.ToString()); }
+        }
+
+        /// <summary>
+        /// Décrémente de 1 le nombre de plats proposés par un cuisinier dans la bdd
+        /// </summary>
+        /// <param name="id_cuisinier_parametre">ID unique du cuisinier dans la bdd</param>
+        public static void CuisinierRetireUnPlatAsonMenu(int id_cuisinier_parametre)
+        {
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "UPDATE Cuisinier SET Nbre_plat_proposé_Cuisinier = Nbre_plat_proposé_Cuisinier - 1 WHERE ID_Cuisinier = " + id_cuisinier_parametre + ";";
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            { Console.WriteLine(e.ToString()); }
+        }
+
+        /// <summary>
+        /// Vérifie si un cuisinier n’a pas encore défini de plat du jour dans la bdd
+        /// </summary>
+        /// <param name="id_cuisinier_parametre">Identifiant du cuisinier à vérifier</param>
+        /// <returns>Retourne <c>true</c> si le cuisinier n’a pas de plat du jour, sinon <c>false</c></returns>
+
+        public static bool CuisinierSansPlatDuJour(int id_cuisinier_parametre)
+        {
+            bool sans_plat_du_jour = false;
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT Plat_du_jour_Cuisinier FROM Cuisinier WHERE ID_Cuisinier = " + id_cuisinier_parametre + ";";
+                MySqlDataReader reader;
+                reader = command.ExecuteReader();
+                string lecture_plat_du_jour = "";
+                while (reader.Read())
+                {
+                    lecture_plat_du_jour = reader["Plat_du_jour_Cuisinier"].ToString();
+
+                }
+                if (String.IsNullOrEmpty(lecture_plat_du_jour))
+                {
+                    sans_plat_du_jour = true;
+                }
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return sans_plat_du_jour;
+        }
+
+        /// <summary>
+        /// Déclare un nouveau plat du jour pour un cuisinier donné en mettant à jour la bdd
+        /// </summary>
+        /// <param name="id_cuisinier_parametre">Identifiant du cuisinier concerné</param>
+        /// <param name="nom_plat_du_jour">Nom du plat du jour à associer au cuisinier</param>
+        public static void DeclarerUnNouveauPlatDuJour(int id_cuisinier_parametre, string nom_plat_du_jour)
+        {
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "UPDATE Cuisinier SET Plat_du_jour_Cuisinier = '" + nom_plat_du_jour + "' WHERE ID_Cuisinier = " + id_cuisinier_parametre + ";";
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            { Console.WriteLine(e.ToString()); }
         }
 
         public void UnPlatAjouteeAuMenu()
