@@ -31,7 +31,7 @@
                 
                 <div>
                     <label asp-for="saisie_id_plat_voulu">Donner l'id du plat que vous souhaité prendre :</label>
-                    <input type="text" asp-for="saisie_id_plat_voulu" maxlength="@Model.taille_max_id_plat" pattern="\d" required />
+                    <input type="text" asp-for="saisie_id_plat_voulu" maxlength="3" pattern="\d{1,3}" required />
                 </div>
             </div>
             <p>@ViewData["Erreur_saisie_id_vide"]</p>

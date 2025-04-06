@@ -58,8 +58,6 @@ namespace PSI_application_C__web.Pages
                 TempData["Filtre"] = filtre;
                 return Page();
             }
-            
-            Console.WriteLine("C'est l'histoire d'un tyrrty" + filtre);
             Liste_tuple = Plat.RechercherTousLesTuplesDuneColonne(filtre);
 
             if (SaisieEstTuple(Liste_tuple, saisie_filtre) == false)

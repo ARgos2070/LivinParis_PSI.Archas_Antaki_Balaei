@@ -34,12 +34,12 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT MAX(ID_Commande) AS ID_commande_maximum FROM Commande;";
+                command.CommandText = "SELECT MAX(ID_Commande) FROM Commande;";
                 MySqlDataReader reader = command.ExecuteReader();
                 string lecture_id_max = "";
                 while (reader.Read())
                 {
-                    lecture_id_max = reader["ID_commande_maximum"].ToString();
+                    lecture_id_max = reader["MAX(ID_Commande)"].ToString();
                 }
                 if (String.IsNullOrEmpty(lecture_id_max))
                 {

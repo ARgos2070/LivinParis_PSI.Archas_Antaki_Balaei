@@ -191,13 +191,87 @@ namespace PSI_application_C__web
         }
 
         /// <summary>
+        /// Vérifie si un plat existe avec un identifiant donné, dispose d'au moins une portion,
+        /// et éventuellement si une colonne spécifique correspond à une valeur donnée
+        /// </summary>
+        /// <param name="id_saisi">Identifiant du plat à rechercher</param>
+        /// <param name="nom_filtre">Nom de la colonne à filtrer, il est facultatif</param>
+        /// <param name="valeur_filtre">Valeur à rechercher dans la colonne spécifiée, il est facultatif</param>
+        /// <returns>Retourne true si un plat correspondant est trouvé, sinon false</returns>
+        public static bool IdPlatExiste(int id_saisi, string nom_filtre, string valeur_filtre)
+        {
+            bool id_existe = false;
+            if (nom_filtre == null ||  nom_filtre.Length == 0 ||valeur_filtre == null || valeur_filtre.Length == 0)
+            {
+                try
+                {
+                    string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                    MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                    connection.Open();
+                    MySqlCommand command = connection.CreateCommand();
+                    command.CommandText = "SELECT COUNT(*) FROM Plat WHERE ID_Plat = " + id_saisi + " AND nbre_portion_dispo_plat >=1;";
+                    MySqlDataReader reader;
+                    reader = command.ExecuteReader();
+                    string lecture_id = "";
+                    while (reader.Read())
+                    {
+                        lecture_id = reader["COUNT(*)"].ToString();
+
+                    }
+                    if (lecture_id == "1")
+                    {
+                        id_existe = true;
+                    }
+                    command.Dispose();
+                    connection.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    Console.WriteLine("Il y a une erreur dans la recherche de cuisinier");
+                }
+            }
+            else
+            {
+                try
+                {
+                    string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                    MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                    connection.Open();
+                    MySqlCommand command = connection.CreateCommand();
+                    command.CommandText = "SELECT COUNT(*) FROM Plat WHERE ID_Plat = " + id_saisi + " AND nbre_portion_dispo_plat >=1 AND " + nom_filtre + " = '" + valeur_filtre + "';";
+                    MySqlDataReader reader;
+                    reader = command.ExecuteReader();
+                    string lecture_id = "";
+                    while (reader.Read())
+                    {
+                        lecture_id = reader["COUNT(*)"].ToString();
+
+                    }
+                    if (lecture_id == "1")
+                    {
+                        id_existe = true;
+                    }
+                    command.Dispose();
+                    connection.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    Console.WriteLine("Il y a une erreur dans la recherche de cuisinier");
+                }
+            }
+            return id_existe;
+        }
+
+        /// <summary>
         /// Récupère tous les plats enregistrés dans la bdd
         /// </summary>
         /// <returns>
         /// Une liste d'objets <see cref="Plat"/> représentant tous les plats stockés dans la table "Plat"
         /// Si une erreur survient lors de la lecture, une liste vide est retournée
         /// </returns>
-        public static List<Plat> RechercherTousLesTuplesPlats()
+        public static List<Plat> RechercherTousLesTuplesPlat()
         {
             List<Plat> plats = new List<Plat>();
             try
@@ -255,7 +329,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT DISTINCT " + nom_colonne + " FROM Plat;";
+                command.CommandText = "SELECT DISTINCT " + nom_colonne + " FROM Plat WHERE nbre_portion_dispo_plat >=1;";
                 MySqlDataReader reader;
                 reader = command.ExecuteReader();
                 string lecture_tuple = "";
@@ -299,7 +373,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM Plat WHERE " + filtre + " = '" + valeur_filtre + "';";
+                command.CommandText = "SELECT * FROM Plat WHERE " + filtre + " = '" + valeur_filtre + "' AND nbre_portion_dispo_plat >=1;";
                 MySqlDataReader reader = command.ExecuteReader();
                 Console.WriteLine("Je suis passé par là");
                 while (reader.Read())
@@ -340,7 +414,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM Plat ORDER BY Prix_par_portion_Plat " + ordre_de_classement+ ";";
+                command.CommandText = "SELECT * FROM Plat WHERE nbre_portion_dispo_plat >=1 ORDER BY Prix_par_portion_Plat " + ordre_de_classement+ ";";
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -379,7 +453,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Nom_plat = '" + nouveau_nom + "' WHERE ID_Plat =" + this.id_plat + ";";
+                command.CommandText = "UPDATE Plat SET Nom_plat = '" + nouveau_nom + "' WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -396,7 +470,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Type_Plat = '" + nouveau_type + "' WHERE ID_Plat =" + this.id_plat + ";";
+                command.CommandText = "UPDATE Plat SET Type_Plat = '" + nouveau_type + "' WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -413,7 +487,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Pr_cmb_de_personnes_Plat = " + nouveau_pr_cmb_de_personnes + "WHERE ID_Plat =" + this.id_plat + ";";
+                command.CommandText = "UPDATE Plat SET Pr_cmb_de_personnes_Plat = " + nouveau_pr_cmb_de_personnes + "WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -430,7 +504,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Prix_par_portion_Plat = " + nouveau_prix_par_portion + "WHERE ID_Plat =" + this.id_plat + ";";
+                command.CommandText = "UPDATE Plat SET Prix_par_portion_Plat = " + nouveau_prix_par_portion + "WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -447,7 +521,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET nbre_portion_dispo_plat = " + nouveau_nbre_portion_dispo + "WHERE ID_Plat =" + this.id_plat + ";";
+                command.CommandText = "UPDATE Plat SET nbre_portion_dispo_plat = " + nouveau_nbre_portion_dispo + "WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -464,7 +538,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET date_fabrication_plat = '" + nouveau_date_fabrication + "' WHERE ID_Plat = " + this.id_plat + ";";
+                command.CommandText = "UPDATE Plat SET date_fabrication_plat = '" + nouveau_date_fabrication + "' WHERE ID_Plat = " + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -481,7 +555,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET date_péremption_plat = '" + nouveau_date_peremption + "' WHERE ID_Plat = " + this.id_plat + ";";
+                command.CommandText = "UPDATE Plat SET date_péremption_plat = '" + nouveau_date_peremption + "' WHERE ID_Plat = " + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -498,7 +572,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Nationalité_cuisine_Plat = '" + nouveau_nationalite + "' WHERE ID_Plat = " + this.id_plat + ";";
+                command.CommandText = "UPDATE Plat SET Nationalité_cuisine_Plat = '" + nouveau_nationalite + "' WHERE ID_Plat = " + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -515,7 +589,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Régime_alimentaire_Plat = '" + nouveau_regime_alimentaire + "' WHERE ID_Plat =" + this.id_plat + ";";
+                command.CommandText = "UPDATE Plat SET Régime_alimentaire_Plat = '" + nouveau_regime_alimentaire + "' WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -532,7 +606,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Ingrédients_principaux_Plat = '" + nouveau_ingredients_principaux + "' WHERE ID_Plat =" + this.id_plat + ";";
+                command.CommandText = "UPDATE Plat SET Ingrédients_principaux_Plat = '" + nouveau_ingredients_principaux + "' WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
