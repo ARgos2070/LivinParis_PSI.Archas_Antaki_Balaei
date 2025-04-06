@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS Plat (
    Type_Plat VARCHAR(50),
    Pr_cmb_de_personnes_Plat INT,
    Prix_par_portion_Plat DECIMAL(10,2),
+   nbre_portion_dispo_plat INT,
    date_fabrication_plat VARCHAR(50),
    date_péremption_plat VARCHAR(50),
    Nationalité_cuisine_Plat VARCHAR(50),
@@ -87,6 +88,7 @@ CREATE TABLE IF NOT EXISTS Livraison (
 CREATE TABLE IF NOT EXISTS Contient (
    ID_Plat INT,
    ID_Commande INT,
+   nbre_portion_commendee_contient INT,
    PRIMARY KEY(ID_Plat, ID_Commande),
    FOREIGN KEY(ID_Plat) REFERENCES Plat(ID_Plat) ON DELETE CASCADE,
    FOREIGN KEY(ID_Commande) REFERENCES Commande(ID_Commande) ON DELETE CASCADE
