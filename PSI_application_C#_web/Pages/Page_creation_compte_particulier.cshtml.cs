@@ -145,7 +145,7 @@ namespace PSI_application_C__web.Pages
             bool adresse_ville_valide = saisie_adresse_ville != null && saisie_adresse_ville.Length > 0;
             bool adresse_code_postal_valide = saisie_adresse_code_postal != null && saisie_adresse_code_postal.Length > 0;
             bool num_tel_valide = EstNumeroTelCorrect(saisie_num_tel);
-            bool adresse_valide = await Adresse_a_coordonees.GetCoords(saisie_adresse_num_rue + " " + saisie_adresse_nom_rue,
+            bool addresse_valide = await Adresse_a_coordonees.GetCoords(saisie_adresse_num_rue + " " + saisie_adresse_nom_rue,
                 saisie_adresse_ville, saisie_adresse_code_postal, "France");
             bool adresse_mail_valide = EstAdresseMailCorrect(saisie_adresse_mail);
             if (id_utilisateur_valide == false)
@@ -180,9 +180,10 @@ namespace PSI_application_C__web.Pages
             {
                 ViewData["Erreur_adresse_code_postal"] = "Un code postal est requis.";
             }
-            if (adresse_valide == false)
+            if (addresse_valide == false)
             {
                 ViewData["Erreur_adresse_reseau"] = "Notre service ne dessert pas cette adresse.";
+                Console.WriteLine("Pourquoi l'erreur ne s'affiche pas");
             }
             if (num_tel_valide == false)
             {
