@@ -130,7 +130,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Commande SET Taille_Commande = Taille_commande + " + ajout_nbre_de_portion + "WHERE ID_Commande =" + id_commande + ";";
+                command.CommandText = "UPDATE Commande SET Taille_Commande = Taille_commande + " + ajout_nbre_de_portion + " WHERE ID_Commande = " + id_commande + ";";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -152,7 +152,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Commande SET Prix_Commande = Prix_Commande + " + ajout_prix.ToString().Replace(',', '.') + "WHERE ID_Commande =" + id_commande + ";";
+                command.CommandText = "UPDATE Commande SET Prix_Commande = Prix_Commande + " + ajout_prix.ToString().Replace(',', '.') + " WHERE ID_Commande = " + id_commande + ";";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -161,24 +161,24 @@ namespace PSI_application_C__web
             { Console.WriteLine(e.ToString()); }
         }
 
-        //public static void SupprimerCommande(Commande commande)
-        //{
-        //    try
-        //    {
-        //        string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
-        //        MySqlConnection connection = new MySqlConnection(ligneConnexion);
-        //        connection.Open();
-        //        MySqlCommand command = connection.CreateCommand();
-        //        command.CommandText = "DELETE FROM Commande WHERE ID_Commande = " + commande.id_commande + ";";
-        //        command.ExecuteNonQuery();
-        //        command.Dispose();
-        //        connection.Close();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.ToString());
-        //    }
-        //}
+        public static void SupprimerCommande(int id_commande)
+        {
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "DELETE FROM Commande WHERE ID_Commande = " + id_commande + ";";
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+        }
         #endregion
     }
 }

@@ -201,7 +201,7 @@ namespace PSI_application_C__web.Pages
                 double prix_maj_commande = nbre_portion_voulue * Plat.ConnaitrePrixPortion(id_plat);
                 Commande.MettreAjourAttributPrixCommande(id_commande_anterieure, prix_maj_commande);
                 TempData["Id_commande_memoire"] = id_commande_anterieure;
-                return Page();
+                return RedirectToPage("Page_finaliser_commande");
             }
             
             int id_commande = Commande.Identifiant_commande_determine_depuis_bdd();
@@ -221,7 +221,7 @@ namespace PSI_application_C__web.Pages
             Console.WriteLine("nbre portion voulue : " + nouveau_nbre_portion_dispo);
             Plat.MettreAjourAttributNbre_portion_dispo(id_plat, nouveau_nbre_portion_dispo);
             TempData["Id_commande_memoire"] = id_commande;
-            return RedirectToPage("Page_1er_chargement");
+            return RedirectToPage("Page_finaliser_commande");
         }
     }
 }

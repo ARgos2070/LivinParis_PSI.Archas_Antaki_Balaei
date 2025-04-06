@@ -280,7 +280,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM Plat;";
+                command.CommandText = "SELECT * FROM Plat WHERE nbre_portion_dispo_plat >=1;";
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -564,7 +564,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Pr_cmb_de_personnes_Plat = " + nouveau_pr_cmb_de_personnes + "WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
+                command.CommandText = "UPDATE Plat SET Pr_cmb_de_personnes_Plat = " + nouveau_pr_cmb_de_personnes + " WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -581,7 +581,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Prix_par_portion_Plat = " + nouveau_prix_par_portion + "WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
+                command.CommandText = "UPDATE Plat SET Prix_par_portion_Plat = " + nouveau_prix_par_portion + " WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
