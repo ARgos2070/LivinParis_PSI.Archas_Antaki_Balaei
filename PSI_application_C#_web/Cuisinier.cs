@@ -197,7 +197,7 @@ namespace PSI_application_C__web
                 command.CommandText = "SELECT ID_utilisateur FROM Cuisinier WHERE ID_Cuisinier = " + id_cuisinier + ";";
                 MySqlDataReader reader = command.ExecuteReader();
 
-                if (reader.Read())
+                while (reader.Read())
                 {
                     id_utilisateur = reader["ID_utilisateur"].ToString();
                 }
@@ -311,6 +311,33 @@ namespace PSI_application_C__web
             }
             catch (Exception e)
             { Console.WriteLine(e.ToString()); }
+        }
+
+        public static int NbrePlatCarte(int id_cuisinier)
+        {
+            int nbre_plat_carte = 0;
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT Nbre_plat_proposé_Cuisinier FROM Cuisinier WHERE ID_Cuisinier = " + id_cuisinier + ";";
+                MySqlDataReader reader = command.ExecuteReader();
+                string lecture = "";
+                while (reader.Read())
+                {
+                    lecture = reader["Nbre_plat_proposé_Cuisinier"].ToString();
+                }
+                reader.Close();
+                connection.Close();
+                nbre_plat_carte = int.Parse(lecture);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return nbre_plat_carte;
         }
 
         public void UnPlatAjouteeAuMenu()
