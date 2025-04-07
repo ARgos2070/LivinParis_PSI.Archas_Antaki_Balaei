@@ -530,7 +530,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET " + nom_colonne + " = " + nouvelle_valeur + " WHERE ID_Plat =" + id_plat + " " + param_optionnel + ";";
+                command.CommandText = "UPDATE Plat SET " + nom_colonne + " = " + nouvelle_valeur + " WHERE ID_Plat = " + id_plat + " " + param_optionnel + ";";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();

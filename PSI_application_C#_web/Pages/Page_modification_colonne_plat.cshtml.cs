@@ -81,7 +81,7 @@ namespace PSI_application_C__web.Pages
             Console.WriteLine("Test1");
             if (saisie_double_valide)
             {
-                Plat.MettreAjourTupleColonne(id_plat_a_modifier, nom_colonne, saisie_string, "");
+                Plat.MettreAjourTupleColonne(id_plat_a_modifier, nom_colonne, saisie_double, "");
                 return RedirectToPage("Page_accueil_connecte");
             }
             Console.WriteLine("Test1");
