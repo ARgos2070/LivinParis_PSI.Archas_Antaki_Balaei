@@ -128,7 +128,6 @@ namespace PSI_application_C__web
             }
         }
 
-
         public static void AjoutUtilisateurBDD(Utilisateur user)
         {
             try
@@ -158,7 +157,7 @@ namespace PSI_application_C__web
             
         }
 
-        public static void RadierUtilisateur(Utilisateur user)
+        public static void RadierUtilisateur(string id_utilisateur)
         {
             try
             {
@@ -166,7 +165,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "DELETE FROM Utilisateur WHERE ID_utilisateur = '" + user.id_utilisateur + "';";
+                command.CommandText = "DELETE FROM Utilisateur WHERE ID_utilisateur = '" + id_utilisateur + "';";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -176,12 +175,45 @@ namespace PSI_application_C__web
             
         }
 
-        public void UnSignalementRecu()
+        static public void UnSignalementRecu(string id_utilisateur)
         {
-            this.nbre_signalements_contre_utilisateur++;
-            if (this.nbre_signalements_contre_utilisateur >= 3)
+            int nbre_signalements_contre_utilisateur = -1;
+            try
             {
-                RadierUtilisateur(this);
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM Utilisateur WHERE ID_utilisateur = '" + id_utilisateur + "';";
+                MySqlDataReader reader;
+                reader = command.ExecuteReader();
+                string lecture_mot_de_passe = "";
+                while (reader.Read())
+                {
+                    nbre_signalements_contre_utilisateur = 
+                        Convert.ToInt32(reader["Nbre_signalements_contre_utilisateur"]);
+                }
+                if(nbre_signalements_contre_utilisateur < 0)
+                {
+                    throw new Exception("mauvaise connection");
+                }
+                if (nbre_signalements_contre_utilisateur >= 3)
+                {
+                    RadierUtilisateur(id_utilisateur);
+                }
+                else
+                {//potentiel erreur du a la reutilisation de commande de Get a un Post
+                    command = connection.CreateCommand();
+                    command.CommandText = "UPDATE Utilisateur SET Nbre_signalements_contre_utilisateur = "+
+                        nbre_signalements_contre_utilisateur+1 + " WHERE ID_utilisateur = '" + id_utilisateur + "';";
+                    command.ExecuteNonQuery();
+                    command.Dispose();
+                    connection.Close();
+                }
+            }
+            catch (Exception e)
+            {
+
             }
         }
 
