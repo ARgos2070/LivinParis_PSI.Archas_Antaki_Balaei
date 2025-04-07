@@ -1,0 +1,98 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_select_colonne_update_platModel
+@{
+    ViewData["Title"] = "Sélectionner une Propriété du Plat";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Sélectionner une propriété du plat à afficher :</h1>
+        <form method="post">
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Nom_plat" />
+                    Nom du plat
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Type_Plat" />
+                    Type de plat
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Pr_cmb_de_personnes_Plat" />
+                    Nombre de personnes
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Prix_par_portion_Plat" />
+                    Prix par portion
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Nbre_portion_dispo_plat" />
+                    Nombre de portions disponibles
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Date_fabrication_plat" />
+                    Date de fabrication
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Date_péremption_plat" />
+                    Date de péremption
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Nationalité_cuisine_Plat" />
+                    Nationalité de la cuisine
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Régime_alimentaire_Plat" />
+                    Régime alimentaire
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Ingrédients_principaux_Plat" />
+                    Ingrédients principaux
+                </label>
+            </div>
+            <p>@ViewData["Erreur_selection"]</p>
+            <button type="submit">Soumettre la sélection</button>
+        </form>
+    </main>
+
+    <footer style="text-align: center; margin-top: 40px;">
+        &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+    </footer>
+</body>
+</html>

@@ -51,7 +51,7 @@ namespace PSI_application_C__web
             try
             {
                 int identifiant = 0;
-                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
@@ -73,6 +73,7 @@ namespace PSI_application_C__web
                     identifiant = int.Parse(lecture_id_max);
                     identifiant++;
                 }
+                reader.Close();
                 connection.Close();
                 return identifiant;
             }
@@ -87,7 +88,7 @@ namespace PSI_application_C__web
         {
             try
             {
-                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
@@ -108,7 +109,7 @@ namespace PSI_application_C__web
         {
             try
             {
-                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
@@ -122,37 +123,44 @@ namespace PSI_application_C__web
             
         }
 
-        public static bool UtilisateurEstClient(string id_utilisateur)
+        /// <summary>
+        /// Récupère l'identifiant du client associé à un utilisateur donné à partir de son identifiant utilisateur
+        /// </summary>
+        /// <param name="id_utilisateur">L'identifiant de l'utilisateur dont on souhaite retrouver l'identifiant client</param>
+        /// <returns>
+        /// Un entier représentant l'identifiant du client si trouvé, sinon 0
+        /// </returns>
+        public static int IdClientDunUtilisateur(string id_utilisateur)
         {
-            bool est_client = false;
+            int id_client = 0;
             try
             {
-                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT COUNT(ID_Client) FROM Livreur WHERE ID_utilisateur = '" + id_utilisateur + "';";
+                command.CommandText = "SELECT ID_Client FROM Client WHERE ID_utilisateur = '" + id_utilisateur + "';";
                 MySqlDataReader reader;
                 reader = command.ExecuteReader();
-                string lecture_count = "";
+                string lecture_id = "";
                 while (reader.Read())
                 {
-                    lecture_count = reader["COUNT(ID_Client)"].ToString();
+                    lecture_id = reader["ID_Client"].ToString();
 
                 }
-                if (!String.IsNullOrEmpty(lecture_count))
+                if (!String.IsNullOrEmpty(lecture_id))
                 {
-                    est_client = true;
+                    id_client = int.Parse(lecture_id);
                 }
+                command.Dispose();
                 connection.Close();
-                return est_client;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-                Console.WriteLine("Il y a une erreur dans la recherche de client");
-                return false;
+                Console.WriteLine("Il y a une erreur dans la recherche de cuisinier");
             }
+            return id_client;
         }
 
         public void UneCommandePassee()

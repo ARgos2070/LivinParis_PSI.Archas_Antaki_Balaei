@@ -1,0 +1,71 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_carte_cuisinierModel
+@{
+    ViewData["Title"] = "Page affichage plat";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Bienvenue dans la carte des plats (ou rebienvenue si vous êtiez parti mettre un filtre) :</h1>
+        <form method="post">
+
+            <div>
+
+                <div>
+                    <label asp-for="saisie_id_plat_voulu">Donner l'id du plat que vous souhaité prendre :</label>
+                    <input type="text" asp-for="saisie_id_plat_voulu" maxlength="3" pattern="\d{1,3}" required />
+                </div>
+                <p>@ViewData["Erreur_saisie_id_vide"]</p>
+            </div>
+
+            <button type="submit">Soumettre le choix</button>
+        </form>
+        @if (Model.Plats != null && Model.Plats.Count > 0)
+        {
+            <h2>Liste des plats :</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                @foreach (var plat in Model.Plats)
+                {
+                    <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 300px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                        <h3 style="margin-top: 0;"><strong>Nom :</strong> @plat.Nom_plat</h3>
+                        <p style="margin: 5px 0;"><strong>ID :</strong> @plat.Id_plat</p>
+                        <p style="margin: 5px 0;"><strong>Type :</strong> @plat.Type_plat</p>
+                        <p style="margin: 5px 0;"><strong>Nombre de personnes :</strong> @plat.Pr_cmb_de_personnes_plat</p>
+                        <p style="margin: 5px 0;"><strong>Prix par portion :</strong> @plat.Prix_par_portion_plat €</p>
+                        <p style="margin: 5px 0;"><strong>Nombre de portions disponibles :</strong> @plat.Nbre_portion_dispo_plat</p>
+                        <p style="margin: 5px 0;"><strong>Date de fabrication :</strong> @plat.Date_fabrication_plat</p>
+                        <p style="margin: 5px 0;"><strong>Date de péremption :</strong> @plat.Date_perempetion_plat</p>
+                        <p style="margin: 5px 0;"><strong>Nationalité :</strong> @plat.Nationalite_plat</p>
+                        <p style="margin: 5px 0;"><strong>Régime alimentaire :</strong> @plat.Regime_alimentaire_plat</p>
+                        <p style="margin: 5px 0;"><strong>Ingrédients principaux :</strong> @plat.Ingredients_principaux_plat</p>
+                    </div>
+                }
+            </div>
+        }
+
+
+    </main>
+
+    <footer style="text-align: center; margin-top: 40px;">
+        &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+    </footer>
+</body>
+</html>

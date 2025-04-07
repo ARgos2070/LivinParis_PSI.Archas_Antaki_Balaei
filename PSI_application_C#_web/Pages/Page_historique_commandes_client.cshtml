@@ -1,0 +1,51 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_historique_commandes_clientModel
+@{
+    ViewData["Title"] = "Page historique commandes client";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h2>Historique des Commandes</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+            @foreach (var commande in Model.Liste_info_commandes)
+            {
+                <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 300px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                    <h3 style="margin-top: 0;"><strong>Nom du plat :</strong> @commande[5]</h3>
+                    <p style="margin: 20px 0;"><strong>ID commande :</strong> @commande[0]</p>
+                    <p style="margin: 5px 0;"><strong>Prix commande :</strong> @commande[1]</p>
+                    <p style="margin: 5px 0;"><strong>Date commande :</strong> @commande[2]</p>
+                    <p style="margin: 5px 0;"><strong>Taille commande :</strong> @commande[3]</p>
+                    <p style="margin: 5px 0;"><strong>ID plat :</strong> @commande[4]</p>
+                    <p style="margin: 5px 0;"><strong>Type plat :</strong> @commande[6]</p>
+                    <p style="margin: 5px 0;"><strong>Nombre de personnes :</strong> @commande[7]</p>
+                    <p style="margin: 5px 0;"><strong>Prix par portion :</strong> @commande[8]</p>
+                    <p style="margin: 5px 0;"><strong>Nombre de portions commandées :</strong> @commande[9]</p>
+                </div>
+            }
+        </div>
+    </main>
+
+    <footer style="text-align: center; margin-top: 40px;">
+        &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+    </footer>
+</body>
+</html>

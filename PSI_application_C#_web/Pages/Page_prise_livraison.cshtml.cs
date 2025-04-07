@@ -1,20 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Net;
 
 namespace PSI_application_C__web.Pages
 {
-    public class Page_statistiqueModel : PageModel
+    public class Page_prise_livraisonModel : PageModel
     {
-        public List<List<string>> CookStats { get; set; }
-        
+        public List<List<string>> CommandesNonLivree { get; set; }
+
         public void OnGet()
         {
             TempData["Id_utilisateur_session"] = TempData["Id_utilisateur_session"];
-            this.CookStats = new List<List<string>>();
+            this.CommandesNonLivree = new List<List<string>>();
 
             try
             {
@@ -22,7 +19,13 @@ namespace PSI_application_C__web.Pages
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand commander = connection.CreateCommand();
-                commander.CommandText = "SELECT * FROM Cuisinier;";
+                commander.CommandText = 
+                    "SELECT * " +
+                    "FROM Commande " +
+                    "WHERE ID_Commande NOT IN( " +
+                    "   SELECT ID_Commande " +
+                    "   FROM Livraison" +
+                    ");";
                 MySqlDataReader readerer;
                 readerer = commander.ExecuteReader();
                 string lecture_id = "";
@@ -31,11 +34,10 @@ namespace PSI_application_C__web.Pages
                     List<string> stat = new List<string>();
                     //stat.Add(readerer["Nom_utilisateur"].ToString());
                     //stat.Add(readerer["Prenom_utilisateur"].ToString());
-                    stat.Add(readerer["Nbre_plat_proposé_Cuisinier"].ToString());
-                    stat.Add(readerer["Plat_du_jour_Cuisinier"].ToString());
-                    stat.Add(readerer["Nbre_commandes_cuisinees_cuisinier"].ToString());
+                    stat.Add(readerer["ID_Commande"].ToString());
+                    stat.Add(readerer["Taille_Commande"].ToString());
 
-                    CookStats.Add(stat);
+                    CommandesNonLivree.Add(stat);
                 }
                 connection.Close();
             }

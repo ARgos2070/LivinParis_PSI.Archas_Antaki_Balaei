@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Google.Protobuf.WellKnownTypes;
+using static PSI_application_C__web.Adresse_a_coordonees;
 
 namespace PSI_application_C__web
 {
@@ -145,8 +147,39 @@ namespace PSI_application_C__web
                 list_pk.Add(Convert.ToString((char)ascii_code), i);
             }
             this.path_cp = ""; 
-            this.path_ct = ""; 
-            this.path_s = "";  
+            this.path_ct = "";
+            this.path_s = "";
+        }
+
+        public async Task<List<string>> Chemin_le_plus_court(string street_depart,string ville_depart,string code_postal_depart,string pays_depart,
+            string street_arrivee, string ville_arrivee, string code_postal_arrivee, string pays_arrivee)
+        {
+            GeocodingResult coords_depart = await Adresse_a_coordonees.GetCoordsGeocodingResult(street_depart, ville_depart, code_postal_depart, pays_depart);
+            GeocodingResult coords_arrivee = await Adresse_a_coordonees.GetCoordsGeocodingResult(street_arrivee, ville_arrivee, code_postal_arrivee, pays_arrivee);
+
+            string pk_station_depart = Station_la_plus_proche(coords_depart.Latitude, coords_depart.Longitude, true);
+            string pk_station_arrivee = Station_la_plus_proche(coords_arrivee.Latitude, coords_arrivee.Longitude, true);
+
+            return Dijikstra(pk_station_depart, pk_station_arrivee);
+        }
+
+            public async Task<int> Temps_le_plus_court(string street_depart, string ville_depart, string code_postal_depart, string pays_depart,
+        string street_arrivee, string ville_arrivee, string code_postal_arrivee, string pays_arrivee)
+        {
+            GeocodingResult coords_depart = await Adresse_a_coordonees.GetCoordsGeocodingResult(street_depart, ville_depart, code_postal_depart, pays_depart);
+            GeocodingResult coords_arrivee = await Adresse_a_coordonees.GetCoordsGeocodingResult(street_arrivee, ville_arrivee, code_postal_arrivee, pays_arrivee);
+
+            string pk_station_depart = Station_la_plus_proche(coords_depart.Latitude, coords_depart.Longitude, true);
+            string pk_station_arrivee = Station_la_plus_proche(coords_arrivee.Latitude, coords_arrivee.Longitude, true);
+
+            List<string> resultat = Dijikstra(pk_station_depart, pk_station_arrivee);
+            int temps_total = 0;
+
+            for(int i = 0; i < resultat.Count-1 ; i++)
+            {
+                temps_total += this.matrice_dadjacence[this.list_pk[resultat[i]], this.list_pk[resultat[i + 1]]];
+            }
+            return temps_total;
         }
 
         public List<string> Dijikstra(string IdNoeudDepart, string IdNoeudArrivee) // ID = nom_gare + ligne_metro

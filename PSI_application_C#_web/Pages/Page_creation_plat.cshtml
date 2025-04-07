@@ -40,9 +40,15 @@
             </div>
 
             <div>
-                <label asp-for="saisie_prix_par_perso_plat">Prix par personne :</label>
-                <input type="text" asp-for="saisie_prix_par_perso_plat" maxlength="8" pattern="^\d+([.,]\d{1,2})?$" required />
+                <label asp-for="saisie_prix_par_portion_plat">Prix par personne :</label>
+                <input type="text" asp-for="saisie_prix_par_portion_plat" maxlength="8" pattern="^\d+([.]\d{1,2})?$" required />
                 <p>@ViewData["Erreur_prix_par_perso_plat"]</p>
+            </div>
+
+            <div>
+                <label asp-for="saisie_nbre_portion_dispo_plat">Nombre de portions disponibles :</label>
+                <input type="text" asp-for="saisie_nbre_portion_dispo_plat" maxlength="8" pattern="\d" required />
+                <p>@ViewData["Erreur_nbre_portion_dispo_plat"]</p>
             </div>
             <p>Date de fabrication :</p>
             <div>
@@ -99,7 +105,17 @@
                 <input type="text" asp-for="saisie_ingredients_principaux_plat" maxlength="255" />
                 <p>@ViewData["Erreur_ingredients_principaux_plat"]</p>
             </div>
-
+            <div>
+                <p>Voulez-vous faire de ce plat votre plat du jour ? (S'il s'agit de votre premier plat crée, il sera automatiquement fait plat du jour)</p>
+                <label>
+                    <input type="radio" asp-for="saisie_choix_plat_du_jour" value="true" />
+                    Oui
+                </label>
+                <label>
+                    <input type="radio" asp-for="saisie_choix_plat_du_jour" value="false" />
+                    Non
+                </label>
+            </div>
             <button type="submit">Soumettre le choix</button>
         </form>
     </div>

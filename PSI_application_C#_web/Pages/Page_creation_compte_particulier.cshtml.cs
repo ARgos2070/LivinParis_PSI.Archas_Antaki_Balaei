@@ -33,6 +33,9 @@ namespace PSI_application_C__web.Pages
         public string saisie_adresse_ville { get; set; }
 
         [BindProperty]
+        public string saisie_adresse_code_postal { get; set; }
+
+        [BindProperty]
         public string saisie_num_tel { get; set; } //On déclare le numéro de téléphone sous la forme d'un string
                                                    //car si on le déclare directement en int, la valeur par défaut de num_tel
                                                    //sera 0, et cette valeur par défaut apparaîtra dans le champs (non rempli)
@@ -131,7 +134,7 @@ namespace PSI_application_C__web.Pages
             return est_correct;
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
             bool id_utilisateur_valide = Utilisateur.Identifiant_utilisateur_nouveau_dans_bdd(saisie_id_utilisateur);
             bool prenom_valide = saisie_prenom != null && saisie_prenom.Length > 0;
@@ -140,7 +143,10 @@ namespace PSI_application_C__web.Pages
             bool adresse_num_rue_valide = saisie_adresse_num_rue != null && saisie_adresse_num_rue.Length > 0;
             bool adresse_nom_rue_valide = saisie_adresse_nom_rue != null && saisie_adresse_nom_rue.Length > 0;
             bool adresse_ville_valide = saisie_adresse_ville != null && saisie_adresse_ville.Length > 0;
+            bool adresse_code_postal_valide = saisie_adresse_code_postal != null && saisie_adresse_code_postal.Length > 0;
             bool num_tel_valide = EstNumeroTelCorrect(saisie_num_tel);
+            bool addresse_valide = await Adresse_a_coordonees.GetCoords(saisie_adresse_num_rue + " " + saisie_adresse_nom_rue,
+                saisie_adresse_ville, saisie_adresse_code_postal, "France");
             bool adresse_mail_valide = EstAdresseMailCorrect(saisie_adresse_mail);
             if (id_utilisateur_valide == false)
             {
@@ -170,6 +176,15 @@ namespace PSI_application_C__web.Pages
             {
                 ViewData["Erreur_adresse_ville"] = "Une ville est requise.";
             }
+            if (adresse_code_postal_valide == false)
+            {
+                ViewData["Erreur_adresse_code_postal"] = "Un code postal est requis.";
+            }
+            if (addresse_valide == false)
+            {
+                ViewData["Erreur_adresse_reseau"] = "Notre service ne dessert pas cette adresse.";
+                Console.WriteLine("Pourquoi l'erreur ne s'affiche pas");
+            }
             if (num_tel_valide == false)
             {
                 ViewData["Erreur_num_tel"] = "Il faut que votre numéro de téléphone commence par un 0.";
@@ -183,7 +198,8 @@ namespace PSI_application_C__web.Pages
                 ViewData["Erreur_client"] = "Il faut que vous séléctionnez au moins un rôle.";
             }
             if (id_utilisateur_valide == false || prenom_valide == false || nom_valide == false || mot_de_passe_valide == false || adresse_num_rue_valide == false || adresse_nom_rue_valide == false || adresse_ville_valide == false || adresse_mail_valide == false || num_tel_valide == false
-                || !EstPasUtilisateurSansRole(saisie_est_client, saisie_est_cuisinier, saisie_est_livreur))
+                ||adresse_code_postal_valide == false || !EstPasUtilisateurSansRole(saisie_est_client, saisie_est_cuisinier, saisie_est_livreur)
+                || await Adresse_a_coordonees.GetCoords(saisie_adresse_num_rue + " " + saisie_adresse_nom_rue, saisie_adresse_ville, saisie_adresse_code_postal, "France") == false)
             {
                 return Page();
             }
@@ -191,7 +207,7 @@ namespace PSI_application_C__web.Pages
             string prenom_utilisateur = saisie_prenom;
             string nom_utilisateur = saisie_nom;
             string mot_de_passe_utilisateur = saisie_mot_de_passe;
-            string adresse_utilisateur = saisie_adresse_num_rue + " " + saisie_adresse_nom_rue + ", " + saisie_adresse_ville;
+            string adresse_utilisateur = saisie_adresse_num_rue + " " + saisie_adresse_nom_rue + ", " + saisie_adresse_ville + ", " + saisie_adresse_code_postal;
             string adresse_mail_utilisateur = saisie_adresse_mail;
             string num_utilisateur = saisie_num_tel;
             bool utilisateur_est_entreprise = true;
@@ -201,6 +217,7 @@ namespace PSI_application_C__web.Pages
             bool est_livreur = saisie_est_livreur;
             Utilisateur particulier_cree = new Utilisateur(id_utilisateur, mot_de_passe_utilisateur, nom_utilisateur, prenom_utilisateur, adresse_utilisateur, num_utilisateur, adresse_mail_utilisateur, false, null);
             Utilisateur.AjoutUtilisateurBDD(particulier_cree);
+            TempData["Id_utilisateur_session"] = id_utilisateur;
             if (est_client == true && est_cuisinier == true && est_livreur == true)
             {
                 Client client_cree = new Client(particulier_cree);
@@ -254,7 +271,7 @@ namespace PSI_application_C__web.Pages
                 Livreur livreur_cree = new Livreur(particulier_cree);
                 Livreur.AjoutLivreurBDD(livreur_cree);
             }
-            return RedirectToPage("Page_1er_chargement");
+            return RedirectToPage("Page_accueil_connecte");
         }
     }
 }

@@ -1,0 +1,61 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_commanderModel
+@{
+    ViewData["Title"] = "Page commander";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Bienvenue dans la carte des plats :</h1>
+        <form method="post">
+            <div>
+                <p>Comment voulez-vous afficher les plats ?</p>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Afficher_tout" />
+                    Afficher tout
+                </label>
+                <label>
+                    <input type="radio" name="Option_choisie" value="afficher_par_nationalite" />
+                    Afficher par nationalité
+                </label><br>
+                <label>
+                    <input type="radio" name="Option_choisie" value="afficher_par_regime_alimentaire" />
+                    Afficher par régime alimentaire
+                </label><br>
+                <label>
+                    <input type="radio" name="Option_choisie" value="afficher_par_prix_croissant" />
+                    Afficher par prix croissant
+                </label><br>
+                <label>
+                    <input type="radio" name="Option_choisie" value="afficher_par_prix_decroissant" />
+                    Afficher par prix décroissant
+                </label>
+            </div>
+            <p>@ViewData["Erreur_affichage"]</p>
+            <button type="submit">Soumettre le choix</button>
+        </form>
+    </main>
+
+    <footer style="text-align: center; margin-top: 40px;">
+        &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+    </footer>
+</body>
+</html>
