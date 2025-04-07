@@ -26,37 +26,24 @@
     <main>
         <h1>Voici vos Statistiques</h1>
 
-        <h2>Bonjour @Model.StatUtilisateur[1] @Model.StatUtilisateur[0]</h2>
+        <h2>Bonjour @Model.StatUtilisateur[0]</h2>
 
         <div>
-            <h4>Voici vos informations</h4>
-            <tr>
-                Adresse : @Model.StatUtilisateur[2]
-            </tr>
-            <tr>
-                Numèro de téléphone : @Model.StatUtilisateur[3]
-            </tr>
-            <tr>
-                Adresse mail : @Model.StatUtilisateur[4]
-            </tr>
-            <tr>
-                Address : @Model.StatUtilisateur[5]
-            </tr>
-            @if (Model.Est_entreprise)
+            <h4>Voici vos informations :</h4>
+            Mot de passe : @Model.StatUtilisateur[1]<br />
+            Prénom :  @Model.StatUtilisateur[3]<br />
+            Nom : @Model.StatUtilisateur[2]<br />
+            Adresse : @Model.StatUtilisateur[4]<br />
+            Numéro de téléphone : @Model.StatUtilisateur[5]<br />
+            Adresse mail : @Model.StatUtilisateur[6]<br />
+            Nombre de signalement : @Model.StatUtilisateur[9]<br />
+            @if (Model.StatUtilisateur[7] == "true")
             {
-                <tr>
-                    Est une entreprise : @Model.StatUtilisateur[5]
-                </tr>
-                <tr>
-                    Nombre de signalement : @Model.StatUtilisateur[6]
-                </tr>
+                <p>Est une entreprise: @Model.StatUtilisateur[7]</p>
+                <p>Nombre de signalement: @Model.StatUtilisateur[8]</p>
             }
-            else
-            {
-                <tr>
-                    Nombre de signalement : @Model.StatUtilisateur[5]
-                </tr>
-            }
+
+            
             <button type="button" onclick="window.location.href='/Page_select_colonne_update_utilisateur'">
                 Modifier mon profil
             </button>

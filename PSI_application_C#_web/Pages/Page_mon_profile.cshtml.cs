@@ -23,30 +23,33 @@ namespace PSI_application_C__web.Pages
                 connection.Open();
 
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM Utilisateur WHERE ID_utilisateur = " + id_utilisateur + ";";
+                command.CommandText = "SELECT * FROM Utilisateur WHERE ID_utilisateur = '" + id_utilisateur + "';";
 
                 MySqlDataReader reader = command.ExecuteReader();
                 string lecture = "";
                 while (reader.Read())
                 {
-                    lecture = reader.GetString("ID_utilisateur").ToString();
+                    lecture = reader["ID_utilisateur"].ToString();
                     StatUtilisateur.Add(lecture);
-                    lecture = reader.GetString("Mot_de_passe_utilisateur").ToString();
+                    lecture = reader["Mot_de_passe_utilisateur"].ToString();
                     StatUtilisateur.Add(lecture);
-                    lecture = reader.GetString("Nom_utilisateur").ToString();
+                    lecture = reader["Nom_utilisateur"].ToString();
                     StatUtilisateur.Add(lecture);
-                    lecture = reader.GetString("Prénom_utilisateur").ToString();
+                    lecture = reader["Prénom_utilisateur"].ToString();
                     StatUtilisateur.Add(lecture);
-                    lecture = reader.GetString("Adresse_utilisateur").ToString();
+                    lecture = reader["Adresse_utilisateur"].ToString();
                     StatUtilisateur.Add(lecture);
-                    lecture = reader.GetString("Num_tel_utilisateur").ToString();
+                    lecture = reader["Num_tel_utilisateur"].ToString();
                     StatUtilisateur.Add(lecture);
-                    lecture = reader.GetString("adresse_mail_utilisateur").ToString();
+                    lecture = reader["adresse_mail_utilisateur"].ToString();
                     StatUtilisateur.Add(lecture);
-                    lecture = reader.GetString("Utilisateur_est_entreprise").ToString();
+                    lecture = reader["Utilisateur_est_entreprise"].ToString();
                     StatUtilisateur.Add(lecture);
-                    lecture = reader.GetString("Nom_entreprise").ToString();
+                    lecture = reader["Nom_entreprise"].ToString();
                     StatUtilisateur.Add(lecture);
+                    lecture = reader["Nbre_signalements_contre_utilisateur"].ToString();
+                    StatUtilisateur.Add(lecture);
+                    Console.WriteLine("Chargement réussi");
                 }
 
                 reader.Close();
