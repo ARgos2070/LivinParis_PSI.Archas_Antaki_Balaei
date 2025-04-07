@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
 
 namespace PSI_application_C__web.Pages
 {
@@ -8,37 +10,52 @@ namespace PSI_application_C__web.Pages
     {
         public List<string> StatUtilisateur;
         public bool Est_entreprise = false;
+
         public void OnGet()
         {
-            this.StatUtilisateur = new List<string>();
-
+            string id_utilisateur = TempData["Id_utilisateur_session"].ToString();
+            TempData["Id_utilisateur_session"] = id_utilisateur;
+            StatUtilisateur = new List<string>();
             try
             {
-                string id_utilisateur = "";
-                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
-                MySqlCommand commander = connection.CreateCommand();
-                commander.CommandText = "SELECT * FROM Utilisateur WHERE ID_Utilisateur = " + id_utilisateur + ";";
-                MySqlDataReader readerer;
-                readerer = commander.ExecuteReader();
-                string lecture_id = "";
-                Est_entreprise = Convert.ToBoolean(readerer["Utilisateur_est_entreprise"]);
-                StatUtilisateur.Add(readerer["Nom_utilisateur"].ToString());
-                StatUtilisateur.Add(readerer["Prénom_utilisateur"].ToString());
-                StatUtilisateur.Add(readerer["Adresse_utilisateur"].ToString());
-                StatUtilisateur.Add(readerer["Num_tel_utilisateur"].ToString());
-                StatUtilisateur.Add(readerer["adresse_mail_utilisateur"].ToString());
-                if(Est_entreprise)
+
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM Utilisateur WHERE ID_utilisateur = " + id_utilisateur + ";";
+
+                MySqlDataReader reader = command.ExecuteReader();
+                string lecture = "";
+                while (reader.Read())
                 {
-                    StatUtilisateur.Add(readerer["Nom_entreprise"].ToString());
+                    lecture = reader.GetString("ID_utilisateur").ToString();
+                    StatUtilisateur.Add(lecture);
+                    lecture = reader.GetString("Mot_de_passe_utilisateur").ToString();
+                    StatUtilisateur.Add(lecture);
+                    lecture = reader.GetString("Nom_utilisateur").ToString();
+                    StatUtilisateur.Add(lecture);
+                    lecture = reader.GetString("Prénom_utilisateur").ToString();
+                    StatUtilisateur.Add(lecture);
+                    lecture = reader.GetString("Adresse_utilisateur").ToString();
+                    StatUtilisateur.Add(lecture);
+                    lecture = reader.GetString("Num_tel_utilisateur").ToString();
+                    StatUtilisateur.Add(lecture);
+                    lecture = reader.GetString("adresse_mail_utilisateur").ToString();
+                    StatUtilisateur.Add(lecture);
+                    lecture = reader.GetString("Utilisateur_est_entreprise").ToString();
+                    StatUtilisateur.Add(lecture);
+                    lecture = reader.GetString("Nom_entreprise").ToString();
+                    StatUtilisateur.Add(lecture);
                 }
-                StatUtilisateur.Add(readerer["Nbre_signalements_contre_utilisateur"].ToString());
+
+                reader.Close();
+                command.Dispose();
                 connection.Close();
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e.ToString());
             }
         }
     }

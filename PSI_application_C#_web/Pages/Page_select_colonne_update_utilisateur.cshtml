@@ -1,0 +1,86 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_select_colonne_update_utilisateurModel
+@{
+    ViewData["Title"] = "Sélectionner une Propriété de l'utilisateur";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Sélectionner une propriété de l'utilisateteur à modifier :</h1>
+        <form method="post">
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Nom_utilisateur" />
+                    Nom_utilisateur
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Prénom_utilisateur" />
+                    Prénom_utilisateur
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Mot_de_passe_utilisateur" />
+                    Mot_de_passe_utilisateur
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Adresse_utilisateur" />
+                    Adresse_utilisateur
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Num_tel_utilisateur" />
+                    Num_tel_utilisateur
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="adresse_mail_utilisateur" />
+                    adresse_mail_utilisateur
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Nom_entreprise" />
+                    Nom_entreprise (si vous choisissez de modifier ce paramètre alors que vous être particulier, vous deviendez automatiquement entreprise)
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Arreter_etre_entreprise" />
+                    Régime alimentaire
+                </label>
+            </div>
+            <p>@ViewData["Erreur_selection"]</p>
+            <button type="submit">Soumettre la sélection</button>
+        </form>
+    </main>
+
+    <footer style="text-align: center; margin-top: 40px;">
+        &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+    </footer>
+</body>
+</html>

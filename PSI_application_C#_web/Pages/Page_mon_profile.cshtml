@@ -1,6 +1,8 @@
 ﻿@page
 @model PSI_application_C__web.Pages.Page_mon_profileModel
 @{
+    ViewData["Title"] = "Afficher le profil de l'utilisateur";
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -55,6 +57,12 @@
                     Nombre de signalement : @Model.StatUtilisateur[5]
                 </tr>
             }
+            <button type="button" onclick="window.location.href='/Page_select_colonne_update_utilisateur'">
+                Modifier mon profil
+            </button>
+            <button type="button" onclick="window.location.href='/Page_accueil_connecte'">
+                Ne pas modifier mon profil et retourner à la page d'accueil
+            </button>
         </div>
 
 
