@@ -1,6 +1,5 @@
 ﻿@page
 @model PSI_application_C__web.Pages.Page_finaliser_commandeModel
-
 @{
     ViewData["Title"] = "Page finalisation commande";
     Layout = null;
@@ -27,34 +26,19 @@
     <main>
         <h1>Finalisation de la commande :</h1>
         <form method="post">
-
             <div>
-                <p>Voulez-vous finialiser la commande ?</p>
+                <p>Que souhaitez-vous faire avec la commande ?</p>
                 <label>
-                    <input type="radio" asp-for="saisie_arreter_commande" value="true" />
-                    Oui
-                </label>
+                    <input type="radio" name="Option_choisie" value="Arreter_commande" />
+                    Arrêter la commande
+                </label><br>
                 <label>
-                    <input type="radio" asp-for="saisie_arreter_commande" value="false" />
-                    Non
-                </label>
-                <p>Voulez-vous continuer la commande ?</p>
+                    <input type="radio" name="Option_choisie" value="Continuer_commande" />
+                    Continuer la commande
+                </label><br>
                 <label>
-                    <input type="radio" asp-for="saisie_continuer_commande" value="true" />
-                    Oui
-                </label>
-                <label>
-                    <input type="radio" asp-for="saisie_continuer_commande" value="false" />
-                    Non
-                </label>
-                <p>Voulez-vous annuler la commande ?</p>
-                <label>
-                    <input type="radio" asp-for="saisie_annuler_commande" value="true" />
-                    Oui
-                </label>
-                <label>
-                    <input type="radio" asp-for="saisie_annuler_commande" value="false" />
-                    Non
+                    <input type="radio" name="Option_choisie" value="annuler_commande" />
+                    Annuler la commande
                 </label>
             </div>
             <p>@ViewData["Erreur_choix_finaliser_commande"]</p>
@@ -67,5 +51,3 @@
     </footer>
 </body>
 </html>
-
-

@@ -83,7 +83,6 @@ namespace PSI_application_C__web.Pages
             if (afficher_tout)
             {
                 Plats = Plat.RechercherTousLesTuplesPlat("WHERE nbre_portion_dispo_plat >=1");
-                Console.WriteLine($"Nombre de plats récupérés : {Plats.Count}");
             }
             if (afficher_par_nationalite)
             {
@@ -108,12 +107,11 @@ namespace PSI_application_C__web.Pages
             if (saisie_id_plat_voulu == null || saisie_id_plat_voulu.Length == 0)
             {
                 ViewData["Erreur_saisie_id_vide"] = "Il faut saisir l'id du plat que vous voulez";
-                TempData["Affiche_tout"] = TempData["Affiche_tout"];
-                TempData["Affiche_nationalite"] = TempData["Affiche_nationalite"];
-                TempData["Affiche_regime_alimentaire"] = TempData["Affiche_regime_alimentaire"];
-                TempData["Affiche_prix_croissant"] = TempData["Affiche_prix_croissant"];
-                TempData["Affiche_prix_decroissant"] = TempData["Affiche_prix_decroissant"];
-                Console.WriteLine("Recharge réussie de la page");
+                TempData["Affiche_tout"] = afficher_tout;
+                TempData["Affiche_nationalite"] = afficher_par_nationalite;
+                TempData["Affiche_regime_alimentaire"] = afficher_par_regime_alimentaire;
+                TempData["Affiche_prix_croissant"] = afficher_par_prix_croissant;
+                TempData["Affiche_prix_decroissant"] = afficher_par_prix_decroissant;
                 return Page();
             }
             if (afficher_par_nationalite)
@@ -125,12 +123,11 @@ namespace PSI_application_C__web.Pages
                 if (Plat.IdPlatExiste(int.Parse(saisie_id_plat_voulu), filtre, valeur_filtre, "AND nbre_portion_dispo_plat >=1") == false)
                 {
                     ViewData["Erreur_saisie_id_vide"] = "Il faut saisir une id proposé parmis celle ci-dessous";
-                    TempData["Affiche_tout"] = TempData["Affiche_tout"];
-                    TempData["Affiche_nationalite"] = TempData["Affiche_nationalite"];
-                    TempData["Affiche_regime_alimentaire"] = TempData["Affiche_regime_alimentaire"];
-                    TempData["Affiche_prix_croissant"] = TempData["Affiche_prix_croissant"];
-                    TempData["Affiche_prix_decroissant"] = TempData["Affiche_prix_decroissant"];
-                    Console.WriteLine("Recharge réussie de la page");
+                    TempData["Affiche_tout"] = afficher_tout;
+                    TempData["Affiche_nationalite"] = afficher_par_nationalite;
+                    TempData["Affiche_regime_alimentaire"] = afficher_par_regime_alimentaire;
+                    TempData["Affiche_prix_croissant"] = afficher_par_prix_croissant;
+                    TempData["Affiche_prix_decroissant"] = afficher_par_prix_decroissant;
                     return Page();
                 }
             }
@@ -143,46 +140,44 @@ namespace PSI_application_C__web.Pages
                 if (Plat.IdPlatExiste(int.Parse(saisie_id_plat_voulu), filtre, valeur_filtre, "AND nbre_portion_dispo_plat >=1") == false)
                 {
                     ViewData["Erreur_saisie_id_vide"] = "Il faut saisir une id proposé parmis celle ci-dessous";
-                    TempData["Affiche_tout"] = TempData["Affiche_tout"];
-                    TempData["Affiche_nationalite"] = TempData["Affiche_nationalite"];
-                    TempData["Affiche_regime_alimentaire"] = TempData["Affiche_regime_alimentaire"];
-                    TempData["Affiche_prix_croissant"] = TempData["Affiche_prix_croissant"];
-                    TempData["Affiche_prix_decroissant"] = TempData["Affiche_prix_decroissant"];
-                    Console.WriteLine("Recharge réussie de la page");
+                    TempData["Affiche_tout"] = afficher_tout;
+                    TempData["Affiche_nationalite"] = afficher_par_nationalite;
+                    TempData["Affiche_regime_alimentaire"] = afficher_par_regime_alimentaire;
+                    TempData["Affiche_prix_croissant"] = afficher_par_prix_croissant;
+                    TempData["Affiche_prix_decroissant"] = afficher_par_prix_decroissant;
                     return Page();
                 }
             }
             if (Plat.IdPlatExiste(int.Parse(saisie_id_plat_voulu), "", "", "AND nbre_portion_dispo_plat >=1") == false)
             {
                 ViewData["Erreur_saisie_id_vide"] = "Il faut saisir une id proposé parmis celle ci-dessous";
-                TempData["Affiche_tout"] = TempData["Affiche_tout"];
-                TempData["Affiche_nationalite"] = TempData["Affiche_nationalite"];
-                TempData["Affiche_regime_alimentaire"] = TempData["Affiche_regime_alimentaire"];
-                TempData["Affiche_prix_croissant"] = TempData["Affiche_prix_croissant"];
-                TempData["Affiche_prix_decroissant"] = TempData["Affiche_prix_decroissant"];
-                Console.WriteLine("Recharge réussie de la page");
+                TempData["Affiche_tout"] = afficher_tout;
+                TempData["Affiche_nationalite"] = afficher_par_nationalite;
+                TempData["Affiche_regime_alimentaire"] = afficher_par_regime_alimentaire;
+                TempData["Affiche_prix_croissant"] = afficher_par_prix_croissant;
+                TempData["Affiche_prix_decroissant"] = afficher_par_prix_decroissant;
                 return Page();
             }
 
             if (saisie_nbre_plat_voulu == null || saisie_nbre_plat_voulu.Length == 0)
             {
                 ViewData["Erreur_saisie_nbre_plat_voulu"] = "Il faut saisir un nombre de portion voulu";
-                TempData["Affiche_tout"] = TempData["Affiche_tout"];
-                TempData["Affiche_nationalite"] = TempData["Affiche_nationalite"];
-                TempData["Affiche_regime_alimentaire"] = TempData["Affiche_regime_alimentaire"];
-                TempData["Affiche_prix_croissant"] = TempData["Affiche_prix_croissant"];
-                TempData["Affiche_prix_decroissant"] = TempData["Affiche_prix_decroissant"];
+                TempData["Affiche_tout"] = afficher_tout;
+                TempData["Affiche_nationalite"] = afficher_par_nationalite;
+                TempData["Affiche_regime_alimentaire"] = afficher_par_regime_alimentaire;
+                TempData["Affiche_prix_croissant"] = afficher_par_prix_croissant;
+                TempData["Affiche_prix_decroissant"] = afficher_par_prix_decroissant;
                 return Page();
             }
             
             if (int.Parse(saisie_nbre_plat_voulu) > Plat.ConnaitreNbrePortionDispo(int.Parse(saisie_id_plat_voulu)))
             {
                 ViewData["Erreur_saisie_nbre_plat_voulu"] = "Il faut saisir le nombre de portions voulues dans la limite des stocks disponibles";
-                TempData["Affiche_tout"] = TempData["Affiche_tout"];
-                TempData["Affiche_nationalite"] = TempData["Affiche_nationalite"];
-                TempData["Affiche_regime_alimentaire"] = TempData["Affiche_regime_alimentaire"];
-                TempData["Affiche_prix_croissant"] = TempData["Affiche_prix_croissant"];
-                TempData["Affiche_prix_decroissant"] = TempData["Affiche_prix_decroissant"];
+                TempData["Affiche_tout"] = afficher_tout;
+                TempData["Affiche_nationalite"] = afficher_par_nationalite;
+                TempData["Affiche_regime_alimentaire"] = afficher_par_regime_alimentaire;
+                TempData["Affiche_prix_croissant"] = afficher_par_prix_croissant;
+                TempData["Affiche_prix_decroissant"] = afficher_par_prix_decroissant;
                 return Page();
             }
             int id_plat = int.Parse(saisie_id_plat_voulu);
@@ -195,7 +190,7 @@ namespace PSI_application_C__web.Pages
                 Contient contient = new Contient(id_plat, id_commande_anterieure, nbre_portion_voulue);
                 Contient.AjoutContientBDD(contient);
                 int nouveau_nbre_portion_disponible = Plat.ConnaitreNbrePortionDispo(id_plat) - nbre_portion_voulue;
-                Plat.MettreAjourAttributNbre_portion_dispo(id_plat, nouveau_nbre_portion_disponible);
+                Plat.MettreAjourTupleColonne(id_plat, "nbre_portion_dispo_plat", nouveau_nbre_portion_disponible.ToString(), "AND nbre_portion_dispo_plat >=1");
                 Commande.MettreAjourAttributTailleCommande(id_commande_anterieure, nbre_portion_voulue);
                 double prix_maj_commande = nbre_portion_voulue * Plat.ConnaitrePrixPortion(id_plat);
                 Commande.MettreAjourAttributPrixCommande(id_commande_anterieure, prix_maj_commande);
@@ -218,7 +213,7 @@ namespace PSI_application_C__web.Pages
             Console.WriteLine("nbre portion voulue : " + nbre_portion_voulue);
             int nouveau_nbre_portion_dispo = Plat.ConnaitreNbrePortionDispo(id_plat) - nbre_portion_voulue;
             Console.WriteLine("nbre portion voulue : " + nouveau_nbre_portion_dispo);
-            Plat.MettreAjourAttributNbre_portion_dispo(id_plat, nouveau_nbre_portion_dispo);
+            Plat.MettreAjourTupleColonne(id_plat, "nbre_portion_dispo_plat", nouveau_nbre_portion_dispo.ToString(), "AND nbre_portion_dispo_plat >=1");
             TempData["Id_commande_memoire"] = id_commande;
             return RedirectToPage("Page_finaliser_commande");
         }

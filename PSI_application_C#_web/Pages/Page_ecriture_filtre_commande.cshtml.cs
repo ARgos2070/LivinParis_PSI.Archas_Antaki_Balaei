@@ -34,6 +34,7 @@ namespace PSI_application_C__web.Pages
                 Console.WriteLine("liste tuple est null");
             }
             TempData["Filtre"] = filtre;
+            Console.WriteLine("Filtre 1 : " + filtre);
         }
 
         public static bool SaisieEstTuple(List<string> liste_tuple,string saisie)

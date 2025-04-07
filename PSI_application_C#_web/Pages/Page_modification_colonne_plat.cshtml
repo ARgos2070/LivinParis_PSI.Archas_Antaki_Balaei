@@ -1,0 +1,85 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_modification_colonne_platModel
+@{
+    ViewData["Title"] = "Page modification colonne";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Modification de la variable :</h1>
+        <h2>Voici l'ancienne valeur de cette variable : @ViewData["Ancienne_valeur"]</h2>
+        <h2>Veuillez écrire la nouvelle ci-dessous :</h2>
+        <form method="post">
+            @if (Model.Type_colonne == "string")
+            {
+                <div>
+                    <label asp-for="saisie_string">Nouvelle valeur (string) :</label>
+                    <input type="text" asp-for="saisie_string" maxlength="50" />
+                    <p>@ViewData["Erreur_type_plat"]</p>
+                </div>
+            }
+
+            @if (Model.Type_colonne == "int")
+            {
+                <div>
+                    <label asp-for="saisie_int">Nouvelle valeur (int) :</label>
+                    <input type="text" asp-for="saisie_int" maxlength="8" pattern="\d" required />
+                    <p>@ViewData["Erreur_pr_cmb_de_personnes_plat"]</p>
+                </div>
+            }
+
+            @if (Model.Type_colonne == "double")
+            {
+                <div>
+                    <label asp-for="saisie_double">Nouvelle valeur (double) :</label>
+                    <input type="text" asp-for="saisie_double" maxlength="8" pattern="^\d+([.]\d{1,2})?$" required />
+                    <p>@ViewData["Erreur_prix_par_perso_plat"]</p>
+                </div>
+            }
+
+            @if (Model.Type_colonne == "date")
+            {
+                <p>Date :</p>
+                <div>
+                    <label asp-for="saisie_date_jour">Jour :</label>
+                    <input type="text" asp-for="saisie_date_jour" maxlength="2" pattern="\d{1,2}" required />
+                </div>
+                <div>
+                    <label asp-for="saisie_date_mois">Mois :</label>
+                    <input type="text" asp-for="saisie_date_mois" maxlength="2" pattern="\d{1,2}" required />
+                </div>
+                <div>
+                    <label asp-for="saisie_date_annee">Année :</label>
+                    <input type="text" asp-for="saisie_date_annee" maxlength="4" pattern="\d{4}" required />
+                    <p>@ViewData["Erreur_date_fabrication_plat"]</p>
+                </div>
+            }
+
+            <p>@ViewData["Erreur_selection"]</p>
+            <button type="submit">Soumettre la sélection</button>
+        </form>
+    </main>
+
+    <footer style="text-align: center; margin-top: 40px;">
+        &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+    </footer>
+</body>
+</html>

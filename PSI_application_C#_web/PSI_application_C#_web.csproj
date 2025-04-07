@@ -18,12 +18,14 @@
     <Compile Remove="Pages\Ajout_plat.cshtml.cs" />
     <Compile Remove="Pages\Error.cshtml.cs" />
     <Compile Remove="Pages\Index.cshtml.cs" />
+    <Compile Remove="Pages\Page_faire_une_commande.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Pages\Ajout_plat.cshtml" />
     <Content Remove="Pages\Error.cshtml" />
     <Content Remove="Pages\Index.cshtml" />
+    <Content Remove="Pages\Page_faire_une_commande.cshtml" />
     <Content Remove="Pages\Shared\_Layout.cshtml" />
   </ItemGroup>
 

@@ -20,7 +20,6 @@ namespace PSI_application_C__web.Pages
         public void OnGet()
         {
             Id_utilisateur_session = (string)TempData["Id_utilisateur_session"];
-            Console.WriteLine("Voici l'id reçu : " + Id_utilisateur_session);
             if (Cuisinier.IdCuisinierDunUtilisateur(Id_utilisateur_session) != 0)
             {
                 Est_cuisinier = true;
@@ -44,7 +43,6 @@ namespace PSI_application_C__web.Pages
             TempData["Id_client"] = id_client_connecte;
             TempData["Id_livreur"] = id_livreur_connecte;
             TempData["Id_commande_memoire"] = 0;
-            Console.WriteLine("idclient" + id_client_connecte + " idcuisinier" + id_cuisinier_connecte + " idlivreur" + id_livreur_connecte);
         }
 
         public IActionResult OnPost()

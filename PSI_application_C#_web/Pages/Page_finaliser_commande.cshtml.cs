@@ -8,13 +8,7 @@ namespace PSI_application_C__web.Pages
         private readonly ILogger<Page_finaliser_commandeModel> _logger;
 
         [BindProperty]
-        public bool saisie_arreter_commande { get; set; }
-
-        [BindProperty]
-        public bool saisie_continuer_commande { get; set; }
-
-        [BindProperty]
-        public bool saisie_annuler_commande { get; set; }
+        public string Option_choisie { get; set; }
 
         public Page_finaliser_commandeModel(ILogger<Page_finaliser_commandeModel> logger)
         {
@@ -29,22 +23,26 @@ namespace PSI_application_C__web.Pages
 
         public IActionResult OnPost()
         {
-            if (saisie_continuer_commande == true && saisie_arreter_commande == false && saisie_annuler_commande == false)
+            if (Option_choisie == null || Option_choisie.Length == 0)
             {
-                return RedirectToPage("Page_commander");
+                ViewData["Erreur_choix_finaliser_commande"] = "Veuillez sélectionner une option.";
+                return Page();
             }
-            if (saisie_continuer_commande == false && saisie_arreter_commande == true && saisie_annuler_commande == false)
+
+            switch (Option_choisie)
             {
-                return RedirectToPage("Page_accueil_connecte");
+                case "Continuer_commande":
+                    return RedirectToPage("Page_commander");
+                case "Arreter_commande":
+                    return RedirectToPage("Page_accueil_connecte");
+                case "annuler_commande":
+                    int id_commande_passe = (int)TempData["Id_commande_memoire"];
+                    Commande.SupprimerCommande(id_commande_passe);
+                    return RedirectToPage("Page_accueil_connecte");
+                default:
+                    ViewData["Erreur_choix_finaliser_commande"] = "Veuillez sélectionner une option valide.";
+                    return Page();
             }
-            if (saisie_continuer_commande == false && saisie_arreter_commande == false && saisie_annuler_commande == true)
-            {
-                int id_commande_passe = (int)TempData["Id_commande_memoire"];
-                Commande.SupprimerCommande(id_commande_passe);
-                return RedirectToPage("Page_accueil_connecte");
-            }
-            ViewData["Erreur_saisir_un_choix"] = "Il ne faut saisir qu'une seule option merci";
-            return Page();
         }
     }
 }

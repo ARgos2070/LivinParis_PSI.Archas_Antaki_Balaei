@@ -522,7 +522,7 @@ namespace PSI_application_C__web
             return nbre_dispo;
         }
 
-        public void MettreAjourAttributNom(string nouveau_nom)
+        public static void MettreAjourTupleColonne(int id_plat, string nom_colonne, string nouvelle_valeur, string param_optionnel)
         {
             try
             {
@@ -530,7 +530,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Nom_plat = '" + nouveau_nom + "' WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
+                command.CommandText = "UPDATE Plat SET " + nom_colonne + " = " + nouvelle_valeur + " WHERE ID_Plat =" + id_plat + " " + param_optionnel + ";";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -539,157 +539,70 @@ namespace PSI_application_C__web
             { Console.WriteLine(e.ToString()); }
         }
 
-        public void MettreAjourAttributType(string nouveau_type)
+        public static bool VerifierCoherenceDate(int id_plat, string nom_colonne, string nouvelle_valeur)
         {
-            try
+            bool est_correct = false;
+            if (nom_colonne == "date_fabrication_plat")
             {
-                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
-                MySqlConnection connection = new MySqlConnection(ligneConnexion);
-                connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Type_Plat = '" + nouveau_type + "' WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
-                command.ExecuteNonQuery();
-                command.Dispose();
-                connection.Close();
-            }
-            catch (Exception e)
-            { Console.WriteLine(e.ToString()); }
-        }
+                try
+                {
+                    string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                    MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                    connection.Open();
+                    MySqlCommand command = connection.CreateCommand();
+                    command.CommandText = "SELECT date_péremption_plat FROM Plat WHERE ID_Plat =" + id_plat + ";";
+                    MySqlDataReader reader;
+                    reader = command.ExecuteReader();
+                    string lecture_nbre_dispo = "";
+                    while (reader.Read())
+                    {
+                        lecture_nbre_dispo = reader["date_péremption_plat"].ToString();
 
-        public void MettreAjourAttributPr_cmb_de_personnes(int nouveau_pr_cmb_de_personnes)
-        {
-            try
-            {
-                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
-                MySqlConnection connection = new MySqlConnection(ligneConnexion);
-                connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Pr_cmb_de_personnes_Plat = " + nouveau_pr_cmb_de_personnes + " WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
-                command.ExecuteNonQuery();
-                command.Dispose();
-                connection.Close();
+                    }
+                    DateTime date_peremption = DateTime.Parse(lecture_nbre_dispo);
+                    reader.Close();
+                    command.Dispose();
+                    connection.Close();
+                    DateTime date_fabrication = DateTime.Parse(nouvelle_valeur);
+                    if (date_peremption<=date_fabrication)
+                    {
+                        est_correct = true;
+                    }
+                }
+                catch (Exception e)
+                { Console.WriteLine(e.ToString()); }
             }
-            catch (Exception e)
-            { Console.WriteLine(e.ToString()); }
-        }
+            else
+            {
+                try
+                {
+                    string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
+                    MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                    connection.Open();
+                    MySqlCommand command = connection.CreateCommand();
+                    command.CommandText = "SELECT date_fabrication_plat FROM Plat WHERE ID_Plat =" + id_plat + ";";
+                    MySqlDataReader reader;
+                    reader = command.ExecuteReader();
+                    string lecture_nbre_dispo = "";
+                    while (reader.Read())
+                    {
+                        lecture_nbre_dispo = reader["date_fabrication_plat"].ToString();
 
-        public void MettreAjourAttributPrix_par_portion(double nouveau_prix_par_portion)
-        {
-            try
-            {
-                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
-                MySqlConnection connection = new MySqlConnection(ligneConnexion);
-                connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Prix_par_portion_Plat = " + nouveau_prix_par_portion + " WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
-                command.ExecuteNonQuery();
-                command.Dispose();
-                connection.Close();
+                    }
+                    DateTime date_fabrication = DateTime.Parse(lecture_nbre_dispo);
+                    reader.Close();
+                    command.Dispose();
+                    connection.Close();
+                    DateTime date_peremption = DateTime.Parse(nouvelle_valeur);
+                    if (date_peremption <= date_fabrication)
+                    {
+                        est_correct = true;
+                    }
+                }
+                catch (Exception e)
+                { Console.WriteLine(e.ToString()); }
             }
-            catch (Exception e)
-            { Console.WriteLine(e.ToString()); }
-        }
-
-        public static void MettreAjourAttributNbre_portion_dispo(int id_plat, int nouveau_nbre_portion_dispo)
-        {
-            try
-            {
-                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
-                MySqlConnection connection = new MySqlConnection(ligneConnexion);
-                connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET nbre_portion_dispo_plat = " + nouveau_nbre_portion_dispo + " WHERE ID_Plat =" + id_plat + " AND nbre_portion_dispo_plat >=1;";
-                command.ExecuteNonQuery();
-                command.Dispose();
-                connection.Close();
-            }
-            catch (Exception e)
-            { Console.WriteLine(e.ToString()); }
-        }
-
-        public void MettreAjourAttributDate_fabrication(string nouveau_date_fabrication)
-        {
-            try
-            {
-                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
-                MySqlConnection connection = new MySqlConnection(ligneConnexion);
-                connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET date_fabrication_plat = '" + nouveau_date_fabrication + "' WHERE ID_Plat = " + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
-                command.ExecuteNonQuery();
-                command.Dispose();
-                connection.Close();
-            }
-            catch (Exception e)
-            { Console.WriteLine(e.ToString()); }
-        }
-
-        public void MettreAjourAttributDate_peremption(string nouveau_date_peremption)
-        {
-            try
-            {
-                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
-                MySqlConnection connection = new MySqlConnection(ligneConnexion);
-                connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET date_péremption_plat = '" + nouveau_date_peremption + "' WHERE ID_Plat = " + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
-                command.ExecuteNonQuery();
-                command.Dispose();
-                connection.Close();
-            }
-            catch (Exception e)
-            { Console.WriteLine(e.ToString()); }
-        }
-
-        public void MettreAjourAttributNationalite(string nouveau_nationalite)
-        {
-            try
-            {
-                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
-                MySqlConnection connection = new MySqlConnection(ligneConnexion);
-                connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Nationalité_cuisine_Plat = '" + nouveau_nationalite + "' WHERE ID_Plat = " + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
-                command.ExecuteNonQuery();
-                command.Dispose();
-                connection.Close();
-            }
-            catch (Exception e)
-            { Console.WriteLine(e.ToString()); }
-        }
-
-        public void MettreAjourAttributRegime_alimentaire(string nouveau_regime_alimentaire)
-        {
-            try
-            {
-                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
-                MySqlConnection connection = new MySqlConnection(ligneConnexion);
-                connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Régime_alimentaire_Plat = '" + nouveau_regime_alimentaire + "' WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
-                command.ExecuteNonQuery();
-                command.Dispose();
-                connection.Close();
-            }
-            catch (Exception e)
-            { Console.WriteLine(e.ToString()); }
-        }
-
-        public void MettreAjourAttributIngredients_principaux(string nouveau_ingredients_principaux)
-        {
-            try
-            {
-                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=root;PASSWORD=root";
-                MySqlConnection connection = new MySqlConnection(ligneConnexion);
-                connection.Open();
-                MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Plat SET Ingrédients_principaux_Plat = '" + nouveau_ingredients_principaux + "' WHERE ID_Plat =" + this.id_plat + " AND nbre_portion_dispo_plat >=1;";
-                command.ExecuteNonQuery();
-                command.Dispose();
-                connection.Close();
-            }
-            catch (Exception e)
-            { Console.WriteLine(e.ToString()); }
+            return est_correct;
         }
         #endregion
     }
