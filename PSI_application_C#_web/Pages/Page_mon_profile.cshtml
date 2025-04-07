@@ -1,0 +1,67 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_mon_profileModel
+@{
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Voici vos Statistiques</h1>
+
+        <h2>Bonjour @Model.StatUtilisateur[1] @Model.StatUtilisateur[0]</h2>
+
+        <div>
+            <h4>Voici vos informations</h4>
+            <tr>
+                Adresse : @Model.StatUtilisateur[2]
+            </tr>
+            <tr>
+                Numèro de téléphone : @Model.StatUtilisateur[3]
+            </tr>
+            <tr>
+                Adresse mail : @Model.StatUtilisateur[4]
+            </tr>
+            <tr>
+                Address : @Model.StatUtilisateur[5]
+            </tr>
+            @if (Model.Est_entreprise)
+            {
+                <tr>
+                    Est une entreprise : @Model.StatUtilisateur[5]
+                </tr>
+                <tr>
+                    Nombre de signalement : @Model.StatUtilisateur[6]
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    Nombre de signalement : @Model.StatUtilisateur[5]
+                </tr>
+            }
+        </div>
+
+
+    </main>
+
+    <footer style="text-align: center; margin-top: 40px;">
+        &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+    </footer>
+</body>
+</html>
