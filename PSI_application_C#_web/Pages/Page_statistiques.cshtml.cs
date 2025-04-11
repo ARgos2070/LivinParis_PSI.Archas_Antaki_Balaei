@@ -38,6 +38,23 @@ namespace PSI_application_C__web.Pages
                     CookStats.Add(stat);
                 }
                 connection.Close();
+
+                MySqlConnection connection2 = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand commander2 = connection.CreateCommand();
+                commander.CommandText =
+                    "SELECT * FROM Utilisateur WHERE ID_utilisateur IN (SELECT ID_utilisateur FROM Cuisinier);";
+                readerer = commander.ExecuteReader();
+                lecture_id = "";
+                int count = 0;
+                while (readerer.Read())
+                {
+                    List<string> stat = new List<string>();
+                    CookStats[count].Add(readerer["Nom_utilisateur"].ToString());
+                    CookStats[count].Add(readerer["Prenom_utilisateur"].ToString());
+                    count++;
+                }
+                connection2.Close();
             }
             catch (Exception e)
             {

@@ -26,17 +26,30 @@
     <main>
         <h1>Voici vos Statistiques</h1>
 
-        <table>
+        <div>
             @foreach (List<string> stat in Model.CookStats)
             {
-                <tr>
-                    @foreach(string element in stat)
-                    {
-                        <td>@element</td>
-                    }
-                </tr>
+                <table>
+                    <tr>
+                        <td>Nom : @stat[3]</td>
+                    </tr>
+                    <tr>
+                        <td>Prenom : @stat[4]</td> <!-- index out of range -->
+                    </tr>
+                    <tr>
+                        <td style="padding-left: 20px;">Nombre de plat proposé par le cuisinier : @stat[0]</td>
+                    </tr>
+                    <tr>
+                        <td style="padding-left: 20px;">Plat du jour : @stat[1]</td>
+                    </tr>
+                    <tr>
+                        <td style="padding-left: 20px;">Nombre commandes cuisinées : @stat[2]</td>
+                    </tr>
+                </table>
+                <br />
             }
-        </table>
+        </div>
+
         
 
     </main>
