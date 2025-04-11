@@ -1,6 +1,8 @@
 ﻿@page
 @model PSI_application_C__web.Pages.Page_signale_utilisateurModel
 @{
+    ViewData["Title"] = "Signalez un l'utilisateur";
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -14,21 +16,27 @@
 </head>
 <body>
     <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
     </header>
 
     <div>
-        <h1>Connexion :</h1>
+        <h1>Pleinte :</h1>
         <form method="post">
             <small>La différence entre majuscule et minuscule n'a pas à être prise en compte dans l'identifiant</small>
             <div>
                 <label asp-for="nom_utilisateur_signale">Pseudo (id utilisateur) :</label>
-                <input type="text" asp-for="pleinte" maxlength="50" />
+                <input type="text" asp-for="nom_utilisateur_signale" maxlength="50" />
                 <p>@ViewData["Erreur_id_utilisateur_aucune_saisie"]</p>
                 <p>@ViewData["Erreur_id_utilisateur_incorrect"]</p>
             </div>
             <div>
-                <label asp-for="pleinte">Mot de passe :</label>
-                <input type="text" asp-for="pleinte" maxlength="50" />
+                <label asp-for="plainte">Plainte :</label>
+                <input type="text" asp-for="plainte" maxlength="50" />
                 <p>@ViewData["Erreur_pleinte_saisie"]</p>
             </div>
 

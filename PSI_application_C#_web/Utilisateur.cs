@@ -107,7 +107,6 @@ namespace PSI_application_C__web
                 while (reader.Read())
                 {
                     lecture = reader["ID_utilisateur_similaire"].ToString();
-
                 }
                 if (int.TryParse(lecture, out int resultat))
                 {
@@ -191,9 +190,11 @@ namespace PSI_application_C__web
                 while (reader.Read())
                 {
                     nbre_signalements_contre_utilisateur = 
-                        Convert.ToInt32(reader["Nbre_signalements_contre_utilisateur"]);
+                        Convert.ToInt32(reader["Nbre_signalements_contre_utilisateur"].ToString());
                 }
-                if(nbre_signalements_contre_utilisateur < 0)
+                command.Dispose();
+                connection.Close();
+                if (nbre_signalements_contre_utilisateur < 0)
                 {
                     throw new Exception("mauvaise connection");
                 }
@@ -202,13 +203,17 @@ namespace PSI_application_C__web
                     RadierUtilisateur(id_utilisateur);
                 }
                 else
-                {//potentiel erreur du a la reutilisation de commande de Get a un Post
-                    command = connection.CreateCommand();
-                    command.CommandText = "UPDATE Utilisateur SET Nbre_signalements_contre_utilisateur = "+
-                        nbre_signalements_contre_utilisateur+1 + " WHERE ID_utilisateur = '" + id_utilisateur + "';";
-                    command.ExecuteNonQuery();
-                    command.Dispose();
-                    connection.Close();
+                {
+                    nbre_signalements_contre_utilisateur++;
+
+                    MySqlConnection renvoyer_connection = new MySqlConnection(ligneConnexion);
+                    renvoyer_connection.Open();
+                    MySqlCommand renvoyer_command = renvoyer_connection.CreateCommand();
+                    renvoyer_command.CommandText = "UPDATE Utilisateur SET Nbre_signalements_contre_utilisateur = "+
+                        nbre_signalements_contre_utilisateur + " WHERE ID_utilisateur = '" + id_utilisateur + "';";
+                    renvoyer_command.ExecuteNonQuery();
+                    renvoyer_command.Dispose();
+                    renvoyer_connection.Close();
                 }
             }
             catch (Exception e)
