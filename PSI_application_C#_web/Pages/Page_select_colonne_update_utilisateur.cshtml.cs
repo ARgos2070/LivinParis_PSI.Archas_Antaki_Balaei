@@ -18,7 +18,6 @@ namespace PSI_application_C__web.Pages
         public void OnGet()
         {
             TempData["Id_utilisateur_session"] = TempData["Id_utilisateur_session"];
-            TempData["Id_plat_a_modifier"] = TempData["Id_plat_a_modifier"];
         }
 
         public IActionResult OnPost()
@@ -60,7 +59,7 @@ namespace PSI_application_C__web.Pages
                     TempData["Colonne_update"] = "Date_péremption_plat";
                     return RedirectToPage("Page_modification_colonne_utilisateur");
                 case "Continuer_etre_entreprise":
-                    TempData["Type_colonne"] = "string";
+                    TempData["Type_colonne"] = "bool";
                     TempData["Colonne_update"] = "Continuer_etre_entreprise";
                     return RedirectToPage("Page_modification_colonne_utilisateur");
                 default:

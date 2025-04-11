@@ -55,6 +55,7 @@ namespace PSI_application_C__web.Pages
                 reader.Close();
                 command.Dispose();
                 connection.Close();
+
             }
             catch (Exception e)
             {
