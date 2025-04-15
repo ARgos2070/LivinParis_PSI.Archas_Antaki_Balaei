@@ -9,11 +9,18 @@ namespace PSI_application_C__web.Pages
 {
     public class Page_statistiqueModel : PageModel
     {
-        public List<List<string>> CookStats { get; set; }
+        //public List<List<string>> CookStats { get; set; }
         
         public void OnGet()
         {
-            TempData["Id_utilisateur_session"] = TempData["Id_utilisateur_session"];
+            
+        }
+    }
+}
+
+/*
+ 
+ TempData["Id_utilisateur_session"] = TempData["Id_utilisateur_session"];
             this.CookStats = new List<List<string>>();
 
             try
@@ -29,11 +36,9 @@ namespace PSI_application_C__web.Pages
                 while (readerer.Read())
                 {
                     List<string> stat = new List<string>();
-                    //stat.Add(readerer["Nom_utilisateur"].ToString());
-                    //stat.Add(readerer["Prenom_utilisateur"].ToString());
-                    stat.Add(readerer["Nbre_plat_proposé_Cuisinier"].ToString());
-                    stat.Add(readerer["Plat_du_jour_Cuisinier"].ToString());
-                    stat.Add(readerer["Nbre_commandes_cuisinees_cuisinier"].ToString());
+                    //stat.Add(readerer["Nbre_plat_proposé_Cuisinier"].ToString());
+                    //stat.Add(readerer["Plat_du_jour_Cuisinier"].ToString());
+                    //stat.Add(readerer["Nbre_commandes_cuisinees_cuisinier"].ToString());
 
                     CookStats.Add(stat);
                 }
@@ -44,22 +49,28 @@ namespace PSI_application_C__web.Pages
                 MySqlCommand commander2 = connection.CreateCommand();
                 commander.CommandText =
                     "SELECT * FROM Utilisateur WHERE ID_utilisateur IN (SELECT ID_utilisateur FROM Cuisinier);";
-                readerer = commander.ExecuteReader();
+                MySqlDataReader readerer2 = commander.ExecuteReader();
                 lecture_id = "";
                 int count = 0;
-                while (readerer.Read())
+                while (readerer.Read() && count<CookStats.Count)
                 {
-                    List<string> stat = new List<string>();
-                    CookStats[count].Add(readerer["Nom_utilisateur"].ToString());
-                    CookStats[count].Add(readerer["Prenom_utilisateur"].ToString());
+                    //CookStats[count].Add(readerer2["Nom_utilisateur"].ToString());
+                    //CookStats[count].Add(readerer2["Prenom_utilisateur"].ToString());
                     count++;
                 }
                 connection2.Close();
+
+                foreach(List<string> stat in CookStats)
+                {
+                    foreach(string element in stat)
+                    {
+                        Console.WriteLine(element);
+                    }
+                    Console.WriteLine();
+                }
             }
             catch (Exception e)
             {
 
             }
-        }
-    }
-}
+ */
