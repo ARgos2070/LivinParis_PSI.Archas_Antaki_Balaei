@@ -73,7 +73,7 @@ namespace PSI_application_C__web.Pages
             TempData["Affiche_prix_decroissant"] = afficher_par_prix_decroissant;
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPostSubmitChoice()
         {
             bool afficher_tout = (bool)TempData["Affiche_tout"];
             bool afficher_par_nationalite = (bool)TempData["Affiche_nationalite"];

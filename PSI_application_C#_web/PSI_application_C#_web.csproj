@@ -25,6 +25,7 @@
     <Content Remove="Pages\Ajout_plat.cshtml" />
     <Content Remove="Pages\Error.cshtml" />
     <Content Remove="Pages\Index.cshtml" />
+    <Content Remove="Pages\Page_commentaires.cshtml" />
     <Content Remove="Pages\Page_faire_une_commande.cshtml" />
     <Content Remove="Pages\Shared\_Layout.cshtml" />
   </ItemGroup>
@@ -36,6 +37,10 @@
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="9.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Page_commentaires.cshtml" />
   </ItemGroup>
 
 </Project>

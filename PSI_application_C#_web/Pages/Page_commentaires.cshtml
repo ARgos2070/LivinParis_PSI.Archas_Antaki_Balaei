@@ -1,7 +1,7 @@
-﻿@page
-@model PSI_application_C__web.Pages.Page_statistiqueModel
+﻿@page 
+@model PSI_application_C__web.Pages.Page_commentairesModel
 @{
-    ViewData["Title"] = "Page statistique";
+    ViewData["Title"] = "Page commentaire";
     Layout = null;
 }
 
@@ -27,30 +27,27 @@
         <h1>Voici vos Statistiques</h1>
 
         <div>
-            @foreach (var stat in Model.CookStats)
+            @foreach (var Commentaire in Model.Commentaires)
             {
                 <table>
                     <tr>
-                        <td>Nom : @stat.Nom</td>
+                        <td>Nom : @Commentaire.Nom</td>
                     </tr>
                     <tr>
-                        <td>Prenom : @stat.Prenom</td>
+                        <td>Prenom : @Commentaire.Prenom</td>
                     </tr>
                     <tr>
-                        <td style="padding-left: 20px;">Nombre de plat proposé par le cuisinier : @stat.Nbre_plat_proposé</td>
+                        <td style="padding-left: 20px;">Plat du jour : @Commentaire.Note_Commentaire</td>
                     </tr>
                     <tr>
-                        <td style="padding-left: 20px;">Plat du jour : @stat.Plat_du_jour</td>
-                    </tr>
-                    <tr>
-                        <td style="padding-left: 20px;">Nombre commandes cuisinées : @stat.Nbre_commandes</td>
+                        <td style="padding-left: 20px;">Nombre commandes cuisinées : @Commentaire.Texte_Commentaire</td>
                     </tr>
                 </table>
                 <br />
             }
         </div>
 
-        
+
 
     </main>
 
@@ -59,4 +56,3 @@
     </footer>
 </body>
 </html>
-

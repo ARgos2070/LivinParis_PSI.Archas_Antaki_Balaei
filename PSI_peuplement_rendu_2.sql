@@ -36,7 +36,7 @@ VALUES
 (207, 'user_steve', 0);
 
 -- Insertion des cuisiniers
-INSERT INTO Cuisinier (ID_Cuisinier, Nbre_plat_proposé_Cuisinier, Plat_du_jour_Cuisinier, Nbre_commandes_cuisinees_cuisinier, ID_utilisateur)
+INSERT INTO Cuisinier (ID_Cuisinier, Nbre_plat_propose_Cuisinier, Plat_du_jour_Cuisinier, Nbre_commandes_cuisinees_cuisinier, ID_utilisateur)
 VALUES
 (301, 10, 'Pizza végétarienne', 0, 'user_alice'),
 (302, 15, 'Sushi', 0, 'user_louis'),
