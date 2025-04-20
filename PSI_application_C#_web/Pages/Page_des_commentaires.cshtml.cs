@@ -12,10 +12,8 @@ namespace PSI_application_C__web.Pages
         public void OnGet()
         {
             int ID_plat = 0;
-            Console.WriteLine("hey");
             if (TempData.ContainsKey("IdPlat"))
             {
-                Console.WriteLine(TempData["IDPlat"] as string);
                 int.TryParse(TempData["IDPlat"] as string,out ID_plat);
             }
 

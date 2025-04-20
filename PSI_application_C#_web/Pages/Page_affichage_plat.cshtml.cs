@@ -76,7 +76,6 @@ namespace PSI_application_C__web.Pages
         public IActionResult OnPostComentaire()
         {
             TempData["IDPlat"] = saisie_id_plat_voulu;
-            Console.WriteLine(saisie_id_plat_voulu);
             return RedirectToPage("./Page_des_commentaires");
         }
 
