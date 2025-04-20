@@ -1,0 +1,57 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_des_commentairesModel
+@{
+    ViewData["Title"] = "Page des commentaires";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Voici Les Commentaires de se plat</h1>
+
+        <div>
+            @foreach (var Commentaire in Model.Commentaires)
+            {
+                <table>
+                    <tr>
+                        <td>Nom : @Commentaire.Nom</td>
+                    </tr>
+                    <tr>
+                        <td>Prenom : @Commentaire.Prenom</td>
+                    </tr>
+                    <tr>
+                        <td style="padding-left: 20px;">Note : @Commentaire.Note_Commentaire</td>
+                    </tr>
+                    <tr>
+                        <td style="padding-left: 20px;">Remarque : @Commentaire.Texte_Commentaire</td>
+                    </tr>
+                </table>
+                <br />
+            }
+        </div>
+
+
+
+    </main>
+
+    <footer style="text-align: center; margin-top: 40px;">
+        &copy; 2025 - Application - <a asp-page="/Privacy">Privacy</a>
+    </footer>
+</body>
+</html>

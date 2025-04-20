@@ -1,22 +1,23 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
+using System.Reflection.PortableExecutable;
 
 namespace PSI_application_C__web.Pages
 {
-    public class Page_commentairesModel : PageModel
+    public class Page_des_commentairesModel : PageModel
     {
-        /* [BindProperty(SupportsGet = true)]
-        public int? IdPlat { get; set; }  // Nullable int to handle cases where it's missing
-        */
-
-        public List<Commentaire> Commentaires { get; set; } = new();
+        public List<Commentaire> Commentaires { get; set; } = new List<Commentaire>();
 
         public void OnGet()
         {
-            int ID_plat = 10;
-            //TempData["Id_Plat"] = TempData["Id_Plat"];
+            int ID_plat = 0;
+            Console.WriteLine("hey");
+            if (TempData.ContainsKey("IdPlat"))
+            {
+                Console.WriteLine(TempData["IDPlat"] as string);
+                int.TryParse(TempData["IDPlat"] as string,out ID_plat);
+            }
 
             const string connectionString = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
 
@@ -31,7 +32,7 @@ namespace PSI_application_C__web.Pages
                 "FROM Commentaire co " +
                 "INNER JOIN Client cl ON co.ID_Client = cl.ID_Client " +
                 "INNER JOIN Utilisateur u ON cl.ID_Utilisateur = u.ID_Utilisateur " +
-                "WHERE co.ID_Plat = " + ID_plat +";";
+                "WHERE co.ID_Plat = " + ID_plat + ";";
 
 
             using var command = new MySqlCommand(query, connection);
@@ -46,6 +47,23 @@ namespace PSI_application_C__web.Pages
                     reader.GetString(3)      // Prénom
                 ));
             }
+        }
+    }
+
+    public struct Commentaire
+    {
+        public int Note_Commentaire { get; }
+        public string Texte_Commentaire { get; }
+        public string Nom { get; }
+        public string Prenom { get; }
+
+        public Commentaire(int note_Commentaire, string texte_Commentaire,
+                       string nom, string prenom)
+        {
+            Note_Commentaire = note_Commentaire;
+            Texte_Commentaire = texte_Commentaire;
+            Nom = nom;
+            Prenom = prenom;
         }
     }
 }
