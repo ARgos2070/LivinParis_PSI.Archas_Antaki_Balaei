@@ -45,7 +45,7 @@ namespace PSI_application_C__web.Pages
             int id_plat_a_modifier = int.Parse(transition);
             TempData["Id_plat_a_modifier"] = TempData["Id_plat_a_modifier"];
             Type_colonne = TempData["Type_colonne"].ToString();
-            TempData["Typle_colonne"] = Type_colonne;
+            TempData["Type_colonne"] = Type_colonne;
             Nom_colonne = TempData["Colonne_update"].ToString();
             TempData["Colonne_update"] = Nom_colonne;
             List<string> list = Plat.RechercherTousLesTuplesDuneColonne(Nom_colonne, "WHERE ID_Plat = " + id_plat_a_modifier + "");

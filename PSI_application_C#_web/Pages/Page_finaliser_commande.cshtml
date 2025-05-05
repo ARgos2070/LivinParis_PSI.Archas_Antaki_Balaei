@@ -6,12 +6,110 @@
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PSI_application_C__web</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            header .btn {
+                background-color: #007bff;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+
+                header .btn:hover {
+                    background-color: #0056b3;
+                }
+
+        main {
+            background-color: #fff;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+            form div {
+                margin-bottom: 15px;
+            }
+
+            form label {
+                font-size: 16px;
+                margin-bottom: 5px;
+                color: #343a40;
+            }
+
+            form input[type="radio"] {
+                margin-right: 10px;
+            }
+
+            form button {
+                background-color: #28a745;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+                form button:hover {
+                    background-color: #218838;
+                }
+
+        p {
+            font-size: 14px;
+            color: red;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+            footer a {
+                color: #fff;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+    </style>
 </head>
 <body>
     <header>
@@ -46,7 +144,7 @@
         </form>
     </main>
 
-    <footer style="text-align: center; margin-top: 40px;">
+    <footer>
         &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
     </footer>
 </body>
