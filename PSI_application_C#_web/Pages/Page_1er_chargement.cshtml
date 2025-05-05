@@ -6,33 +6,174 @@
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PSI_application_C__web</title>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <!-- <link rel="stylesheet" href="~/PSI_application_C__web.styles.css" asp-append-version="true" /> -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-dark: #0056b3;
+            --background-color: #f8f9fa;
+            --card-bg: white;
+            --text-color: #333;
+            --accent-color: #17a2b8;
+            --sky-blue: #87CEEB; /* couleur bleu ciel */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--sky-blue); /* Arrière-plan bleu ciel */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: var(--primary-color);
+            padding: 15px;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            animation: fadeIn 1s ease;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+        }
+
+            .card img.illustration {
+                width: 100px;
+                margin-bottom: 20px;
+            }
+
+            .card img.tour-eiffel {
+                position: absolute;
+                bottom: -50px;
+                right: -40px;
+                width: 80px;
+                opacity: 0.2;
+                pointer-events: none;
+            }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        p.subtext {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 10px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+            max-width: 300px;
+        }
+
+            button:hover {
+                background-color: var(--primary-dark);
+                transform: scale(1.05);
+            }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+        }
+
+            footer a {
+                color: var(--accent-color);
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+        /* Animation sans conflit Razor */
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Style pour le logo ESILV */
+        .esilv {
+            width: 50px; /* Petite taille du logo */
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            opacity: 0.8; /* Légère transparence */
+        }
+    </style>
 </head>
 <body>
     <header>
+        Bienvenue sur Livin'Paris
     </header>
 
-    <div>
-        <h1>Bienvenue sur Livin'Paris</h1>
-        <button type="button" onclick="window.location.href='/Page_connexion_compte'">
-            Se connecter
-        </button>
-        <button type="button" onclick="window.location.href='/Page_choix_particulier_ou_entreprise'">
-            Se créer un compte
-        </button>
+    <div class="container">
+        <div class="card">
+            <img src="https://images.unsplash.com/vector-1739806651231-356b126f1668?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Bienvenue" class="illustration" />
+            <h1>Bienvenue sur Livin'Paris</h1>
+            <p class="subtext">Votre espace pour découvrir, partager et savourer la cuisine parisienne.</p>
+            <button type="button" onclick="window.location.href='/Page_connexion_compte'">
+                Se connecter
+            </button>
+            <button type="button" onclick="window.location.href='/Page_choix_particulier_ou_entreprise'">
+                Se créer un compte
+            </button>
+
+            <!-- Logo ESILV en bas à droite -->
+            <img src="https://www.esilv.fr/ecole-ingenieur/logos/logo_esilv_png_couleur.png" class="esilv" />
+        </div>
     </div>
 
     <footer>
-        <div>
-            &copy; 2025 - PSI_application_C__web - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
+        &copy; 2025 - PSI_application_C__web - <a asp-area="" asp-page="/Privacy">Privacy</a>
     </footer>
 </body>
 </html>
-

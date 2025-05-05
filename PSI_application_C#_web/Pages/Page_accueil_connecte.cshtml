@@ -6,47 +6,144 @@
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PSI_application_C__web</title>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!-- Police moderne -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-dark: #0056b3;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --header-bg: #0069d9;
+            --footer-bg: #212529;
+            --accent-color: #17a2b8;
+            --sky-blue: #87CEEB; /* couleur bleu ciel */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--sky-blue); /* Arrière-plan bleu ciel */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: var(--header-bg);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+        }
+
+            header a {
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+                background-color: var(--primary-dark);
+                padding: 10px 18px;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+            }
+
+                header a:hover {
+                    background-color: #003776;
+                }
+
+        main {
+            flex: 1;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 20px 0 10px;
+            font-weight: 500;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+            button:hover {
+                background-color: var(--primary-dark);
+                transform: scale(1.05);
+            }
+
+        footer {
+            background-color: var(--footer-bg);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+            footer a {
+                color: var(--accent-color);
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+        /* Logo ESILV en bas à droite */
+        .esilv {
+            width: 50px;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            opacity: 0.8;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <div>
-            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
-        </div>
-        <div>
-            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
-        </div>
+        <a asp-page="/Page_accueil_connecte">Accueil</a>
+        <a asp-page="/Page_1er_chargement">Déconnexion</a>
     </header>
 
     <main>
         <h1>Bienvenue sur votre accueil</h1>
         <div>
-            <button type="button" onclick="window.location.href='/Page_mon_profile'">
-                Voir profil ou modifier
-            </button>
-            <button type="button" onclick="window.location.href='/Page_statistiques'">
-                Voir les statistiques
-            </button>
-            <button type="button" onclick="window.location.href='/Page_signale_utilisateur'">
-                Signalez un Utilisateur
-            </button>
+            <button onclick="window.location.href='/Page_mon_profile'">Voir profil ou modifier</button>
+            <button onclick="window.location.href='/Page_statistiques'">Voir les statistiques</button>
+            <button onclick="window.location.href='/Page_signale_utilisateur'">Signalez un Utilisateur</button>
         </div>
 
         @if (Model.Est_cuisinier)
         {
             <p>Comme vous êtes cuisinier, voici vos fonctionnalités :</p>
             <div>
-                <button type="button" onclick="window.location.href='/Page_creation_plat'">
-                    Ajouter un plat
-                </button>
-                <button type="button" onclick="window.location.href='/Page_carte_cuisinier'">
-                    Voir ma carte de cuisinier
-                </button>
+                <button onclick="window.location.href='/Page_creation_plat'">Ajouter un plat</button>
+                <button onclick="window.location.href='/Page_carte_cuisinier'">Voir ma carte de cuisinier</button>
             </div>
         }
 
@@ -54,12 +151,8 @@
         {
             <p>Comme vous êtes client, voici vos fonctionnalités :</p>
             <div>
-                <button type="button" onclick="window.location.href='/Page_commander'">
-                    Voir les plats et commander
-                </button>
-                <button type="button" onclick="window.location.href='/Page_historique_commandes_client'">
-                    Voir l'historique de mes plats commandés
-                </button>
+                <button onclick="window.location.href='/Page_commander'">Voir les plats et commander</button>
+                <button onclick="window.location.href='/Page_historique_commandes_client'">Voir l'historique de mes plats commandés</button>
             </div>
         }
 
@@ -67,17 +160,16 @@
         {
             <p>Comme vous êtes livreur, voici vos fonctionnalités :</p>
             <div>
-                <button type="button" onclick="window.location.href='/Page_historique_livraisons'">
-                    Voir historique de mes livraisons
-                </button>
-                <button type="button" onclick="window.location.href='/Page_prise_livraison'">
-                    Prendre une livraison
-                </button>
+                <button onclick="window.location.href='/Page_historique_livraisons'">Voir historique de mes livraisons</button>
+                <button onclick="window.location.href='/Page_prise_livraison'">Prendre une livraison</button>
             </div>
         }
     </main>
 
-    <footer style="text-align: center; margin-top: 40px;">
+    <!-- Logo ESILV en bas à droite -->
+    <img src="https://www.esilv.fr/ecole-ingenieur/logos/logo_esilv_png_couleur.png" class="esilv" />
+
+    <footer>
         &copy; 2025 - Application - <a asp-page="/Privacy">Privacy</a>
     </footer>
 </body>

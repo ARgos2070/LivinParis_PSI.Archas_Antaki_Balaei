@@ -1,18 +1,131 @@
 ﻿@page
 @model PSI_application_C__web.Pages.Page_signale_utilisateurModel
 @{
-    ViewData["Title"] = "Signalez un l'utilisateur";
+    ViewData["Title"] = "Signalez un utilisateur";
     Layout = null;
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PSI_application_C__web</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <!-- <link rel="stylesheet" href="~/PSI_application_C__web.styles.css" asp-append-version="true" /> -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        header .btn:hover {
+            background-color: #0056b3;
+        }
+
+        main {
+            background-color: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        form div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form label {
+            font-size: 16px;
+            color: #333;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        p {
+            color: red;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        small {
+            font-size: 14px;
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -24,29 +137,31 @@
         </div>
     </header>
 
-    <div>
-        <h1>Pleinte :</h1>
+    <main>
+        <h1>Signalez un utilisateur</h1>
         <form method="post">
             <small>La différence entre majuscule et minuscule n'a pas à être prise en compte dans l'identifiant</small>
+
             <div>
                 <label asp-for="nom_utilisateur_signale">Pseudo (id utilisateur) :</label>
                 <input type="text" asp-for="nom_utilisateur_signale" maxlength="50" />
                 <p>@ViewData["Erreur_id_utilisateur_aucune_saisie"]</p>
                 <p>@ViewData["Erreur_id_utilisateur_incorrect"]</p>
             </div>
+
             <div>
                 <label asp-for="plainte">Plainte :</label>
                 <input type="text" asp-for="plainte" maxlength="50" />
                 <p>@ViewData["Erreur_pleinte_saisie"]</p>
             </div>
 
-            <button type="submit">Soumettre le choix</button>
+            <button type="submit">Soumettre la plainte</button>
         </form>
-    </div>
+    </main>
 
     <footer>
         <div>
-            &copy; 2025 - PSI_application_C__web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2025 - PSI_application_C__web - <a asp-page="/Privacy">Confidentialité</a>
         </div>
     </footer>
 </body>

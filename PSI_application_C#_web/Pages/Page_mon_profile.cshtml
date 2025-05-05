@@ -6,12 +6,114 @@
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PSI_application_C__web</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            header .btn {
+                background-color: #007bff;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+
+                header .btn:hover {
+                    background-color: #0056b3;
+                }
+
+        main {
+            background-color: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+        }
+
+        h2 {
+            color: #007bff;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .user-info {
+            margin-top: 20px;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+            .user-info p {
+                color: #555;
+            }
+
+            .user-info strong {
+                color: #007bff;
+            }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+            .buttons button {
+                background-color: #007bff;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+                width: 200px;
+            }
+
+                .buttons button:hover {
+                    background-color: #0056b3;
+                }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+            footer a {
+                color: white;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+    </style>
 </head>
 <body>
     <header>
@@ -28,22 +130,24 @@
 
         <h2>Bonjour @Model.StatUtilisateur[0]</h2>
 
-        <div>
+        <div class="user-info">
             <h4>Voici vos informations :</h4>
-            Mot de passe : @Model.StatUtilisateur[1]<br />
-            Prénom :  @Model.StatUtilisateur[3]<br />
-            Nom : @Model.StatUtilisateur[2]<br />
-            Adresse : @Model.StatUtilisateur[4]<br />
-            Numéro de téléphone : @Model.StatUtilisateur[5]<br />
-            Adresse mail : @Model.StatUtilisateur[6]<br />
-            Nombre de signalement : @Model.StatUtilisateur[9]<br />
+            <p><strong>Mot de passe :</strong> @Model.StatUtilisateur[1]</p>
+            <p><strong>Prénom :</strong> @Model.StatUtilisateur[3]</p>
+            <p><strong>Nom :</strong> @Model.StatUtilisateur[2]</p>
+            <p><strong>Adresse :</strong> @Model.StatUtilisateur[4]</p>
+            <p><strong>Numéro de téléphone :</strong> @Model.StatUtilisateur[5]</p>
+            <p><strong>Adresse mail :</strong> @Model.StatUtilisateur[6]</p>
+            <p><strong>Nombre de signalement :</strong> @Model.StatUtilisateur[9]</p>
+
             @if (Model.StatUtilisateur[7] == "true")
             {
-                <p>Est une entreprise: @Model.StatUtilisateur[7]</p>
-                <p>Nombre de signalement: @Model.StatUtilisateur[8]</p>
+                <p><strong>Est une entreprise :</strong> @Model.StatUtilisateur[7]</p>
+                <p><strong>Nombre de signalement entreprise :</strong> @Model.StatUtilisateur[8]</p>
             }
+        </div>
 
-            
+        <div class="buttons">
             <button type="button" onclick="window.location.href='/Page_select_colonne_update_utilisateur'">
                 Modifier mon profil
             </button>
@@ -51,12 +155,12 @@
                 Ne pas modifier mon profil et retourner à la page d'accueil
             </button>
         </div>
-
-
     </main>
 
-    <footer style="text-align: center; margin-top: 40px;">
-        &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+    <footer>
+        <div>
+            &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+        </div>
     </footer>
 </body>
 </html>
