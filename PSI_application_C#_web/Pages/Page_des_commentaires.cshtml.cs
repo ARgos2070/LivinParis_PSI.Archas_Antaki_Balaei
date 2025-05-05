@@ -18,10 +18,11 @@ namespace PSI_application_C__web.Pages
             int ID_plat_temp = 0;
             if (TempData.ContainsKey("IDPlat"))
             {
-                int.TryParse(TempData["IDPlat"] as string,out ID_plat_temp);
+                int.TryParse(TempData["IDPlat"] as string, out ID_plat_temp);
                 Console.WriteLine("ID plat recuperer : " + ID_plat_temp);
             }
             this.ID_plat = ID_plat_temp;
+            TempData["IDPlat"] = ID_plat;
 
             const string connectionString = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
 
@@ -55,8 +56,7 @@ namespace PSI_application_C__web.Pages
 
         public IActionResult OnPostCommentaire()
         {
-            Console.WriteLine("ID_plat = " + this.ID_plat);
-            TempData["IDPlat"] = this.ID_plat;
+            Console.WriteLine("ID_plat = " + TempData["IDPlat"]);
             return RedirectToPage("./Page_ajouter_commentaire");
         }
     }
