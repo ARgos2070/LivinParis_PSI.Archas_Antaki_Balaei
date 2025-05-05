@@ -174,13 +174,13 @@
     </header>
 
     <main>
-        <h1>Bienvenue dans la carte des plats (ou rebienvenue si vous êtiez parti mettre un filtre) :</h1>
+        <h1>Bienvenue dans votre carte de cuisinier :</h1>
         <form method="post">
 
             <div>
 
                 <div>
-                    <label asp-for="saisie_id_plat_voulu">Donner l'id du plat que vous souhaité prendre :</label>
+                    <label asp-for="saisie_id_plat_voulu">Donner l'id du plat que vous souhaité modifier :</label>
                     <input type="text" asp-for="saisie_id_plat_voulu" maxlength="3" pattern="\d{1,3}" required />
                 </div>
                 <p>@ViewData["Erreur_saisie_id_vide"]</p>

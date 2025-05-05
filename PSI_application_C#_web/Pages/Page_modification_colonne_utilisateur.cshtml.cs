@@ -17,7 +17,7 @@ namespace PSI_application_C__web.Pages
         public string saisie_string { get; set; }
 
         [BindProperty]
-        public string saisie_int { get; set; }
+        public string saisie_num_tel { get; set; }
 
         [BindProperty]
         public string saisie_double { get; set; }
@@ -43,59 +43,163 @@ namespace PSI_application_C__web.Pages
         {
             string id_utilisateur = TempData["Id_utilisateur_session"].ToString();
             TempData["Id_utilisateur_session"] = id_utilisateur;
-            //int id_cuisinier = Cuisinier.IdCuisinierDunUtilisateur(id_utilisateur);
-            //string transition = TempData["Id_plat_a_modifier"].ToString();
-            //int id_plat_a_modifier = int.Parse(transition);
-            //TempData["Id_plat_a_modifier"] = TempData["Id_plat_a_modifier"];
             Type_colonne = TempData["Type_colonne"].ToString();
-            TempData["Typle_colonne"] = Type_colonne;
+            TempData["Type_colonne"] = Type_colonne;
             Nom_colonne = TempData["Colonne_update"].ToString();
             TempData["Colonne_update"] = Nom_colonne;
-            List<string> list = Plat.RechercherTousLesTuplesDuneColonne(Nom_colonne, "WHERE ID_utilisateur = " + id_utilisateur + "");
+            Console.WriteLine("nom_colonne" + Nom_colonne);
+            Console.WriteLine(id_utilisateur);
+            List<string> list = Utilisateur.RechercherTousLesTuplesDuneColonneUtilisateur(Nom_colonne, "WHERE ID_utilisateur = '" + id_utilisateur + "'");
             ViewData["Ancienne_valeur"] = list[0];
             Console.WriteLine("Recalcule de l'ancienne variable");
         }
 
-        public IActionResult OnPost()
+        public static bool EstNumeroTelCorrect(string num_tel_saisie)
         {
-            //string transition = TempData["Id_plat_a_modifier"].ToString();
-            //int id_plat_a_modifier = int.Parse(transition);
+            bool est_correct = false;
+            if (num_tel_saisie != null && num_tel_saisie.Length > 0)
+            {
+                if (num_tel_saisie[0] == '0')
+                {
+                    est_correct = true;
+                    for (int i = 1; i < num_tel_saisie.Length; i++)
+                    {
+                        switch (num_tel_saisie[i])
+                        {
+                            case '0':
+                            case '1':
+                            case '2':
+                            case '3':
+                            case '4':
+                            case '5':
+                            case '6':
+                            case '7':
+                            case '8':
+                            case '9':
+                                break;
+                            default:
+                                est_correct = false;
+                                break;
+                        }
+                    }
+                }
+            }
+            return est_correct;
+        }
+
+        public static bool EstAdresseMailCorrect(string adresse_mail_saisie)
+        {
+            bool est_correct = false;
+            int nbre_arobase = 0;
+            if (adresse_mail_saisie != null && adresse_mail_saisie.Length > 0)
+            {
+                for (int i = 0; i < adresse_mail_saisie.Length; i++)
+                {
+                    if (adresse_mail_saisie[i] == '@')
+                    {
+                        nbre_arobase++;
+                    }
+                }
+            }
+            if (nbre_arobase == 1)
+            {
+                est_correct = true;
+            }
+            return est_correct;
+        }
+
+        public static bool EstPasUtilisateurSansRole(bool saisie_client, bool saisie_cuisinier, bool saisie_livreur)
+        {
+            bool est_correct = false;
+            if (saisie_client || saisie_cuisinier || saisie_livreur)
+            {
+                est_correct = true;
+            }
+            return est_correct;
+        }
+
+        public async Task<IActionResult> OnPost()
+        {
+            //string id_utilisateur = TempData["Id_utilisateur_session"] as string;
+            //TempData["Id_utilisateur_session"] = id_utilisateur;
+            //string type_colonne = TempData["Type_colonne"] as string;
+            //TempData["Type_colonne"] = type_colonne;
+            //string nom_colonne = TempData["Colonne_update"] as string;
+            //TempData["Colonne_update"] = nom_colonne;
+
             string id_utilisateur = TempData["Id_utilisateur_session"].ToString();
             TempData["Id_utilisateur_session"] = id_utilisateur;
-            string type_colonne = TempData["Type_colonne"].ToString();
-            TempData["Typle_colonne"] = type_colonne;
-            string nom_colonne = TempData["Colonne_update"].ToString();
+            string type_colonne = (string)TempData["Type_colonne"];
+            TempData["Type_colonne"] = type_colonne;
+            string nom_colonne = (string)TempData["Colonne_update"];
             TempData["Colonne_update"] = nom_colonne;
-            bool saisie_string_valide = saisie_string != null && saisie_string.Length > 0;
-            bool saisie_int_valide = saisie_int != null && saisie_int.Length > 0;
-            bool saisie_double_valide = saisie_double != null && saisie_double.Length > 0;
-            bool saisie_adresse_num = this.saisie_adresse_num != null && this.saisie_adresse_num.Length > 0;
-            bool saisie_adresse_rue = this.saisie_adresse_rue != null && this.saisie_adresse_rue.Length > 0;
-            bool saisie_adresse_ville = this.saisie_adresse_ville != null && this.saisie_adresse_ville.Length > 0;
-            bool saisie_adresse_code_postal = this.saisie_adresse_code_postal != null && this.saisie_adresse_code_postal.Length > 0;
-            Console.WriteLine("Test1");
+            Console.WriteLine("nom_colonne" + Nom_colonne);
+            Console.WriteLine(id_utilisateur);
+            List<string> list = Utilisateur.RechercherTousLesTuplesDuneColonneUtilisateur(nom_colonne, "WHERE ID_utilisateur = '" + id_utilisateur + "'");
+            ViewData["Ancienne_valeur"] = list[0];
+            Console.WriteLine("Recalcule de l'ancienne variable");
+
+            bool saisie_string_valide = !string.IsNullOrEmpty(saisie_string);
+            bool saisie_num_tel_valide = !string.IsNullOrEmpty(saisie_num_tel) && EstNumeroTelCorrect(saisie_num_tel);
+            bool saisie_double_valide = !string.IsNullOrEmpty(saisie_double);
+            bool saisie_adresse_num_valide = !string.IsNullOrEmpty(saisie_adresse_num);
+            bool saisie_adresse_rue_valide = !string.IsNullOrEmpty(saisie_adresse_rue);
+            bool saisie_adresse_ville_valide = !string.IsNullOrEmpty(saisie_adresse_ville);
+            bool saisie_adresse_code_postal_valide = !string.IsNullOrEmpty(saisie_adresse_code_postal);
+
             if (saisie_string_valide)
             {
-                Utilisateur.MettreAjourTupleColonneUtilisateur(id_utilisateur, nom_colonne, "'" + saisie_string + "'", "");
+                Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, "'" + saisie_string + "'", "");
                 return RedirectToPage("Page_accueil_connecte");
             }
-            Console.WriteLine("Test1");
-            if (saisie_int_valide)
+            else if (!saisie_string_valide)
             {
-                Utilisateur.MettreAjourTupleColonneUtilisateur(id_utilisateur, nom_colonne, saisie_int, "");
-                return RedirectToPage("Page_accueil_connecte");
+                TempData["Erreur_saisie"] = "Vous n'avez pas saisi ce qu'il faut, refaites s'il-vous-plaît";
+                Type_colonne = type_colonne;
+                Nom_colonne = nom_colonne;
+                return Page();
             }
-            Console.WriteLine("Test1");
-            if (saisie_adresse_num || saisie_adresse_rue || saisie_adresse_ville || saisie_adresse_code_postal)
-            {
 
-                bool addresse_valide = await Adresse_a_coordonees.GetCoords(saisie_adresse_num + " " + saisie_adresse_rue, saisie_adresse_ville, saisie_adresse_code_postal, "France");
-                //if (addresse_valide) { }
-                Utilisateur.MettreAjourTupleColonneUtilisateur(id_utilisateur, nom_colonne, "'" + saisie_adresse_num + " " + saisie_adresse_rue + ", " + saisie_adresse_ville + ", " + saisie_adresse_code_postal + "'", "");
+            if (saisie_num_tel_valide)
+            {
+                Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, saisie_num_tel, "");
                 return RedirectToPage("Page_accueil_connecte");
             }
-            Console.WriteLine("Test1");
+            else if (!saisie_num_tel_valide)
+            {
+                TempData["Erreur_saisie"] = "Le numéro n'est pas correct, il doit commencer par un 0";
+                Type_colonne = type_colonne;
+                Nom_colonne = nom_colonne;
+                return Page();
+            }
+
+            if (saisie_adresse_num_valide && saisie_adresse_rue_valide && saisie_adresse_ville_valide && saisie_adresse_code_postal_valide)
+            {
+                bool adresse_valide = await Adresse_a_coordonees.GetCoords(saisie_adresse_num + " " + saisie_adresse_rue, saisie_adresse_ville, saisie_adresse_code_postal, "France");
+                if (adresse_valide)
+                {
+                    Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, "'" + saisie_adresse_num + " " + saisie_adresse_rue + ", " + saisie_adresse_ville + ", " + saisie_adresse_code_postal + "'", "");
+                    return RedirectToPage("Page_accueil_connecte");
+                }
+                else
+                {
+                    TempData["Erreur_saisie"] = "Vous n'avez pas saisi correctement l'adresse, elle doit être constituée d'un numéro de rue, de la rue où vous habitez, de votre ville et de votre code postal";
+                    Type_colonne = type_colonne;
+                    Nom_colonne = nom_colonne;
+                    return Page();
+                }
+            }
+            else
+            {
+                TempData["Erreur_saisie"] = "Vous n'avez pas saisi correctement l'adresse, elle doit être constituée d'un numéro de rue, de la rue où vous habitez, de votre ville et de votre code postal";
+                Type_colonne = type_colonne;
+                Nom_colonne = nom_colonne;
+                return Page();
+            }
+
             return Page();
         }
+
+
     }
 }

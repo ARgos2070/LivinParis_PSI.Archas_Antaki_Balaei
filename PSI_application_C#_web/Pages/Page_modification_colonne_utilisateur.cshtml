@@ -148,8 +148,8 @@
             @if (Model.Type_colonne == "int")
             {
                 <div>
-                    <label asp-for="saisie_int">Nouvelle valeur (int) :</label>
-                    <input type="text" asp-for="saisie_int" maxlength="8" pattern="\d" required />
+                    <label asp-for="saisie_num_tel">Nouvelle valeur (int) :</label>
+                    <input type="text" asp-for="saisie_num_tel" maxlength="8" pattern="\d" required />
                     <p>@ViewData["Erreur_pr_cmb_de_personnes_plat"]</p>
                 </div>
             }
@@ -163,20 +163,25 @@
                 </div>
             }
 
-            @if (Model.Type_colonne == "date")
+            @if (Model.Type_colonne == "adresse")
             {
                 <p>Date :</p>
                 <div>
-                    <label asp-for="saisie_date_jour">Jour :</label>
-                    <input type="text" asp-for="saisie_date_jour" maxlength="2" pattern="\d{1,2}" required />
+                    <label asp-for="saisie_adresse_num">Numéro :</label>
+                    <input type="text" asp-for="saisie_adresse_num" maxlength="3" pattern="\d{1,3}" required />
                 </div>
                 <div>
-                    <label asp-for="saisie_date_mois">Mois :</label>
-                    <input type="text" asp-for="saisie_date_mois" maxlength="2" pattern="\d{1,2}" required />
+                    <label asp-for="saisie_adresse_rue">Rue :</label>
+                    <input type="text" asp-for="saisie_adresse_rue" maxlength="50" />
                 </div>
                 <div>
-                    <label asp-for="saisie_date_annee">Année :</label>
-                    <input type="text" asp-for="saisie_date_annee" maxlength="4" pattern="\d{4}" required />
+                    <label asp-for="saisie_adresse_ville">Ville :</label>
+                    <input type="text" asp-for="saisie_adresse_ville" maxlength="50" />
+                    <p>@ViewData["Erreur_date_fabrication_plat"]</p>
+                </div>
+                <div>
+                    <label asp-for="saisie_adresse_code_postal">Code postal :</label>
+                    <input type="text" asp-for="saisie_adresse_code_postal" maxlength="5" pattern="\d{5}" required />
                     <p>@ViewData["Erreur_date_fabrication_plat"]</p>
                 </div>
             }
@@ -184,6 +189,8 @@
             <p>@ViewData["Erreur_selection"]</p>
             <button type="submit">Soumettre la sélection</button>
         </form>
+
+
     </main>
 
     <footer>

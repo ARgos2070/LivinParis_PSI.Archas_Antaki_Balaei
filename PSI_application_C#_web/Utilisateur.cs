@@ -239,6 +239,47 @@ namespace PSI_application_C__web
             { Console.WriteLine(e.ToString()); }
         }
 
+        /// <summary>
+        /// Récupère tous les tuples distincts d'une colonne spécifique dans la table Plat
+        /// </summary>
+        /// <param name="nom_colonne">
+        /// Le nom de la colonne dont on souhaite extraire les valeurs distinctes
+        /// </param>
+        /// <returns>
+        /// Une liste de chaînes contenant toutes les valeurs distinctes non nulles et non vides de la colonne spécifiée
+        /// </returns>
+        public static List<string> RechercherTousLesTuplesDuneColonneUtilisateur(string nom_colonne, string param_optionnel)
+        {
+            List<string> liste = new List<string>();
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT DISTINCT " + nom_colonne + " FROM Utilisateur " + param_optionnel + ";";
+                MySqlDataReader reader;
+                reader = command.ExecuteReader();
+                string lecture_tuple = "";
+                while (reader.Read())
+                {
+                    lecture_tuple = reader[nom_colonne].ToString();
+                    if (!String.IsNullOrEmpty(lecture_tuple))
+                    {
+                        liste.Add(lecture_tuple);
+                    }
+                }
+                reader.Close();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return liste;
+        }
+
         public string toString()
         {
             string chaine = "";

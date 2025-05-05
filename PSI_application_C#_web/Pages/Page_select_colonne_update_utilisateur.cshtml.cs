@@ -43,7 +43,7 @@ namespace PSI_application_C__web.Pages
                     TempData["Colonne_update"] = "Mot_de_passe_utilisateur";
                     return RedirectToPage("Page_modification_colonne_utilisateur");
                 case "Adresse_utilisateur":
-                    TempData["Type_colonne"] = "string";
+                    TempData["Type_colonne"] = "adresse";
                     TempData["Colonne_update"] = "Adresse_utilisateur";
                     return RedirectToPage("Page_modification_colonne_utilisateur");
                 case "Num_tel_utilisateur":
