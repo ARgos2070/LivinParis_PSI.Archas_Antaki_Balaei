@@ -51,7 +51,7 @@ namespace PSI_application_C__web.Pages
                     TempData["Colonne_update"] = "Num_tel_utilisateur";
                     return RedirectToPage("Page_modification_colonne_utilisateur");
                 case "adresse_mail_utilisateur":
-                    TempData["Type_colonne"] = "string";
+                    TempData["Type_colonne"] = "mail";
                     TempData["Colonne_update"] = "adresse_mail_utilisateur";
                     return RedirectToPage("Page_modification_colonne_utilisateur");
                 case "Nom_entreprise":

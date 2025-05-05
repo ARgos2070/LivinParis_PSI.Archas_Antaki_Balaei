@@ -149,16 +149,16 @@
             {
                 <div>
                     <label asp-for="saisie_num_tel">Nouvelle valeur (int) :</label>
-                    <input type="text" asp-for="saisie_num_tel" maxlength="8" pattern="\d" required />
+                    <input type="text" asp-for="saisie_num_tel" maxlength="10" pattern="\d{10}" required />
                     <p>@ViewData["Erreur_pr_cmb_de_personnes_plat"]</p>
                 </div>
             }
 
-            @if (Model.Type_colonne == "double")
+            @if (Model.Type_colonne == "mail")
             {
                 <div>
-                    <label asp-for="saisie_double">Nouvelle valeur (double) :</label>
-                    <input type="text" asp-for="saisie_double" maxlength="8" pattern="^\d+([.]\d{1,2})?$" required />
+                    <label asp-for="saisie_adresse_mail">Nouvelle adresse mail :</label>
+                    <input type="text" asp-for="saisie_adresse_mail" maxlength="50"/>
                     <p>@ViewData["Erreur_prix_par_perso_plat"]</p>
                 </div>
             }

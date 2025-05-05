@@ -20,7 +20,7 @@ namespace PSI_application_C__web.Pages
         public string saisie_num_tel { get; set; }
 
         [BindProperty]
-        public string saisie_double { get; set; }
+        public string saisie_adresse_mail { get; set; }
 
         [BindProperty]
         public string saisie_adresse_num { get; set; }
@@ -120,13 +120,6 @@ namespace PSI_application_C__web.Pages
 
         public async Task<IActionResult> OnPost()
         {
-            //string id_utilisateur = TempData["Id_utilisateur_session"] as string;
-            //TempData["Id_utilisateur_session"] = id_utilisateur;
-            //string type_colonne = TempData["Type_colonne"] as string;
-            //TempData["Type_colonne"] = type_colonne;
-            //string nom_colonne = TempData["Colonne_update"] as string;
-            //TempData["Colonne_update"] = nom_colonne;
-
             string id_utilisateur = TempData["Id_utilisateur_session"].ToString();
             TempData["Id_utilisateur_session"] = id_utilisateur;
             string type_colonne = (string)TempData["Type_colonne"];
@@ -141,65 +134,89 @@ namespace PSI_application_C__web.Pages
 
             bool saisie_string_valide = !string.IsNullOrEmpty(saisie_string);
             bool saisie_num_tel_valide = !string.IsNullOrEmpty(saisie_num_tel) && EstNumeroTelCorrect(saisie_num_tel);
-            bool saisie_double_valide = !string.IsNullOrEmpty(saisie_double);
+            bool saisie_adresse_mail_valide = EstAdresseMailCorrect(saisie_adresse_mail);
             bool saisie_adresse_num_valide = !string.IsNullOrEmpty(saisie_adresse_num);
             bool saisie_adresse_rue_valide = !string.IsNullOrEmpty(saisie_adresse_rue);
             bool saisie_adresse_ville_valide = !string.IsNullOrEmpty(saisie_adresse_ville);
             bool saisie_adresse_code_postal_valide = !string.IsNullOrEmpty(saisie_adresse_code_postal);
 
-            if (saisie_string_valide)
-            {
-                Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, "'" + saisie_string + "'", "");
-                return RedirectToPage("Page_accueil_connecte");
-            }
-            else if (!saisie_string_valide)
-            {
-                TempData["Erreur_saisie"] = "Vous n'avez pas saisi ce qu'il faut, refaites s'il-vous-plaît";
-                Type_colonne = type_colonne;
-                Nom_colonne = nom_colonne;
-                return Page();
-            }
+            //if (saisie_string_valide)
+            //{
+            //    Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, "'" + saisie_string + "'", "");
+            //    return RedirectToPage("Page_accueil_connecte");
+            //}
+            //else if (!saisie_string_valide)
+            //{
+            //    TempData["Erreur_saisie"] = "Vous n'avez pas saisi ce qu'il faut, refaites s'il-vous-plaît";
+            //    Type_colonne = type_colonne;
+            //    Nom_colonne = nom_colonne;
+            //    return Page();
+            //}
 
-            if (saisie_num_tel_valide)
+            if (type_colonne == "adresse")
             {
-                Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, saisie_num_tel, "");
-                return RedirectToPage("Page_accueil_connecte");
-            }
-            else if (!saisie_num_tel_valide)
-            {
-                TempData["Erreur_saisie"] = "Le numéro n'est pas correct, il doit commencer par un 0";
-                Type_colonne = type_colonne;
-                Nom_colonne = nom_colonne;
-                return Page();
-            }
-
-            if (saisie_adresse_num_valide && saisie_adresse_rue_valide && saisie_adresse_ville_valide && saisie_adresse_code_postal_valide)
-            {
-                bool adresse_valide = await Adresse_a_coordonees.GetCoords(saisie_adresse_num + " " + saisie_adresse_rue, saisie_adresse_ville, saisie_adresse_code_postal, "France");
-                if (adresse_valide)
+                if (saisie_adresse_num_valide && saisie_adresse_rue_valide && saisie_adresse_ville_valide && saisie_adresse_code_postal_valide)
                 {
-                    Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, "'" + saisie_adresse_num + " " + saisie_adresse_rue + ", " + saisie_adresse_ville + ", " + saisie_adresse_code_postal + "'", "");
-                    return RedirectToPage("Page_accueil_connecte");
+                    bool adresse_valide = await Adresse_a_coordonees.GetCoords(saisie_adresse_num + " " + saisie_adresse_rue, saisie_adresse_ville, saisie_adresse_code_postal, "France");
+                    Console.WriteLine(saisie_adresse_num + " " + saisie_adresse_rue, saisie_adresse_ville, saisie_adresse_code_postal, "France");
+                    if (adresse_valide)
+                    {
+                        Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, "'" + saisie_adresse_num + " " + saisie_adresse_rue + ", " + saisie_adresse_ville + ", " + saisie_adresse_code_postal + "'", "");
+                        return RedirectToPage("Page_accueil_connecte");
+                    }
+                    else
+                    {
+                        TempData["Erreur_saisie"] = "Vous n'avez pas saisi correctement l'adresse, elle doit être constituée d'un numéro de rue, de la rue où vous habitez, de votre ville et de votre code postal";
+                    }
                 }
                 else
                 {
                     TempData["Erreur_saisie"] = "Vous n'avez pas saisi correctement l'adresse, elle doit être constituée d'un numéro de rue, de la rue où vous habitez, de votre ville et de votre code postal";
-                    Type_colonne = type_colonne;
-                    Nom_colonne = nom_colonne;
-                    return Page();
                 }
             }
-            else
+            
+            if (type_colonne == "int")
             {
-                TempData["Erreur_saisie"] = "Vous n'avez pas saisi correctement l'adresse, elle doit être constituée d'un numéro de rue, de la rue où vous habitez, de votre ville et de votre code postal";
-                Type_colonne = type_colonne;
-                Nom_colonne = nom_colonne;
-                return Page();
+                if (saisie_num_tel_valide)
+                {
+                    Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, "'" + saisie_num_tel + "'", "");
+                    return RedirectToPage("Page_accueil_connecte");
+                }
+                else if (!saisie_num_tel_valide)
+                {
+                    TempData["Erreur_saisie"] = "Le numéro n'est pas correct, il doit commencer par un 0";
+                }
             }
 
+            if (type_colonne == "mail")
+            {
+                if (saisie_adresse_mail_valide)
+                {
+                    Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, "'" + saisie_adresse_mail + "'", "");
+                    return RedirectToPage("Page_accueil_connecte");
+                }
+                else if (!saisie_string_valide)
+                {
+                    TempData["Erreur_saisie"] = "Vous n'avez pas saisi ce qu'il faut, refaites s'il-vous-plaît";
+                }
+            }
+            
+            if (type_colonne == "string")
+            {
+                if (saisie_string_valide)
+                {
+                    Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, "'" + saisie_string + "'", "");
+                    return RedirectToPage("Page_accueil_connecte");
+                }
+                else if (!saisie_string_valide)
+                {
+                    TempData["Erreur_saisie"] = "Vous n'avez pas saisi ce qu'il faut, refaites s'il-vous-plaît";
+                }
+            }
+            
+            Type_colonne = type_colonne;
+            Nom_colonne = nom_colonne;
             return Page();
         }
-
-
     }
 }
