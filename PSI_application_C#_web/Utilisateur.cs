@@ -222,6 +222,23 @@ namespace PSI_application_C__web
             }
         }
 
+        public static void MettreAjourTupleColonneUtilisateur(string id_utilisateur, string nom_colonne, string nouvelle_valeur, string param_optionnel)
+        {
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "UPDATE Utilisateur SET " + nom_colonne + " = " + nouvelle_valeur + " WHERE ID_utilisateur = " + id_utilisateur + " " + param_optionnel + ";";
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            { Console.WriteLine(e.ToString()); }
+        }
+
         public string toString()
         {
             string chaine = "";
