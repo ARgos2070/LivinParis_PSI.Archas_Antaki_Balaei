@@ -1,132 +1,286 @@
 ﻿@page
 @model PSI_application_C__web.Pages.Page_creation_compte_entrepriseModel
 @{
-    ViewData["Title"] = "Page creation compte";
+    ViewData["Title"] = "Page création compte";
     Layout = null;
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PSI_application_C__web</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <!-- <link rel="stylesheet" href="~/PSI_application_C__web.styles.css" asp-append-version="true" /> -->
+
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-dark: #0056b3;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --header-bg: #0069d9;
+            --footer-bg: #212529;
+            --accent-color: #17a2b8;
+            --sky-blue: #87CEEB;
+            --input-bg: #ffffff;
+            --input-border: #ccc;
+            --button-bg: #28a745;
+            --button-hover-bg: #218838;
+            --input-focus-border: #0056b3;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--sky-blue);
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            display: block; /* <- corrigé ici */
+        }
+
+        header {
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            background-color: var(--header-bg);
+            color: white;
+            font-size: 24px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px; /* espacement vertical */
+        }
+
+        .container {
+            background-color: var(--input-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"], input[type="radio"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--input-border);
+            border-radius: 5px;
+            background-color: var(--input-bg);
+            font-size: 16px;
+            color: var(--text-color);
+        }
+
+            input[type="text"]:focus {
+                border-color: var(--input-focus-border);
+                outline: none;
+            }
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--button-bg);
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            button:hover {
+                background-color: var(--button-hover-bg);
+            }
+
+        footer {
+            background-color: var(--footer-bg);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+            footer a {
+                color: var(--accent-color);
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+        small {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 10px;
+        }
+
+            .radio-group label {
+                display: inline-block;
+                margin-right: 10px;
+            }
+    </style>
 </head>
 <body>
     <header>
+        <h1>Création de votre compte Entreprise</h1>
     </header>
-    <div>
-        <h1>Création de votre compte</h1>
-        <form method="post">
-            <small>La différence entre majuscule et minuscule n'a pas à être prise en compte dans l'identifiant</small>
-            <div>
-                <label asp-for="saisie_id_utilisateur">Choisissez votre pseudo (id utilisateur) :</label>
-                <input type="text" asp-for="saisie_id_utilisateur" maxlength="50" />
-                <p>@ViewData["Erreur_id_utilisateur"]</p>
-            </div>
-            <div>
-                <label asp-for="saisie_nom_entreprise">Nom de l'entreprise :</label>
-                <input type="text" asp-for="saisie_nom_entreprise" maxlength="50" />
-                <p>@ViewData["Erreur_nom_entreprise"]</p>
-            </div>
-            <div>
-                <label asp-for="saisie_prenom">Prénom du référent :</label>
-                <input type="text" asp-for="saisie_prenom" maxlength="50" />
-                <p>@ViewData["Erreur_prenom"]</p>
-            </div>
-            <div>
-                <label asp-for="saisie_nom">Nom du référent :</label>
-                <input type="text" asp-for="saisie_nom" maxlength="50" />
-                <p>@ViewData["Erreur_nom"]</p>
-            </div>
-            <div>
-                <label asp-for="saisie_mot_de_passe">Mot de passe :</label>
-                <input type="text" asp-for="saisie_mot_de_passe" maxlength="50" />
-                <p>@ViewData["Erreur_mot_de_passe"]</p>
-            </div>
-            <p>Adresse de l'entreprise</p>
-            <small>(Le service Livin'Paris n'est disponible qu'en région parisienne, veuillez entrer une adresses située dans ce secteur)</small>
-            <div>
-                <label asp-for="saisie_adresse_num_rue">N° :</label>
-                <input type="text" asp-for="saisie_adresse_num_rue" maxlength="3" pattern="\d{1,3}" required />
-                <p>@ViewData["Erreur_adresse_num_rue"]</p>
-            </div>
-            <div>
-                <label asp-for="saisie_adresse_nom_rue">Rue :</label>
-                <input type="text" asp-for="saisie_adresse_nom_rue" maxlength="40" />
-                <p>@ViewData["Erreur_adresse_nom_rue"]</p>
-            </div>
-            <div>
-                <label asp-for="saisie_adresse_ville">Ville :</label>
-                <input type="text" asp-for="saisie_adresse_ville" maxlength="30" />
-                <p>@ViewData["Erreur_adresse_ville"]</p>
-            </div>
-            <div>
-                <label asp-for="saisie_adresse_code_postal">Code postal :</label>
-                <input type="text" asp-for="saisie_adresse_code_postal" maxlength="5" pattern="\d{5}" required />
-                <p>@ViewData["Erreur_adresse_code_postal"]</p>
-                <p>@ViewData["Erreur_adresse_reseau"]</p>
-            </div>
-            <div>
-                <label asp-for="saisie_num_tel">Numéro de téléphone du référent :</label>
-                <input type="text" asp-for="saisie_num_tel" maxlength="10" pattern="\d{10}" required />
-                <small>Veuillez entrer un numéro de téléphone à 10 chiffres.</small>
-                <p>@ViewData["Erreur_num_tel"]</p>
-                <!-- <p>@ViewData["Erreur_num_tel"]</p> C'est un peu inutilie car comme on veut forcer la saisie de chiffres et non de lettres, il faut forcément entrer quelque chose -->
-            </div>
-            <div>
-                <label asp-for="saisie_adresse_mail">Adresse mail de l'entreprise :</label>
-                <input type="text" asp-for="saisie_adresse_mail" maxlength="50" />
-                <p>@ViewData["Erreur_adresse_mail"]</p>
-            </div>
-            <div>
-                <p>Voulez-vous être un client de notre service ?</p>
-                <label>
-                    <input type="radio" asp-for="saisie_est_client" value="true" />
-                    Oui
-                </label>
-                <label>
-                    <input type="radio" asp-for="saisie_est_client" value="false" />
-                    Non
-                </label>
-            </div>
-            <div>
-                <p>Voulez-vous être un cuisinier de notre service ?</p>
-                <label>
-                    <input type="radio" asp-for="saisie_est_cuisinier" value="true" />
-                    Oui
-                </label>
-                <label>
-                    <input type="radio" asp-for="saisie_est_cuisinier" value="false" />
-                    Non
-                </label>
-            </div>
-            <div>
-                <p>Voulez-vous être un livreur de notre service ?</p>
-                <label>
-                    <input type="radio" asp-for="saisie_est_livreur" value="true" />
-                    Oui
-                </label>
-                <label>
-                    <input type="radio" asp-for="saisie_est_livreur" value="false" />
-                    Non
-                </label>
-            </div>
-            <p>@ViewData["Erreur_client"]</p>
-            <button type="submit">Soumettre le choix</button>
-        </form>
-    </div>
 
+    <main>
+        <div class="container">
+            <form method="post">
+                <small>La différence entre majuscule et minuscule n'a pas à être prise en compte dans l'identifiant</small>
 
+                <div>
+                    <label asp-for="saisie_id_utilisateur">Choisissez votre pseudo (id utilisateur) :</label>
+                    <input type="text" asp-for="saisie_id_utilisateur" maxlength="50" />
+                    <div class="error">@ViewData["Erreur_id_utilisateur"]</div>
+                </div>
 
+                <div>
+                    <label asp-for="saisie_nom_entreprise">Nom de l'entreprise :</label>
+                    <input type="text" asp-for="saisie_nom_entreprise" maxlength="50" />
+                    <div class="error">@ViewData["Erreur_nom_entreprise"]</div>
+                </div>
 
+                <div>
+                    <label asp-for="saisie_prenom">Prénom du référent :</label>
+                    <input type="text" asp-for="saisie_prenom" maxlength="50" />
+                    <div class="error">@ViewData["Erreur_prenom"]</div>
+                </div>
 
+                <div>
+                    <label asp-for="saisie_nom">Nom du référent :</label>
+                    <input type="text" asp-for="saisie_nom" maxlength="50" />
+                    <div class="error">@ViewData["Erreur_nom"]</div>
+                </div>
+
+                <div>
+                    <label asp-for="saisie_mot_de_passe">Mot de passe :</label>
+                    <input type="text" asp-for="saisie_mot_de_passe" maxlength="50" />
+                    <div class="error">@ViewData["Erreur_mot_de_passe"]</div>
+                </div>
+
+                <p>Adresse de l'entreprise</p>
+                <small>(Le service Livin'Paris n'est disponible qu'en région parisienne, veuillez entrer une adresse située dans ce secteur)</small>
+
+                <div>
+                    <label asp-for="saisie_adresse_num_rue">N° :</label>
+                    <input type="text" asp-for="saisie_adresse_num_rue" maxlength="3" pattern="\d{1,3}" required />
+                    <div class="error">@ViewData["Erreur_adresse_num_rue"]</div>
+                </div>
+
+                <div>
+                    <label asp-for="saisie_adresse_nom_rue">Rue :</label>
+                    <input type="text" asp-for="saisie_adresse_nom_rue" maxlength="40" />
+                    <div class="error">@ViewData["Erreur_adresse_nom_rue"]</div>
+                </div>
+
+                <div>
+                    <label asp-for="saisie_adresse_ville">Ville :</label>
+                    <input type="text" asp-for="saisie_adresse_ville" maxlength="30" />
+                    <div class="error">@ViewData["Erreur_adresse_ville"]</div>
+                </div>
+
+                <div>
+                    <label asp-for="saisie_adresse_code_postal">Code postal :</label>
+                    <input type="text" asp-for="saisie_adresse_code_postal" maxlength="5" pattern="\d{5}" required />
+                    <div class="error">@ViewData["Erreur_adresse_code_postal"]</div>
+                </div>
+
+                <div>
+                    <label asp-for="saisie_num_tel">Numéro de téléphone du référent :</label>
+                    <input type="text" asp-for="saisie_num_tel" maxlength="10" pattern="\d{10}" required />
+                    <small>Veuillez entrer un numéro de téléphone à 10 chiffres.</small>
+                    <div class="error">@ViewData["Erreur_num_tel"]</div>
+                </div>
+
+                <div>
+                    <label asp-for="saisie_adresse_mail">Adresse mail de l'entreprise :</label>
+                    <input type="text" asp-for="saisie_adresse_mail" maxlength="50" />
+                    <div class="error">@ViewData["Erreur_adresse_mail"]</div>
+                </div>
+
+                <div>
+                    <p>Voulez-vous être un client de notre service ?</p>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" asp-for="saisie_est_client" value="true" />
+                            Oui
+                        </label>
+                        <label>
+                            <input type="radio" asp-for="saisie_est_client" value="false" />
+                            Non
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <p>Voulez-vous être un cuisinier de notre service ?</p>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" asp-for="saisie_est_cuisinier" value="true" />
+                            Oui
+                        </label>
+                        <label>
+                            <input type="radio" asp-for="saisie_est_cuisinier" value="false" />
+                            Non
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <p>Voulez-vous être un livreur de notre service ?</p>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" asp-for="saisie_est_livreur" value="true" />
+                            Oui
+                        </label>
+                        <label>
+                            <input type="radio" asp-for="saisie_est_livreur" value="false" />
+                            Non
+                        </label>
+                    </div>
+                </div>
+
+                <div class="error">@ViewData["Erreur_client"]</div>
+
+                <button type="submit">Soumettre le choix</button>
+            </form>
+        </div>
+    </main>
 
     <footer>
         <div>
-            &copy; 2025 - PSI_application_C__web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2025 - PSI_application_C__web - <a asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 </body>

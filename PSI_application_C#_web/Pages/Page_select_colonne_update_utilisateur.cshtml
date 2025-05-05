@@ -6,12 +6,113 @@
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PSI_application_C__web</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            header .btn {
+                background-color: #007bff;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+
+                header .btn:hover {
+                    background-color: #0056b3;
+                }
+
+        main {
+            background-color: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+            form div {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            form label {
+                font-size: 16px;
+                color: #333;
+            }
+
+        input[type="radio"] {
+            transform: scale(1.2);
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #218838;
+            }
+
+        p {
+            color: red;
+            font-size: 14px;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+            footer a {
+                color: white;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+    </style>
 </head>
 <body>
     <header>
@@ -24,7 +125,7 @@
     </header>
 
     <main>
-        <h1>Sélectionner une propriété de l'utilisateteur à modifier :</h1>
+        <h1>Sélectionner une propriété de l'utilisateur à modifier :</h1>
         <form method="post">
             <div>
                 <label>
@@ -41,31 +142,31 @@
             <div>
                 <label>
                     <input type="radio" name="Option_choisie" value="Mot_de_passe_utilisateur" />
-                    Mot_de_passe_utilisateur
+                    Mot_de passe de l'utilisateur
                 </label>
             </div>
             <div>
                 <label>
                     <input type="radio" name="Option_choisie" value="Adresse_utilisateur" />
-                    Adresse_utilisateur
+                    Adresse de l'utilisateur
                 </label>
             </div>
             <div>
                 <label>
                     <input type="radio" name="Option_choisie" value="Num_tel_utilisateur" />
-                    Num_tel_utilisateur
+                    Numéro de téléphone de l'utilisateur
                 </label>
             </div>
             <div>
                 <label>
                     <input type="radio" name="Option_choisie" value="adresse_mail_utilisateur" />
-                    adresse_mail_utilisateur
+                    Adresse e-mail de l'utilisateur
                 </label>
             </div>
             <div>
                 <label>
                     <input type="radio" name="Option_choisie" value="Nom_entreprise" />
-                    Nom_entreprise (si vous choisissez de modifier ce paramètre alors que vous être particulier, vous deviendez automatiquement entreprise)
+                    Nom de l'entreprise (si vous choisissez de modifier ce paramètre, vous deviendrez automatiquement une entreprise)
                 </label>
             </div>
             <div>
@@ -79,8 +180,10 @@
         </form>
     </main>
 
-    <footer style="text-align: center; margin-top: 40px;">
-        &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+    <footer>
+        <div>
+            &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+        </div>
     </footer>
 </body>
 </html>
