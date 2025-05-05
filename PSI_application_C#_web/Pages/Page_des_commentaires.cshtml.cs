@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 using System.Reflection.PortableExecutable;
 
 namespace PSI_application_C__web.Pages
@@ -9,13 +10,18 @@ namespace PSI_application_C__web.Pages
     {
         public List<Commentaire> Commentaires { get; set; } = new List<Commentaire>();
 
+        [BindProperty]
+        public int ID_plat { get; set; }
+
         public void OnGet()
         {
-            int ID_plat = 0;
-            if (TempData.ContainsKey("IdPlat"))
+            int ID_plat_temp = 0;
+            if (TempData.ContainsKey("IDPlat"))
             {
-                int.TryParse(TempData["IDPlat"] as string,out ID_plat);
+                int.TryParse(TempData["IDPlat"] as string,out ID_plat_temp);
+                Console.WriteLine("ID plat recuperer : " + ID_plat_temp);
             }
+            this.ID_plat = ID_plat_temp;
 
             const string connectionString = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
 
@@ -30,7 +36,7 @@ namespace PSI_application_C__web.Pages
                 "FROM Commentaire co " +
                 "INNER JOIN Client cl ON co.ID_Client = cl.ID_Client " +
                 "INNER JOIN Utilisateur u ON cl.ID_Utilisateur = u.ID_Utilisateur " +
-                "WHERE co.ID_Plat = " + ID_plat + ";";
+                "WHERE co.ID_Plat = " + this.ID_plat + ";";
 
 
             using var command = new MySqlCommand(query, connection);
@@ -45,6 +51,13 @@ namespace PSI_application_C__web.Pages
                     reader.GetString(3)      // Prénom
                 ));
             }
+        }
+
+        public IActionResult OnPostCommentaire()
+        {
+            Console.WriteLine("ID_plat = " + this.ID_plat);
+            TempData["IDPlat"] = this.ID_plat;
+            return RedirectToPage("./Page_ajouter_commentaire");
         }
     }
 
