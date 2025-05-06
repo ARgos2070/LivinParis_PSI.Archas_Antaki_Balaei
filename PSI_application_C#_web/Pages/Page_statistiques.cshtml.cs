@@ -25,7 +25,7 @@ namespace PSI_application_C__web.Pages
 
             // Code original
             string query =
-                "SELECT c.Nbre_plat_propose_Cuisinier, " +
+                "SELECT c.Nbre_plat_proposé_Cuisinier, " +
                        "c.Plat_du_jour_Cuisinier, " +
                        "c.Nbre_commandes_cuisinees_cuisinier, " +
                        "u.Nom_utilisateur, " +
