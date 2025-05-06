@@ -54,8 +54,8 @@ namespace PSI_application_C__web.Pages
 
         public IActionResult OnPostSubmitChoice()
         {
-            Console.WriteLine("submit");
-            return Page();
+            TempData["ID_commande"] = saisie_ID_commande;
+            return RedirectToPage("./Page_chemin_commande"); ;
         }
     }
 }
