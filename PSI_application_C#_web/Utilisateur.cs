@@ -355,6 +355,18 @@ namespace PSI_application_C__web
             return estEntreprise;
         }
 
+        public static bool UtilisateurSansRole(string id_utilisateur)
+        {
+            bool estSansRole = true;
+            if ((Cuisinier.IdCuisinierDunUtilisateur(id_utilisateur) != 0)
+                || (Client.IdClientDunUtilisateur(id_utilisateur) != 0)
+                || (Livreur.IdLivreurDunUtilisateur(id_utilisateur) != 0))
+            {
+                estSansRole = false;
+            }
+            return estSansRole;
+        }
+
         public string toString()
         {
             string chaine = "";

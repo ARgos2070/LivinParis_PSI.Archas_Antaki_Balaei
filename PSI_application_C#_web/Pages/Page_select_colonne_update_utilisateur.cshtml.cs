@@ -62,6 +62,8 @@ namespace PSI_application_C__web.Pages
             //TempData["Id_livreur"] = id_livreur_connecte;
         }
 
+        
+
         public IActionResult OnPost()
         {
             Id_utilisateur_session = (string)TempData["Id_utilisateur_session"];
@@ -141,14 +143,38 @@ namespace PSI_application_C__web.Pages
                     return RedirectToPage("Page_accueil_connecte");
                 case "Arreter_client":
                     Client.RadierClient(id_client_connecte);
-                    return RedirectToPage("Page_accueil_connecte");
+                    if (Utilisateur.UtilisateurSansRole(Id_utilisateur_session))
+                    {
+                        Utilisateur.RadierUtilisateur(Id_utilisateur_session);
+                        return RedirectToPage("Page_1er_chargement");
+                    }
+                    else
+                    {
+                        return RedirectToPage("Page_accueil_connecte");
+                    }
                 case "Arreter_cuisinier":
                     Console.WriteLine("Radiation cuisinier en cours");
                     Cuisinier.RadierCuisinier(id_cuisinier_connecte);
-                    return RedirectToPage("Page_accueil_connecte");
+                    if (Utilisateur.UtilisateurSansRole(Id_utilisateur_session))
+                    {
+                        Utilisateur.RadierUtilisateur(Id_utilisateur_session);
+                        return RedirectToPage("Page_1er_chargement");
+                    }
+                    else
+                    {
+                        return RedirectToPage("Page_accueil_connecte");
+                    }
                 case "Arreter_livreur":
                     Livreur.RadierLivreur(id_livreur_connecte);
-                    return RedirectToPage("Page_accueil_connecte");
+                    if (Utilisateur.UtilisateurSansRole(Id_utilisateur_session))
+                    {
+                        Utilisateur.RadierUtilisateur(Id_utilisateur_session);
+                        return RedirectToPage("Page_1er_chargement");
+                    }
+                    else
+                    {
+                        return RedirectToPage("Page_accueil_connecte");
+                    }
                 case "Devenir_entreprise":
                     TempData["Type_colonne"] = "bool";
                     TempData["Colonne_update"] = "Continuer_etre_entreprise";
@@ -158,9 +184,8 @@ namespace PSI_application_C__web.Pages
                     TempData["Colonne_update"] = "Devenir_livreur";
                     return RedirectToPage("Page_modification_colonne_utilisateur");
                 case "Supprimer_profil":
-                    TempData["Type_colonne"] = "bool";
-                    TempData["Colonne_update"] = "Devenir_livreur";
-                    return RedirectToPage("Page_modification_colonne_utilisateur");
+                    Utilisateur.RadierUtilisateur(Id_utilisateur_session);
+                    return RedirectToPage("Page_1er_chargement");
                 default:
                     ViewData["Erreur_affichage"] = "Veuillez sélectionner une option valide.";
                     return Page();
