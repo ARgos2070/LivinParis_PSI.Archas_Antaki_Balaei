@@ -149,7 +149,6 @@ namespace PSI_application_C__web
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
-                Console.WriteLine("Message juste après l'ajout à la base de donnée, user.num_utilisateur est : " + user.num_utilisateur);
             }
             catch (Exception e)
             { Console.WriteLine(e.ToString()); }
@@ -198,25 +197,10 @@ namespace PSI_application_C__web
                     {
                         lecture8 = reader.GetString("Nom_entreprise");
                     }
-
-                    Console.WriteLine("-9");
-                    //user = new Utilisateur
-                    //(
-                    //    userId,
-                    //    reader.GetString("Mot_de_passe_utilisateur"),
-                    //    reader.GetString("Nom_utilisateur"),
-                    //    reader.GetString("Prénom_utilisateur"),
-                    //    reader.GetString("Adresse_utilisateur"),
-                    //    reader.GetString("Num_tel_utilisateur"),
-                    //    reader.GetString("adresse_mail_utilisateur"),
-                    //    reader.GetBoolean("Utilisateur_est_entreprise"),
-                    //    reader.GetString("Nom_entreprise")
-                    //);
                 }
                 reader.Close();
                 command.Dispose();
                 connection.Close();
-                Console.WriteLine("Jusque la tout va bien");
                 user = new Utilisateur(userId, lecture1, lecture2, lecture3, lecture4, lecture5, lecture6, lecture7, lecture8 );
             }
             catch (Exception e)

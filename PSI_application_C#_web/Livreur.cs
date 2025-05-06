@@ -212,8 +212,6 @@ namespace PSI_application_C__web
             }
             return historique_livraisons;
         }
-g
-
 
 
         public string toString()

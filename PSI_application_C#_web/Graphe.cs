@@ -39,7 +39,6 @@ namespace PSI_application_C__web
             {
                 Console.WriteLine("manque : popule_table_station_txt");
             }
-            Console.WriteLine("aucun manquant");
             this.path_s = "popule_table_station_txt.txt";
             this.list_noeud = new Dictionary<int, INoeud>();
             this.list_pk = new Dictionary<string, int>();
