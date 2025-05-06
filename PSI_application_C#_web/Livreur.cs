@@ -96,7 +96,7 @@ namespace PSI_application_C__web
             
         }
 
-        public static void RadierLivreur(Livreur livreur) //Inutile car les clés étrangères ont été déclarée en cascade, donc il suffit de supprimer l'utilisateur pour supprimer le livreur, à voir si on laisse en cascade pour plus tard
+        public static void RadierLivreur(int id_livreur) //Inutile car les clés étrangères ont été déclarée en cascade, donc il suffit de supprimer l'utilisateur pour supprimer le livreur, à voir si on laisse en cascade pour plus tard
         {
             try
             {
@@ -104,7 +104,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "DELETE FROM Livreur WHERE ID_Livreur = " + livreur.id_livreur + ";";
+                command.CommandText = "DELETE FROM Livreur WHERE ID_Livreur = " + id_livreur + ";";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
