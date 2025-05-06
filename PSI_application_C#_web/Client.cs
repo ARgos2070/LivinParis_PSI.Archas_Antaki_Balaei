@@ -79,7 +79,7 @@ namespace PSI_application_C__web
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                //Console.WriteLine(e.ToString());
                 return -1;
             }
         }
@@ -101,7 +101,8 @@ namespace PSI_application_C__web
                 connection.Close();
             }
             catch (Exception e)
-            { Console.WriteLine(e.ToString()); }
+            { //Console.WriteLine(e.ToString());
+            }
             
         }
 
@@ -119,7 +120,8 @@ namespace PSI_application_C__web
                 connection.Close();
             }
             catch (Exception e)
-            { Console.WriteLine(e.ToString()); }
+            { //Console.WriteLine(e.ToString()); 
+            }
             
         }
 
@@ -157,8 +159,8 @@ namespace PSI_application_C__web
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
-                Console.WriteLine("Il y a une erreur dans la recherche de cuisinier");
+                //Console.WriteLine(e.ToString());
+                //Console.WriteLine("Il y a une erreur dans la recherche de cuisinier");
             }
             return id_client;
         }
