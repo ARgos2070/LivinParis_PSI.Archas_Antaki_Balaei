@@ -96,7 +96,7 @@ namespace PSI_application_C__web
             
         }
 
-        public static void RadierLivreur(int id_livreur) //Inutile car les clés étrangères ont été déclarée en cascade, donc il suffit de supprimer l'utilisateur pour supprimer le livreur, à voir si on laisse en cascade pour plus tard
+        public static void RadierLivreur(int id_livreur) //Inutile car les clés étrangères ont été déclarée en cascade, donc il suffit de supprimer l'utilisateur pour supprimer le client, à voir si on laisse en cascade pour plus tard
         {
             try
             {
@@ -111,7 +111,7 @@ namespace PSI_application_C__web
             }
             catch (Exception e)
             { Console.WriteLine(e.ToString()); }
-            
+
         }
 
         /// <summary>

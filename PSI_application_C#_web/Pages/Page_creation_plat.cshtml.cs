@@ -196,7 +196,12 @@ namespace PSI_application_C__web.Pages
             string regime_alimentaire_plat = saisie_regime_alimentaire_plat;
             string ingredients_principaux_plat = saisie_ingredients_principaux_plat;
             bool choix_plat_du_jour = saisie_choix_plat_du_jour;
+            string id_utilisateur = (string)TempData["Id_utilisateur_session"];
+            Console.WriteLine(id_utilisateur);
+            TempData["Id_utilisateur_session"] = id_utilisateur;
             int id_cuisinier_plat = (int)TempData["Id_cuisinier"];
+            Console.WriteLine(id_cuisinier_plat);
+            TempData["Id_cuisinier"] = id_cuisinier_plat;
             Plat plat_cree = new Plat(id_plat, nom_plat, type_plat, pr_cmb_de_personnes_plat, prix_par_portion_plat, nbre_portion_dispo_plat, date_fabrication_plat, date_peremption_plat, nationalite_plat, regime_alimentaire_plat, ingredients_principaux_plat, id_cuisinier_plat);
             Plat.AjoutPlatBDD(plat_cree);
             Cuisinier.CuisinierAjouteUnPlatAsonMenu(id_cuisinier_plat);
@@ -209,6 +214,5 @@ namespace PSI_application_C__web.Pages
             //TempData["Id_utilisateur"] = perpetuation;
             return RedirectToPage("Page_accueil_connecte");
         }
-
     }
 }
