@@ -105,7 +105,7 @@ namespace PSI_application_C__web
             
         }
 
-        public static void RadierClient(Client client) //Inutile car les clés étrangères ont été déclarée en cascade, donc il suffit de supprimer l'utilisateur pour supprimer le client, à voir si on laisse en cascade pour plus tard
+        public static void RadierClient(int id_client) //Inutile car les clés étrangères ont été déclarée en cascade, donc il suffit de supprimer l'utilisateur pour supprimer le client, à voir si on laisse en cascade pour plus tard
         {
             try
             {
@@ -113,7 +113,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "DELETE FROM Client WHERE ID_Client = " + client.id_client + ";";
+                command.CommandText = "DELETE FROM Client WHERE ID_Client = " + id_client + ";";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();

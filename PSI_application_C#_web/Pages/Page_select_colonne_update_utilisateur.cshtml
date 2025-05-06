@@ -159,20 +159,87 @@
             </div>
             <div>
                 <label>
-                    <input type="radio" name="Option_choisie" value="adresse_mail_utilisateur" />
+                    <input type="radio" name="Option_choisie" value="Adresse_mail_utilisateur" />
                     Adresse e-mail de l'utilisateur
                 </label>
             </div>
+            @if (Model.Est_entreprise)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Arreter_entreprise" />
+                        Ne plus être considéré comme une entreprise
+                    </label>
+                </div>
+            }
+            @if (!Model.Est_entreprise)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Devenir_entreprise" />
+                        Etre considéré comme une entreprise
+                    </label>
+                </div>
+            }
+            @if (Model.Est_cuisinier)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Arreter_cuisinier" />
+                        Ne plus être cuisinier
+                    </label>
+                </div>
+            }
+            @if (Model.Est_client)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Arreter_client" />
+                        Ne plus être client
+                    </label>
+                </div>
+            }
+            @if (Model.Est_livreur)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Arreter_livreur" />
+                        Ne plus être livreur
+                    </label>
+                </div>
+            }
+            @if (!Model.Est_cuisinier)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Devenir_cuisinier" />
+                        Devenir cuisinier
+                    </label>
+                </div>
+            }
+            @if (!Model.Est_client)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Devenir_client" />
+                        Devenir client
+                    </label>
+                </div>
+            }
+            @if (!Model.Est_livreur)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Devenir_livreur" />
+                        Devenir livreur
+                    </label>
+                </div>
+            }
+            <small>(Attention, si vous n'aviez qu'un seul rôle et que vous choisissez de l'abandonner, votre profil sera supprimé)</small>
             <div>
                 <label>
-                    <input type="radio" name="Option_choisie" value="Nom_entreprise" />
-                    Nom de l'entreprise (si vous choisissez de modifier ce paramètre, vous deviendrez automatiquement une entreprise)
-                </label>
-            </div>
-            <div>
-                <label>
-                    <input type="radio" name="Option_choisie" value="Continuer_etre_entreprise" />
-                    Continuer d'être une entreprise
+                    <input type="radio" name="Option_choisie" value="Supprimer_profil" />
+                    Supprimer votre profil
                 </label>
             </div>
             <p>@ViewData["Erreur_selection"]</p>

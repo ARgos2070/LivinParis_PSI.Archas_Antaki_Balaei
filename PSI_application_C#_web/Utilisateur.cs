@@ -156,6 +156,46 @@ namespace PSI_application_C__web
             
         }
 
+        public static Utilisateur ChargerUtilisateurDepuisBDD(string userId)
+        {
+            Utilisateur user = null;
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
+                MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ligneConnexion);
+                connection.Open();
+                string query = "SELECT * FROM Utilisateur WHERE ID_utilisateur = @UserId";
+                MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@UserId", userId);
+
+                using (MySql.Data.MySqlClient.MySqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        user = new Utilisateur
+                        (
+                            userId, 
+                            reader.GetString("Mot_de_passe_utilisateur"), 
+                            reader.GetString("Nom_utilisateur"), 
+                            reader.GetString("Prénom_utilisateur"), 
+                            reader.GetString("Adresse_utilisateur"),
+                            reader.GetString("Num_tel_utilisateur"), 
+                            reader.GetString("adresse_mail_utilisateur"),
+                            reader.GetBoolean("Utilisateur_est_entreprise"),
+                            reader.GetString("Nom_entreprise")
+                        );
+                    }
+                }
+                command.Dispose();
+                connection.Close();
+            }
+            catch (System.Exception e)
+            {
+                System.Console.WriteLine(e.ToString());
+            }
+            return user;
+        }
+
         public static void RadierUtilisateur(string id_utilisateur)
         {
             try
@@ -278,6 +318,41 @@ namespace PSI_application_C__web
                 Console.WriteLine(e.ToString());
             }
             return liste;
+        }
+
+        public static bool UtilisateurEstEntreprise(string id_utilisateur)
+        {
+            bool estEntreprise = false;
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT Utilisateur_est_entreprise FROM Utilisateur WHERE ID_utilisateur = '" + id_utilisateur + "';";
+                MySqlDataReader reader;
+                reader = command.ExecuteReader();
+                string lecture_tuple = "";
+                while (reader.Read())
+                {
+                    lecture_tuple = reader["Utilisateur_est_entreprise"].ToString();
+                    if (!String.IsNullOrEmpty(lecture_tuple))
+                    {
+                        if (lecture_tuple == "1")
+                        {
+                            estEntreprise = true;
+                        }
+                    }
+                }
+                reader.Close();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return estEntreprise;
         }
 
         public string toString()

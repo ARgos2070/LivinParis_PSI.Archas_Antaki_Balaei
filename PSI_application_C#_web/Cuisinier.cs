@@ -124,7 +124,7 @@ namespace PSI_application_C__web
             
         }
 
-        public static void RadierCuisinier(Cuisinier cuisinier) //Inutile car les clés étrangères ont été déclarée en cascade, donc il suffit de supprimer l'utilisateur pour supprimer le cuisinier, à voir si on laisse en cascade pour plus tard
+        public static void RadierCuisinier(int id_cuisinier) //Inutile car les clés étrangères ont été déclarée en cascade, donc il suffit de supprimer l'utilisateur pour supprimer le cuisinier, à voir si on laisse en cascade pour plus tard
         {
             try
             {
@@ -132,7 +132,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "DELETE FROM Cuisinier WHERE ID_Cuisinier = " + cuisinier.id_cuisinier + ";";
+                command.CommandText = "DELETE FROM Cuisinier WHERE ID_Cuisinier = " + id_cuisinier + ";";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
