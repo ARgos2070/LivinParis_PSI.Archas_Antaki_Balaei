@@ -179,7 +179,7 @@ namespace PSI_application_C__web.Pages
             {
                 if (saisie_num_tel_valide)
                 {
-                    Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, "'" + saisie_num_tel + "'", "");
+                    Utilisateur.MettreAjourTupleColonneUtilisateur(id_utilisateur, nom_colonne, "'" + saisie_num_tel + "'", "");
                     return RedirectToPage("Page_accueil_connecte");
                 }
                 else if (!saisie_num_tel_valide)
@@ -192,7 +192,7 @@ namespace PSI_application_C__web.Pages
             {
                 if (saisie_adresse_mail_valide)
                 {
-                    Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, "'" + saisie_adresse_mail + "'", "");
+                    Utilisateur.MettreAjourTupleColonneUtilisateur(id_utilisateur, nom_colonne, "'" + saisie_adresse_mail + "'", "");
                     return RedirectToPage("Page_accueil_connecte");
                 }
                 else if (!saisie_string_valide)
@@ -205,7 +205,8 @@ namespace PSI_application_C__web.Pages
             {
                 if (saisie_string_valide)
                 {
-                    Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, "'" + saisie_string + "'", "");
+                    Console.WriteLine("id de l'utilisateur : " +  id_utilisateur);
+                    Utilisateur.MettreAjourTupleColonneUtilisateur(id_utilisateur, nom_colonne, "'" + saisie_string + "'", "");
                     return RedirectToPage("Page_accueil_connecte");
                 }
                 else if (!saisie_string_valide)

@@ -1,7 +1,7 @@
 ﻿@page
-@model PSI_application_C__web.Pages.Page_mon_profileModel
+@model PSI_application_C__web.Pages.Page_historique_livraisonsModel
 @{
-    ViewData["Title"] = "Afficher le profil de l'utilisateur";
+    ViewData["Title"] = "Historique des livraisons d'un livreur";
     Layout = null;
 }
 
@@ -126,36 +126,7 @@
     </header>
 
     <main>
-        <h1>Voici votre profil</h1>
 
-        <h2>Bonjour @Model.StatUtilisateur[0]</h2>
-
-        <div class="user-info">
-            <h4>Voici vos informations :</h4>
-            <p><strong>Mot de passe :</strong> @Model.StatUtilisateur[1]</p>
-            <p><strong>Prénom :</strong> @Model.StatUtilisateur[3]</p>
-            <p><strong>Nom :</strong> @Model.StatUtilisateur[2]</p>
-            <p><strong>Adresse :</strong> @Model.StatUtilisateur[4]</p>
-            <p><strong>Numéro de téléphone :</strong> @Model.StatUtilisateur[5]</p>
-            <p><strong>Adresse mail :</strong> @Model.StatUtilisateur[6]</p>
-            <p><strong>Nombre de signalement :</strong> @Model.StatUtilisateur[9]</p>
-        </div>
-
-        @if (Model.Est_entreprise)
-        {
-            <div>
-                <p><strong>Est une entreprise :</strong> @Model.StatUtilisateur[7]</p>
-                <p><strong>Nom de l'entreprise :</strong> @Model.StatUtilisateur[8]</p>
-            </div>
-        }
-        <div class="buttons">
-            <button type="button" onclick="window.location.href='/Page_select_colonne_update_utilisateur'">
-                Modifier mon profil
-            </button>
-            <button type="button" onclick="window.location.href='/Page_accueil_connecte'">
-                Ne pas modifier mon profil et retourner à la page d'accueil
-            </button>
-        </div>
     </main>
 
     <footer>

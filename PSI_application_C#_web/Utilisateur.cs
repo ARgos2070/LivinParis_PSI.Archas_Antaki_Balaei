@@ -270,7 +270,7 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "UPDATE Utilisateur SET " + nom_colonne + " = " + nouvelle_valeur + " WHERE ID_utilisateur = " + id_utilisateur + " " + param_optionnel + ";";
+                command.CommandText = "UPDATE Utilisateur SET " + nom_colonne + " = " + nouvelle_valeur + " WHERE ID_utilisateur = '" + id_utilisateur + "' " + param_optionnel + ";";
                 command.ExecuteNonQuery();
                 command.Dispose();
                 connection.Close();
@@ -338,7 +338,7 @@ namespace PSI_application_C__web
                     lecture_tuple = reader["Utilisateur_est_entreprise"].ToString();
                     if (!String.IsNullOrEmpty(lecture_tuple))
                     {
-                        if (lecture_tuple == "1")
+                        if (lecture_tuple == "True")
                         {
                             estEntreprise = true;
                         }

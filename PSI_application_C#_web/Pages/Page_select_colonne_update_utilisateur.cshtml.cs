@@ -38,6 +38,7 @@ namespace PSI_application_C__web.Pages
                 Est_entreprise = true;
             }
             else { Est_entreprise = false; }
+            Console.WriteLine("l'utilisateur est considéré comme une entreprise : " + Est_entreprise);
             if (Cuisinier.IdCuisinierDunUtilisateur(Id_utilisateur_session) != 0)
             {
                 Est_cuisinier = true;
@@ -176,13 +177,15 @@ namespace PSI_application_C__web.Pages
                         return RedirectToPage("Page_accueil_connecte");
                     }
                 case "Devenir_entreprise":
-                    TempData["Type_colonne"] = "bool";
-                    TempData["Colonne_update"] = "Continuer_etre_entreprise";
+                    Utilisateur.MettreAjourTupleColonneUtilisateur(Id_utilisateur_session, "Utilisateur_est_entreprise", "1", "");
+                    Utilisateur.MettreAjourTupleColonneUtilisateur(Id_utilisateur_session, "Nom_entreprise", "'test'", "");
+                    TempData["Type_colonne"] = "string";
+                    TempData["Colonne_update"] = "Nom_entreprise";
                     return RedirectToPage("Page_modification_colonne_utilisateur");
                 case "Arreter_entreprise":
-                    TempData["Type_colonne"] = "bool";
-                    TempData["Colonne_update"] = "Devenir_livreur";
-                    return RedirectToPage("Page_modification_colonne_utilisateur");
+                    Utilisateur.MettreAjourTupleColonneUtilisateur(Id_utilisateur_session, "Nom_entreprise", "", "");
+                    Utilisateur.MettreAjourTupleColonneUtilisateur(Id_utilisateur_session, "Utilisateur_est_entreprise", "0", "");
+                    return RedirectToPage("Page_accueil_connecte");
                 case "Supprimer_profil":
                     Utilisateur.RadierUtilisateur(Id_utilisateur_session);
                     return RedirectToPage("Page_1er_chargement");

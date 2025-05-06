@@ -8,13 +8,20 @@ namespace PSI_application_C__web.Pages
 {
     public class Page_mon_profileModel : PageModel
     {
+        [BindProperty]
+        public bool Est_entreprise { get; set; }
+
         public List<string> StatUtilisateur;
-        public bool Est_entreprise = false;
 
         public void OnGet()
         {
             string id_utilisateur = TempData["Id_utilisateur_session"].ToString();
             TempData["Id_utilisateur_session"] = id_utilisateur;
+            if (Utilisateur.UtilisateurEstEntreprise(id_utilisateur))
+            {
+                Est_entreprise = true;
+            }
+            else { Est_entreprise = false; }
             StatUtilisateur = new List<string>();
             try
             {
