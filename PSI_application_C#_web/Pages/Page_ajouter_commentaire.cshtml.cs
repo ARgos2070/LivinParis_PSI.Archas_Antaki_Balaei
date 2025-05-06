@@ -24,27 +24,12 @@ namespace PSI_application_C__web.Pages
 
         public void OnGet()
         {
-            int ID_plat_temp = 0;
-            if (TempData.ContainsKey("IdPlat"))
-            {
-                int.TryParse(TempData["IDPlat"] as string, out ID_plat_temp);
-                Console.WriteLine(ID_plat_temp);
-                TempData["IDPlat"] = ID_plat_temp;
-                idPlat = ID_plat_temp;
-                Console.WriteLine(idPlat);
-                Console.WriteLine("Id plat transmis");
-            }
-            else
-            {
-                Console.WriteLine("Id plat non transmis");
-            }
-            TempData["IDPlat"] = ID_plat_temp;
+            int id_plat = Convert.ToInt32(TempData.Peek("IDPlat"));
+            TempData["IDPlat"] = id_plat;
         }
 
         public IActionResult OnPostSubmit()
         {
-            Console.WriteLine("Retour : " + TempData["IDPlat"]);
-            Console.WriteLine("Notre veleur : " + idPlat);
             return RedirectToPage("./Page_des_commentaires");
         }
     }

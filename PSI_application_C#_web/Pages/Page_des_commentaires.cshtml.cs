@@ -18,8 +18,7 @@ namespace PSI_application_C__web.Pages
             int ID_plat_temp = 0;
             if (TempData.ContainsKey("IDPlat"))
             {
-                int.TryParse(TempData["IDPlat"] as string, out ID_plat_temp);
-                Console.WriteLine("ID plat recuperer : " + ID_plat_temp);
+                ID_plat_temp = Convert.ToInt32(TempData.Peek("IDPlat"));
             }
             this.ID_plat = ID_plat_temp;
             TempData["IDPlat"] = ID_plat;
@@ -56,7 +55,6 @@ namespace PSI_application_C__web.Pages
 
         public IActionResult OnPostCommentaire()
         {
-            Console.WriteLine("ID_plat = " + TempData["IDPlat"]);
             return RedirectToPage("./Page_ajouter_commentaire");
         }
     }
