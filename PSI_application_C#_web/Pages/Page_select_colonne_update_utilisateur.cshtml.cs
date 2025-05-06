@@ -57,7 +57,7 @@ namespace PSI_application_C__web.Pages
             int id_client_connecte = Client.IdClientDunUtilisateur(Id_utilisateur_session);
             int id_livreur_connecte = Livreur.IdLivreurDunUtilisateur(Id_utilisateur_session);
             TempData["Id_utilisateur_session"] = Id_utilisateur_session;
-            //TempData["Id_cuisinier"] = id_cuisinier_connecte;
+            TempData["Id_cuisinier"] = id_cuisinier_connecte;
             //TempData["Id_client"] = id_client_connecte;
             //TempData["Id_livreur"] = id_livreur_connecte;
         }
@@ -89,7 +89,7 @@ namespace PSI_application_C__web.Pages
             int id_client_connecte = Client.IdClientDunUtilisateur(Id_utilisateur_session);
             int id_livreur_connecte = Livreur.IdLivreurDunUtilisateur(Id_utilisateur_session);
             TempData["Id_utilisateur_session"] = Id_utilisateur_session;
-            //TempData["Id_cuisinier"] = id_cuisinier_connecte;
+            TempData["Id_cuisinier"] = id_cuisinier_connecte;
             //TempData["Id_client"] = id_client_connecte;
             //TempData["Id_livreur"] = id_livreur_connecte;
 
@@ -133,6 +133,7 @@ namespace PSI_application_C__web.Pages
                 case "Devenir_cuisinier":
                     Cuisinier nouveauCuisinier = new Cuisinier(Utilisateur.ChargerUtilisateurDepuisBDD(Id_utilisateur_session));
                     Cuisinier.AjoutCuisinierBDD(nouveauCuisinier);
+                    TempData["Id_cuisinier"] = nouveauCuisinier.Id_cuisinier;
                     return RedirectToPage("Page_creation_plat");
                 case "Devenir_livreur":
                     Livreur nouveauLivreur = new Livreur(Utilisateur.ChargerUtilisateurDepuisBDD(Id_utilisateur_session));
@@ -143,10 +144,10 @@ namespace PSI_application_C__web.Pages
                     return RedirectToPage("Page_accueil_connecte");
                 case "Arreter_cuisinier":
                     Console.WriteLine("Radiation cuisinier en cours");
-                    Cuisinier.RadierCuisinier(id_client_connecte);
+                    Cuisinier.RadierCuisinier(id_cuisinier_connecte);
                     return RedirectToPage("Page_accueil_connecte");
                 case "Arreter_livreur":
-                    Livreur.RadierLivreur(id_client_connecte);
+                    Livreur.RadierLivreur(id_livreur_connecte);
                     return RedirectToPage("Page_accueil_connecte");
                 case "Devenir_entreprise":
                     TempData["Type_colonne"] = "bool";
