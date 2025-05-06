@@ -66,31 +66,26 @@ namespace PSI_application_C__web.Pages
             bool saisie_date_jour_valide = saisie_date_jour != null && saisie_date_jour.Length > 0;
             bool saisie_date_mois_valide = saisie_date_mois != null && saisie_date_mois.Length > 0;
             bool saisie_date_annee_valide = saisie_date_annee != null && saisie_date_annee.Length > 0;
-            Console.WriteLine("Test1");
             if (saisie_string_valide)
             {
                 Plat.MettreAjourTupleColonne(id_plat_a_modifier, nom_colonne, "'" + saisie_string + "'", "");
                 return RedirectToPage("Page_accueil_connecte");
             }
-            Console.WriteLine("Test1");
             if (saisie_int_valide)
             {
                 Plat.MettreAjourTupleColonne(id_plat_a_modifier, nom_colonne, saisie_int, "");
                 return RedirectToPage("Page_accueil_connecte");
             }
-            Console.WriteLine("Test1");
             if (saisie_double_valide)
             {
                 Plat.MettreAjourTupleColonne(id_plat_a_modifier, nom_colonne, saisie_double, "");
                 return RedirectToPage("Page_accueil_connecte");
             }
-            Console.WriteLine("Test1");
             if (saisie_date_jour_valide|| saisie_date_mois_valide|| saisie_date_annee_valide || Plat.VerifierCoherenceDate(id_plat_a_modifier, nom_colonne, saisie_date_annee + "-" + saisie_date_mois + "-" + saisie_date_jour))
             {
                 Plat.MettreAjourTupleColonne(id_plat_a_modifier, nom_colonne, "'" + saisie_date_annee + "-" + saisie_date_mois + "-" + saisie_date_jour + "'", "");
                 return RedirectToPage("Page_accueil_connecte");
             }
-            Console.WriteLine("Test1");
             return Page();
         }
     }

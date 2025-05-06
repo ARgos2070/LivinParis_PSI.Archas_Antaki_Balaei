@@ -38,7 +38,6 @@ namespace PSI_application_C__web.Pages
                 Est_entreprise = true;
             }
             else { Est_entreprise = false; }
-            Console.WriteLine("l'utilisateur est considéré comme une entreprise : " + Est_entreprise);
             if (Cuisinier.IdCuisinierDunUtilisateur(Id_utilisateur_session) != 0)
             {
                 Est_cuisinier = true;
@@ -101,7 +100,6 @@ namespace PSI_application_C__web.Pages
                 ViewData["Erreur_selection"] = "Vous devez sélectionner une propriété.";
                 return Page();
             }
-            Console.WriteLine("id de l'utilisateur : " + Id_utilisateur_session);
             switch (Option_choisie)
             {
                 case "Nom_utilisateur":
@@ -153,7 +151,6 @@ namespace PSI_application_C__web.Pages
                         return RedirectToPage("Page_accueil_connecte");
                     }
                 case "Arreter_cuisinier":
-                    Console.WriteLine("Radiation cuisinier en cours");
                     Cuisinier.RadierCuisinier(id_cuisinier_connecte);
                     if (Utilisateur.UtilisateurSansRole(Id_utilisateur_session))
                     {

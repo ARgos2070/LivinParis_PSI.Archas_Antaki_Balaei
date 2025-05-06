@@ -47,11 +47,8 @@ namespace PSI_application_C__web.Pages
             TempData["Type_colonne"] = Type_colonne;
             Nom_colonne = TempData["Colonne_update"].ToString();
             TempData["Colonne_update"] = Nom_colonne;
-            Console.WriteLine("nom_colonne" + Nom_colonne);
-            Console.WriteLine(id_utilisateur);
             List<string> list = Utilisateur.RechercherTousLesTuplesDuneColonneUtilisateur(Nom_colonne, "WHERE ID_utilisateur = '" + id_utilisateur + "'");
             ViewData["Ancienne_valeur"] = list[0];
-            Console.WriteLine("Recalcule de l'ancienne variable");
         }
 
         public static bool EstNumeroTelCorrect(string num_tel_saisie)
@@ -126,11 +123,8 @@ namespace PSI_application_C__web.Pages
             TempData["Type_colonne"] = type_colonne;
             string nom_colonne = (string)TempData["Colonne_update"];
             TempData["Colonne_update"] = nom_colonne;
-            Console.WriteLine("nom_colonne" + Nom_colonne);
-            Console.WriteLine(id_utilisateur);
             List<string> list = Utilisateur.RechercherTousLesTuplesDuneColonneUtilisateur(nom_colonne, "WHERE ID_utilisateur = '" + id_utilisateur + "'");
             ViewData["Ancienne_valeur"] = list[0];
-            Console.WriteLine("Recalcule de l'ancienne variable");
 
             bool saisie_string_valide = !string.IsNullOrEmpty(saisie_string);
             bool saisie_num_tel_valide = !string.IsNullOrEmpty(saisie_num_tel) && EstNumeroTelCorrect(saisie_num_tel);
@@ -140,25 +134,11 @@ namespace PSI_application_C__web.Pages
             bool saisie_adresse_ville_valide = !string.IsNullOrEmpty(saisie_adresse_ville);
             bool saisie_adresse_code_postal_valide = !string.IsNullOrEmpty(saisie_adresse_code_postal);
 
-            //if (saisie_string_valide)
-            //{
-            //    Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, "'" + saisie_string + "'", "");
-            //    return RedirectToPage("Page_accueil_connecte");
-            //}
-            //else if (!saisie_string_valide)
-            //{
-            //    TempData["Erreur_saisie"] = "Vous n'avez pas saisi ce qu'il faut, refaites s'il-vous-plaît";
-            //    Type_colonne = type_colonne;
-            //    Nom_colonne = nom_colonne;
-            //    return Page();
-            //}
-
             if (type_colonne == "adresse")
             {
                 if (saisie_adresse_num_valide && saisie_adresse_rue_valide && saisie_adresse_ville_valide && saisie_adresse_code_postal_valide)
                 {
                     bool adresse_valide = await Adresse_a_coordonees.GetCoords(saisie_adresse_num + " " + saisie_adresse_rue, saisie_adresse_ville, saisie_adresse_code_postal, "France");
-                    Console.WriteLine(saisie_adresse_num + " " + saisie_adresse_rue, saisie_adresse_ville, saisie_adresse_code_postal, "France");
                     if (adresse_valide)
                     {
                         Utilisateur.MettreAjourTupleColonneUtilisateur("'" + id_utilisateur + "'", nom_colonne, "'" + saisie_adresse_num + " " + saisie_adresse_rue + ", " + saisie_adresse_ville + ", " + saisie_adresse_code_postal + "'", "");
@@ -205,7 +185,6 @@ namespace PSI_application_C__web.Pages
             {
                 if (saisie_string_valide)
                 {
-                    Console.WriteLine("id de l'utilisateur : " +  id_utilisateur);
                     Utilisateur.MettreAjourTupleColonneUtilisateur(id_utilisateur, nom_colonne, "'" + saisie_string + "'", "");
                     return RedirectToPage("Page_accueil_connecte");
                 }

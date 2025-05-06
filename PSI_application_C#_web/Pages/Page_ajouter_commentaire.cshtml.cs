@@ -44,20 +44,3 @@ namespace PSI_application_C__web.Pages
         }
     }
 }
-
-/*
-
-            const string connectionString = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
-
-            using var connection = new MySqlConnection(connectionString);
-            connection.Open();
-
-            string query =
-                "INSERT INTO Commentaire (Note_Commentaire, Texte_Commentaire, ID_Client, ID_Plat) " +
-                "VALUES (" + saisie_note + ", '" + saisie_commentaire.Replace("'", "''") + "', " + id_utilisateur + ", " + id_plat + ");";
-
-            using var command = new MySqlCommand(query, connection);
-            command.ExecuteNonQuery();
-            command.Dispose();
-            connection.Close();
-*/

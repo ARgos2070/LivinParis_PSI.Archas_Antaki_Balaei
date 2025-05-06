@@ -183,7 +183,6 @@ namespace PSI_application_C__web.Pages
             if (addresse_valide == false)
             {
                 ViewData["Erreur_adresse_reseau"] = "Notre service ne dessert pas cette adresse.";
-                Console.WriteLine("Pourquoi l'erreur ne s'affiche pas");
             }
             if (num_tel_valide == false)
             {

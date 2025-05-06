@@ -59,7 +59,6 @@ namespace PSI_application_C__web.Pages
                     StatUtilisateur.Add(lecture);
                     lecture = reader["Nbre_signalements_contre_utilisateur"].ToString();
                     StatUtilisateur.Add(lecture);
-                    Console.WriteLine("Chargement réussi");
                 }
 
                 reader.Close();

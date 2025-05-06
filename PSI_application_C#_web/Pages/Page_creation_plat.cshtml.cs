@@ -100,8 +100,6 @@ namespace PSI_application_C__web.Pages
             {
                 DateTime dateFab = new DateTime(int.Parse(annee_fab), int.Parse(mois_fab), int.Parse(jour_fab));
                 DateTime datePeremp = new DateTime(int.Parse(annee_peremp), int.Parse(mois_peremp), int.Parse(jour_peremp));
-                Console.WriteLine(dateFab);
-                Console.WriteLine(datePeremp);
                 est_correct = dateFab < datePeremp;
             }
             return est_correct;
@@ -197,10 +195,8 @@ namespace PSI_application_C__web.Pages
             string ingredients_principaux_plat = saisie_ingredients_principaux_plat;
             bool choix_plat_du_jour = saisie_choix_plat_du_jour;
             string id_utilisateur = (string)TempData["Id_utilisateur_session"];
-            Console.WriteLine(id_utilisateur);
             TempData["Id_utilisateur_session"] = id_utilisateur;
             int id_cuisinier_plat = (int)TempData["Id_cuisinier"];
-            Console.WriteLine(id_cuisinier_plat);
             TempData["Id_cuisinier"] = id_cuisinier_plat;
             Plat plat_cree = new Plat(id_plat, nom_plat, type_plat, pr_cmb_de_personnes_plat, prix_par_portion_plat, nbre_portion_dispo_plat, date_fabrication_plat, date_peremption_plat, nationalite_plat, regime_alimentaire_plat, ingredients_principaux_plat, id_cuisinier_plat);
             Plat.AjoutPlatBDD(plat_cree);
@@ -209,9 +205,6 @@ namespace PSI_application_C__web.Pages
             {
                 Cuisinier.DeclarerUnNouveauPlatDuJour(id_cuisinier_plat, nom_plat);
             }
-            //string perpetuation = (string)TempData["Id_utilisateur"];
-            //Console.WriteLine("id_utilisateur_transitoire : " + perpetuation);
-            //TempData["Id_utilisateur"] = perpetuation;
             return RedirectToPage("Page_accueil_connecte");
         }
     }

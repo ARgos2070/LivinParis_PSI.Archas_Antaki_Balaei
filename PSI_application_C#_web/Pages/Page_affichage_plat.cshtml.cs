@@ -189,7 +189,6 @@ namespace PSI_application_C__web.Pages
             int id_plat = int.Parse(saisie_id_plat_voulu);
             int nbre_portion_voulue = int.Parse(saisie_nbre_plat_voulu);
             string lecture_id_commande_anterieure = TempData["Id_commande_memoire"].ToString();
-            Console.WriteLine("voici ce l'id de la commande antérieure marqué en mémoire : " + lecture_id_commande_anterieure);
             int id_commande_anterieure = int.Parse(lecture_id_commande_anterieure);
             if (id_commande_anterieure != 0)
             {
@@ -216,9 +215,9 @@ namespace PSI_application_C__web.Pages
             Commande.AjoutCommandeBDD(commande_cree);
             Contient contient_cree = new Contient(id_plat, id_commande, nbre_portion_voulue);
             Contient.AjoutContientBDD(contient_cree);
-            Console.WriteLine("nbre portion voulue : " + nbre_portion_voulue);
+            
             int nouveau_nbre_portion_dispo = Plat.ConnaitreNbrePortionDispo(id_plat) - nbre_portion_voulue;
-            Console.WriteLine("nbre portion voulue : " + nouveau_nbre_portion_dispo);
+            
             Plat.MettreAjourTupleColonne(id_plat, "nbre_portion_dispo_plat", nouveau_nbre_portion_dispo.ToString(), "AND nbre_portion_dispo_plat >=1");
             TempData["Id_commande_memoire"] = id_commande;
             return RedirectToPage("Page_finaliser_commande");

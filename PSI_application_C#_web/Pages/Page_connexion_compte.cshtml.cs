@@ -48,12 +48,10 @@ namespace PSI_application_C__web.Pages
                         existe = true;
                     }
                 }
-                Console.WriteLine(lecture_id + " : " + resultat);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-                Console.WriteLine("Il y a eu une erreur ici");
             }
             return existe;
         }
@@ -83,7 +81,6 @@ namespace PSI_application_C__web.Pages
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-                Console.WriteLine("Il y a eu une erreur ici");
             }
             return est_correct;
         }
