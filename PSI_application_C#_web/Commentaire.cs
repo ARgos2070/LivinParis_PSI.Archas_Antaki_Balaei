@@ -3,7 +3,7 @@ using System;
 
 namespace PSI_application_C__web
 {
-    public class Commentaire
+    public class Commentaire_LP
     {
         #region Attributs
         private int id_commentaire;
@@ -14,9 +14,9 @@ namespace PSI_application_C__web
         #endregion
 
         #region Constructeur
-        public Commentaire(int id_commentaire, int note_commentaire, string texte_commentaire, int id_client, int id_plat)
+        public Commentaire_LP(int note_commentaire, string texte_commentaire, int id_client, int id_plat)
         {
-            this.id_commentaire = id_commentaire;
+            this.id_commentaire = Identifiant_commentaire_determine_depuis_bdd();
             this.note_commentaire = note_commentaire;
             this.texte_commentaire = texte_commentaire;
             this.id_client = id_client;
@@ -61,7 +61,7 @@ namespace PSI_application_C__web
             }
         }
 
-        public static void AjoutCommentaireBDD(Commentaire commentaire)
+        public static void AjoutCommentaireBDD(Commentaire_LP commentaire)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace PSI_application_C__web
             }
         }
 
-        public static void SupprimerCommentaire(Commentaire commentaire)
+        public static void SupprimerCommentaire(Commentaire_LP commentaire)
         {
             try
             {
