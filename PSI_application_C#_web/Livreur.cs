@@ -159,6 +159,60 @@ namespace PSI_application_C__web
             this.gain_livreur += gain_livraison;
         }
 
+        public static List<Dictionary<string, string>> RechercherHistoriqueLivraisonsLivreur(int id_livreur, out double gainTotal)
+        {
+            List<Dictionary<string, string>> historique_livraisons = new List<Dictionary<string, string>>();
+            gainTotal = 0;
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                string query = @"
+                SELECT l.ID_Livraison, l.Date_Livraison, l.Adresse_finale_Livraison, c.ID_Commande, c.Prix_Commande, c.Date_Commande, c.Taille_Commande,
+                       cl.ID_Client, u.ID_utilisateur, p.ID_Plat, p.Nom_plat, l.Prix_Livraison
+                FROM Livraison l
+                JOIN Commande c ON l.ID_Commande = c.ID_Commande
+                JOIN Client cl ON c.ID_Client = cl.ID_Client
+                JOIN Utilisateur u ON cl.ID_utilisateur = u.ID_utilisateur
+                JOIN Contient co ON c.ID_Commande = co.ID_Commande
+                JOIN Plat p ON co.ID_Plat = p.ID_Plat
+                WHERE l.ID_Livreur = " + id_livreur + ";";
+
+                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var livraison = new Dictionary<string, string>
+                {
+                    {"ID_Livraison", reader["ID_Livraison"].ToString()},
+                    {"Date_Livraison", reader["Date_Livraison"].ToString()},
+                    {"Adresse_Livraison", reader["Adresse_finale_Livraison"].ToString()},
+                    {"ID_Commande", reader["ID_Commande"].ToString()},
+                    {"Prix_Commande", reader["Prix_Commande"].ToString()},
+                    {"Date_Commande", reader["Date_Commande"].ToString()},
+                    {"Taille_Commande", reader["Taille_Commande"].ToString()},
+                    {"ID_Client", reader["ID_Client"].ToString()},
+                    {"ID_Utilisateur", reader["ID_utilisateur"].ToString()},
+                    {"ID_Plat", reader["ID_Plat"].ToString()},
+                    {"Nom_Plat", reader["Nom_plat"].ToString()},
+                    {"Gain", reader["Prix_Livraison"].ToString()}
+                };
+                    historique_livraisons.Add(livraison);
+                    gainTotal += double.Parse(reader["Prix_Livraison"].ToString());
+                }
+                reader.Close();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return historique_livraisons;
+        }
+
         public string toString()
         {
             string chaine = "";

@@ -126,7 +126,35 @@
     </header>
 
     <main>
-
+        <h1>@ViewData["Title"]</h1>
+        <h2>Historique des livraisons</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Livraison</th>
+                    <th>Date Livraison</th>
+                    <th>Adresse Livraison</th>
+                    <th>ID Commande</th>
+                    <th>Prix Commande</th>
+                    <th>Date Commande</th>
+                    <th>Taille Commande</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var livraison in Model.Historique_livraisons)
+                {
+                    <tr>
+                        <td>@livraison[0]</td>
+                        <td>@livraison[1]</td>
+                        <td>@livraison[2]</td>
+                        <td>@livraison[3]</td>
+                        <td>@livraison[4]</td>
+                        <td>@livraison[5]</td>
+                        <td>@livraison[6]</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </main>
 
     <footer>

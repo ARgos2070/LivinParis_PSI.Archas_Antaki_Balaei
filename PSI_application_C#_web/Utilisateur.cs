@@ -162,39 +162,70 @@ namespace PSI_application_C__web
             try
             {
                 string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
-                MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(ligneConnexion);
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
-                string query = "SELECT * FROM Utilisateur WHERE ID_utilisateur = @UserId";
-                MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@UserId", userId);
-
-                using (MySql.Data.MySqlClient.MySqlDataReader reader = command.ExecuteReader())
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM Utilisateur WHERE ID_utilisateur = '" + userId + "';";
+                MySqlDataReader reader;
+                reader = command.ExecuteReader();
+                string lecture1 = "";
+                string lecture2 = "";
+                string lecture3 = "";
+                string lecture4 = "";
+                string lecture5 = "";
+                string lecture6 = "";
+                bool lecture7 = false;
+                string lecture8 = "";
+                Console.WriteLine("ça a pas planté encore");
+                if (reader.Read())
                 {
-                    if (reader.Read())
+                    lecture1 = reader.GetString("Mot_de_passe_utilisateur");
+                    
+                    lecture2 = reader.GetString("Nom_utilisateur");
+                    
+                    lecture3 = reader.GetString("Prénom_utilisateur");
+                    
+                    lecture4 = reader.GetString("Adresse_utilisateur");
+                    
+                    lecture5 = reader.GetString("Num_tel_utilisateur");
+                    
+                    lecture6 = reader.GetString("adresse_mail_utilisateur");
+                    
+                    lecture7 = reader.GetBoolean("Utilisateur_est_entreprise");
+                    
+                    lecture8 = null;
+                    if (!reader.IsDBNull(reader.GetOrdinal("Nom_entreprise")))
                     {
-                        user = new Utilisateur
-                        (
-                            userId, 
-                            reader.GetString("Mot_de_passe_utilisateur"), 
-                            reader.GetString("Nom_utilisateur"), 
-                            reader.GetString("Prénom_utilisateur"), 
-                            reader.GetString("Adresse_utilisateur"),
-                            reader.GetString("Num_tel_utilisateur"), 
-                            reader.GetString("adresse_mail_utilisateur"),
-                            reader.GetBoolean("Utilisateur_est_entreprise"),
-                            reader.GetString("Nom_entreprise")
-                        );
+                        lecture8 = reader.GetString("Nom_entreprise");
                     }
+
+                    Console.WriteLine("-9");
+                    //user = new Utilisateur
+                    //(
+                    //    userId,
+                    //    reader.GetString("Mot_de_passe_utilisateur"),
+                    //    reader.GetString("Nom_utilisateur"),
+                    //    reader.GetString("Prénom_utilisateur"),
+                    //    reader.GetString("Adresse_utilisateur"),
+                    //    reader.GetString("Num_tel_utilisateur"),
+                    //    reader.GetString("adresse_mail_utilisateur"),
+                    //    reader.GetBoolean("Utilisateur_est_entreprise"),
+                    //    reader.GetString("Nom_entreprise")
+                    //);
                 }
+                reader.Close();
                 command.Dispose();
                 connection.Close();
+                Console.WriteLine("Jusque la tout va bien");
+                user = new Utilisateur(userId, lecture1, lecture2, lecture3, lecture4, lecture5, lecture6, lecture7, lecture8 );
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
-                System.Console.WriteLine(e.ToString());
+                Console.WriteLine(e.ToString());
             }
             return user;
         }
+
 
         public static void RadierUtilisateur(string id_utilisateur)
         {
