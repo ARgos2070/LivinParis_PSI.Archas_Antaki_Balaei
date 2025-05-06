@@ -168,36 +168,38 @@ namespace PSI_application_C__web
                 MySqlConnection connection = new MySqlConnection(ligneConnexion);
                 connection.Open();
                 string query = @"
-                SELECT l.ID_Livraison, l.Date_Livraison, l.Adresse_finale_Livraison, c.ID_Commande, c.Prix_Commande, c.Date_Commande, c.Taille_Commande,
-                       cl.ID_Client, u.ID_utilisateur, p.ID_Plat, p.Nom_plat, l.Prix_Livraison
-                FROM Livraison l
-                JOIN Commande c ON l.ID_Commande = c.ID_Commande
-                JOIN Client cl ON c.ID_Client = cl.ID_Client
-                JOIN Utilisateur u ON cl.ID_utilisateur = u.ID_utilisateur
-                JOIN Contient co ON c.ID_Commande = co.ID_Commande
-                JOIN Plat p ON co.ID_Plat = p.ID_Plat
-                WHERE l.ID_Livreur = " + id_livreur + ";";
+            SELECT l.ID_Livraison, l.Date_Livraison, l.Adresse_finale_Livraison, c.ID_Commande, c.Prix_Commande, c.Date_Commande, c.Taille_Commande,
+                   cl.ID_Client, u.ID_utilisateur, p.ID_Plat, p.Nom_plat, l.Prix_Livraison
+            FROM Livraison l
+            JOIN Commande c ON l.ID_Commande = c.ID_Commande
+            JOIN Client cl ON c.ID_Client = cl.ID_Client
+            JOIN Utilisateur u ON cl.ID_utilisateur = u.ID_utilisateur
+            JOIN Contient co ON c.ID_Commande = co.ID_Commande
+            JOIN Plat p ON co.ID_Plat = p.ID_Plat
+            WHERE l.ID_Livreur = @id_livreur;";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id_livreur", id_livreur);
+
                 MySqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
                     var livraison = new Dictionary<string, string>
-                {
-                    {"ID_Livraison", reader["ID_Livraison"].ToString()},
-                    {"Date_Livraison", reader["Date_Livraison"].ToString()},
-                    {"Adresse_Livraison", reader["Adresse_finale_Livraison"].ToString()},
-                    {"ID_Commande", reader["ID_Commande"].ToString()},
-                    {"Prix_Commande", reader["Prix_Commande"].ToString()},
-                    {"Date_Commande", reader["Date_Commande"].ToString()},
-                    {"Taille_Commande", reader["Taille_Commande"].ToString()},
-                    {"ID_Client", reader["ID_Client"].ToString()},
-                    {"ID_Utilisateur", reader["ID_utilisateur"].ToString()},
-                    {"ID_Plat", reader["ID_Plat"].ToString()},
-                    {"Nom_Plat", reader["Nom_plat"].ToString()},
-                    {"Gain", reader["Prix_Livraison"].ToString()}
-                };
+            {
+                {"ID_Livraison", reader["ID_Livraison"].ToString()},
+                {"Date_Livraison", reader["Date_Livraison"].ToString()},
+                {"Adresse_Livraison", reader["Adresse_finale_Livraison"].ToString()},
+                {"ID_Commande", reader["ID_Commande"].ToString()},
+                {"Prix_Commande", reader["Prix_Commande"].ToString()},
+                {"Date_Commande", reader["Date_Commande"].ToString()},
+                {"Taille_Commande", reader["Taille_Commande"].ToString()},
+                {"ID_Client", reader["ID_Client"].ToString()},
+                {"ID_Utilisateur", reader["ID_utilisateur"].ToString()},
+                {"ID_Plat", reader["ID_Plat"].ToString()},
+                {"Nom_Plat", reader["Nom_plat"].ToString()},
+                {"Gain", reader["Prix_Livraison"].ToString()}
+            };
                     historique_livraisons.Add(livraison);
                 }
                 reader.Close();
@@ -210,6 +212,9 @@ namespace PSI_application_C__web
             }
             return historique_livraisons;
         }
+g
+
+
 
         public string toString()
         {

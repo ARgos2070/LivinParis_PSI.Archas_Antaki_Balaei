@@ -27,7 +27,7 @@ namespace PSI_application_C__web
 
         [TestCase(1)]
         [TestCase(2)]
-        public void Test_distance_Id_Final_Simple(int selector)//failure les deux sont nuls
+        public void Test_distance_Id_Final_Simple(int selector)
         {
             Graphe lesmetros = new Graphe();
             switch (selector)

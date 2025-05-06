@@ -39,6 +39,7 @@ namespace PSI_application_C__web
             {
                 Console.WriteLine("manque : popule_table_station_txt");
             }
+            Console.WriteLine("aucun manquant");
             this.path_s = "popule_table_station_txt.txt";
             this.list_noeud = new Dictionary<int, INoeud>();
             this.list_pk = new Dictionary<string, int>();
@@ -125,8 +126,6 @@ namespace PSI_application_C__web
 
                     }
                 }
-                //Affichage_Matrice();
-                //verifier pourquoi il y a un trou au milieu de la matrice pseudo diagonal 
             }
             catch (Exception e)
             {

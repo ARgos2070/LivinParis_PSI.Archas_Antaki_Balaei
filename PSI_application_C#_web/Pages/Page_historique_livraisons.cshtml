@@ -113,6 +113,26 @@
                 footer a:hover {
                     text-decoration: underline;
                 }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -138,19 +158,29 @@
                     <th>Prix Commande</th>
                     <th>Date Commande</th>
                     <th>Taille Commande</th>
+                    <th>ID Client</th>
+                    <th>ID Utilisateur</th>
+                    <th>ID Plat</th>
+                    <th>Nom Plat</th>
+                    <th>Gain</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var livraison in Model.Historique_livraisons)
+                @foreach (var livraison in Model.HistoriqueLivraisons)
                 {
                     <tr>
-                        <td>@livraison[0]</td>
-                        <td>@livraison[1]</td>
-                        <td>@livraison[2]</td>
-                        <td>@livraison[3]</td>
-                        <td>@livraison[4]</td>
-                        <td>@livraison[5]</td>
-                        <td>@livraison[6]</td>
+                        <td>@livraison["ID_Livraison"]</td>
+                        <td>@livraison["Date_Livraison"]</td>
+                        <td>@livraison["Adresse_Livraison"]</td>
+                        <td>@livraison["ID_Commande"]</td>
+                        <td>@livraison["Prix_Commande"]</td>
+                        <td>@livraison["Date_Commande"]</td>
+                        <td>@livraison["Taille_Commande"]</td>
+                        <td>@livraison["ID_Client"]</td>
+                        <td>@livraison["ID_Utilisateur"]</td>
+                        <td>@livraison["ID_Plat"]</td>
+                        <td>@livraison["Nom_Plat"]</td>
+                        <td>@livraison["Gain"]</td>
                     </tr>
                 }
             </tbody>
