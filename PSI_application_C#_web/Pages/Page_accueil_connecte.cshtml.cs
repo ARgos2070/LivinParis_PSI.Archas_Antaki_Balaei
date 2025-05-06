@@ -40,7 +40,7 @@ namespace PSI_application_C__web.Pages
             int id_livreur_connecte = Livreur.IdLivreurDunUtilisateur(Id_utilisateur_session);
             TempData["Id_utilisateur_session"] = Id_utilisateur_session;
             TempData["Id_cuisinier"] = id_cuisinier_connecte;
-            //TempData["Id_client"] = id_client_connecte;
+            TempData["Id_client"] = id_client_connecte;
             //TempData["Id_livreur"] = id_livreur_connecte;
             TempData["Id_commande_memoire"] = 0;
         }
