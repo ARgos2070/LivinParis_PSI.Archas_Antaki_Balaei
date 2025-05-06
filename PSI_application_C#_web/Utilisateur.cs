@@ -180,21 +180,19 @@ namespace PSI_application_C__web
                 if (reader.Read())
                 {
                     lecture1 = reader.GetString("Mot_de_passe_utilisateur");
-                    Console.WriteLine("-1");
+                    
                     lecture2 = reader.GetString("Nom_utilisateur");
-                    Console.WriteLine("-2");
-                    Console.WriteLine("ça a pas planté encore");
-                    Console.WriteLine("-3");
+                    
                     lecture3 = reader.GetString("Prénom_utilisateur");
-                    Console.WriteLine("-4");
+                    
                     lecture4 = reader.GetString("Adresse_utilisateur");
-                    Console.WriteLine("-5");
+                    
                     lecture5 = reader.GetString("Num_tel_utilisateur");
-                    Console.WriteLine("-6");
+                    
                     lecture6 = reader.GetString("adresse_mail_utilisateur");
-                    Console.WriteLine("-7");
+                    
                     lecture7 = reader.GetBoolean("Utilisateur_est_entreprise");
-                    Console.WriteLine("-8");
+                    
                     lecture8 = null;
                     if (!reader.IsDBNull(reader.GetOrdinal("Nom_entreprise")))
                     {
