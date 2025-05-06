@@ -10,9 +10,6 @@ namespace PSI_application_C__web.Pages
         [BindProperty]
         public string nom_utilisateur_signale { get; set; }
 
-        [BindProperty]
-        public string plainte { get; set; }
-
         public void OnGet()
         {
         }
@@ -20,22 +17,19 @@ namespace PSI_application_C__web.Pages
         public IActionResult OnPost()
         {
             bool id_valide = nom_utilisateur_signale != null && nom_utilisateur_signale.Length > 0;
-            bool pleinte_valide = plainte != null && plainte.Length > 0;
             if (id_valide == false)
             {
                 ViewData["Erreur_id_utilisateur_aucune_saisie"] = "Veuillez renseigner votre pseudonyme (id utilisateur).";
-            }
-            if (pleinte_valide == false)
-            {
-                ViewData["Erreur_pleinte_saisie"] = "votre pleinte est requis.";
+                return Page();
             }
             if (Utilisateur.Identifiant_utilisateur_nouveau_dans_bdd(nom_utilisateur_signale))
             {
                 ViewData["Erreur_id_utilisateur_incorrect"] = "Ce pseudonyme (id utilisateur) n'est pas correct. Veuillez réessayer.";
+                return Page();
             }
+            
             Utilisateur.UnSignalementRecu(nom_utilisateur_signale.ToString());
-            //plainte stocker nul part
-            return Page();
+            return RedirectToPage("Page_accueil_connecte");;
         }
     }
 }

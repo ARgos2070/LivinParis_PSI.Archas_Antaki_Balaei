@@ -120,8 +120,20 @@ namespace PSI_application_C__web.Pages
                 }
                 else
                 {
-                    TempData["Id_utilisateur_session"] = saisie_id_connexion;
-                    return RedirectToPage("Page_accueil_connecte");
+                    string nbre_signalement_profil = Utilisateur.RechercherLeTupleDuneColonneUtilisateur(saisie_id_connexion, "Nbre_signalements_contre_utilisateur");
+                    int nbre_signalement = Convert.ToInt32(nbre_signalement_profil);
+                    if (nbre_signalement >= 3)
+                    {
+                        Utilisateur.RadierUtilisateur(saisie_id_connexion);
+                        ViewData["Erreur_mot_de_passe_incorrect"] = "Utilisateur radié";
+                        TempData["Id_utilisateur_session"] = saisie_id_connexion;
+                        return Page();
+                    }
+                    else
+                    {
+                        TempData["Id_utilisateur_session"] = saisie_id_connexion;
+                        return RedirectToPage("Page_accueil_connecte");
+                    }
                 }
             }
         }
