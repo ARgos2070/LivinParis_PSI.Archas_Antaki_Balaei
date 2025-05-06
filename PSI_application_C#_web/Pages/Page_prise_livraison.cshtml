@@ -129,7 +129,25 @@
                 }
             </tbody>
         </table>
+
+        <form method="post">
+
+            <div>
+
+                <div>
+                    <label asp-for="saisie_ID_commande">Donner l'id de la commande que vous souhaiter prendre :</label>
+                    <input type="text" asp-for="saisie_ID_commande" maxlength="3" pattern="\d{1,3}" required />
+                </div>
+                <p>@ViewData["Erreur_saisie_id_vide"]</p>
+            </div>
+
+            <button type="submit" asp-page-handler="SubmitChoice">
+                Soumettre le choix
+            </button>
+        </form>
     </main>
+
+
 
     <footer>
         <div>
