@@ -25,7 +25,7 @@ namespace PSI_application_C__web.Pages
 
             // Code original
             string query =
-                "SELECT c.Nbre_plat_propose_Cuisinier, " +
+                "SELECT c.Nbre_plat_proposé_Cuisinier, " +
                        "c.Plat_du_jour_Cuisinier, " +
                        "c.Nbre_commandes_cuisinees_cuisinier, " +
                        "u.Nom_utilisateur, " +
@@ -78,7 +78,7 @@ namespace PSI_application_C__web.Pages
         // Moyenne du nombre de plats proposés par cuisinier
         private decimal GetMoyennePlatParCuisinier(MySqlConnection connection)
         {
-            string query = "SELECT AVG(Nbre_plat_propose_Cuisinier) FROM Cuisinier;";
+            string query = "SELECT AVG(Nbre_plat_proposé_Cuisinier) FROM Cuisinier;";
             using var cmd = new MySqlCommand(query, connection);
             var result = cmd.ExecuteScalar();
             return result != DBNull.Value ? System.Convert.ToDecimal(result) : 0;
@@ -95,10 +95,10 @@ namespace PSI_application_C__web.Pages
         private CookierMaxPlatResult GetCuisinierMaxPlat(MySqlConnection connection)
         {
             string query = @"
-                SELECT c.ID_Cuisinier, u.Nom_utilisateur, u.Prénom_utilisateur, c.Nbre_plat_propose_Cuisinier
+                SELECT c.ID_Cuisinier, u.Nom_utilisateur, u.Prénom_utilisateur, c.Nbre_plat_proposé_Cuisinier
                 FROM Cuisinier c
                 JOIN Utilisateur u ON c.ID_utilisateur = u.ID_utilisateur
-                ORDER BY c.Nbre_plat_propose_Cuisinier DESC
+                ORDER BY c.Nbre_plat_proposé_Cuisinier DESC
                 LIMIT 1;";
             using var cmd = new MySqlCommand(query, connection);
             using var reader = cmd.ExecuteReader();

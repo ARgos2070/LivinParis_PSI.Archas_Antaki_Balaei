@@ -43,11 +43,28 @@ namespace PSI_application_C__web.Pages
             TempData["Id_client"] = id_client_connecte;
             //TempData["Id_livreur"] = id_livreur_connecte;
             TempData["Id_commande_memoire"] = 0;
+            string nbre_actuel_signalement = Utilisateur.RechercherLeTupleDuneColonneUtilisateur(Id_utilisateur_session, "Nbre_signalements_contre_utilisateur");
+            Console.WriteLine(nbre_actuel_signalement);
+            if (nbre_actuel_signalement == "3")
+            {
+                TempData["Est_bloque"] = "true";
+            }
         }
 
         public IActionResult OnPost()
         {
-            
+            string nbre_actuel_signalement = Utilisateur.RechercherLeTupleDuneColonneUtilisateur(Id_utilisateur_session, "Nbre_signalements_contre_utilisateur");
+            Console.WriteLine(nbre_actuel_signalement);
+            if (nbre_actuel_signalement == "3")
+            {
+                TempData["Est_bloque"] = "true";
+            }
+            string est_bloque = TempData["Est_bloque"].ToString();
+            if (est_bloque == "true")
+            {
+                Utilisateur.RadierUtilisateur(Id_utilisateur_session);
+                return RedirectToPage("Page_1er_chargement");
+            }
             return Page();
         }
     }

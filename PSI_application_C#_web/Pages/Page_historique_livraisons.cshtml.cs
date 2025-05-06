@@ -21,7 +21,7 @@ namespace PSI_application_C__web.Pages
             GainTotalLivreur = 0;
             TempData["Id_utilisateur_session"] = Id_utilisateur_session;
             int id_livreur = Livreur.IdLivreurDunUtilisateur(Id_utilisateur_session);
-            //Historique_livraisons = Livraison.RechercherHistoriqueLivraisonsLivreur(id_livreur, out GainTotalLivreur);
+            //Historique_livraisons = Livreur.RechercherHistoriqueLivraisonsLivreur(id_livreur);
 
         }
     }

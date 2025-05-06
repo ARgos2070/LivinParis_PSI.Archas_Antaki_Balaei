@@ -159,10 +159,9 @@ namespace PSI_application_C__web
             this.gain_livreur += gain_livraison;
         }
 
-        public static List<Dictionary<string, string>> RechercherHistoriqueLivraisonsLivreur(int id_livreur, out double gainTotal)
+        public static List<Dictionary<string, string>> RechercherHistoriqueLivraisonsLivreur(int id_livreur)
         {
             List<Dictionary<string, string>> historique_livraisons = new List<Dictionary<string, string>>();
-            gainTotal = 0;
             try
             {
                 string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
@@ -200,7 +199,6 @@ namespace PSI_application_C__web
                     {"Gain", reader["Prix_Livraison"].ToString()}
                 };
                     historique_livraisons.Add(livraison);
-                    gainTotal += double.Parse(reader["Prix_Livraison"].ToString());
                 }
                 reader.Close();
                 command.Dispose();

@@ -351,6 +351,34 @@ namespace PSI_application_C__web
             return liste;
         }
 
+        public static string RechercherLeTupleDuneColonneUtilisateur(string id_utilisateur, string nom_colonne)
+        {
+            string valeur = "";
+            try
+            {
+                string ligneConnexion = "SERVER=localhost;PORT=3306;DATABASE=base_livin_paris;UID=utilisateur_site;PASSWORD=mot_de_passe";
+                MySqlConnection connection = new MySqlConnection(ligneConnexion);
+                connection.Open();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT DISTINCT " + nom_colonne + " FROM Utilisateur WHERE ID_utilisateur = '" + id_utilisateur + "';";
+                MySqlDataReader reader;
+                reader = command.ExecuteReader();
+                //string lecture_tuple = "";
+                while (reader.Read())
+                {
+                    valeur = reader[nom_colonne].ToString();
+                }
+                reader.Close();
+                command.Dispose();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return valeur;
+        }
+
         public static bool UtilisateurEstEntreprise(string id_utilisateur)
         {
             bool estEntreprise = false;
