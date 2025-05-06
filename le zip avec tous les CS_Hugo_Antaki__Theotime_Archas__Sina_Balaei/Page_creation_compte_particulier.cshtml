@@ -1,0 +1,281 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_creation_compte_particulierModel
+@{
+    ViewData["Title"] = "Page creation compte particulier";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        :root {
+            --background-color: #f4f4f4;
+            --container-bg: #ffffff;
+            --header-bg: #343a40;
+            --footer-bg: #343a40;
+            --button-bg: #28a745;
+            --button-hover-bg: #218838;
+            --input-bg: #ffffff;
+            --input-border: #ccc;
+            --text-color: #343a40;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            header .btn {
+                background-color: #007bff;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+
+                header .btn:hover {
+                    background-color: #0056b3;
+                }
+
+        .container {
+            background-color: var(--container-bg);
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+            form div {
+                margin-bottom: 15px;
+            }
+
+            form label {
+                font-size: 16px;
+                margin-bottom: 5px;
+                color: var(--text-color);
+            }
+
+            form input[type="text"],
+            form input[type="password"],
+            form input[type="radio"] {
+                padding: 10px;
+                font-size: 16px;
+                border: 1px solid var(--input-border);
+                border-radius: 5px;
+                width: 100%;
+                background-color: var(--input-bg);
+                color: var(--text-color);
+            }
+
+            form button {
+                background-color: var(--button-bg);
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+                margin-top: 20px;
+            }
+
+                form button:hover {
+                    background-color: var(--button-hover-bg);
+                }
+
+            form small {
+                font-size: 12px;
+                color: #666;
+            }
+
+        p {
+            font-size: 14px;
+            color: red;
+        }
+
+        footer {
+            background-color: var(--footer-bg);
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+            footer a {
+                color: #fff;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Création de votre compte</h1>
+        <form method="post">
+            <small>La différence entre majuscule et minuscule n'a pas à être prise en compte dans l'identifiant</small>
+
+            <!-- Pseudo -->
+            <div>
+                <label asp-for="saisie_id_utilisateur">Choisissez votre pseudo (id utilisateur) :</label>
+                <input type="text" asp-for="saisie_id_utilisateur" maxlength="50" />
+                <p>@ViewData["Erreur_id_utilisateur"]</p>
+            </div>
+
+            <!-- Prénom -->
+            <div>
+                <label asp-for="saisie_prenom">Prénom :</label>
+                <input type="text" asp-for="saisie_prenom" maxlength="50" />
+                <p>@ViewData["Erreur_prenom"]</p>
+            </div>
+
+            <!-- Nom -->
+            <div>
+                <label asp-for="saisie_nom">Nom :</label>
+                <input type="text" asp-for="saisie_nom" maxlength="50" />
+                <p>@ViewData["Erreur_nom"]</p>
+            </div>
+
+            <!-- Mot de passe -->
+            <div>
+                <label asp-for="saisie_mot_de_passe">Mot de passe :</label>
+                <input type="password" asp-for="saisie_mot_de_passe" maxlength="50" />
+                <p>@ViewData["Erreur_mot_de_passe"]</p>
+            </div>
+
+            <!-- Adresse -->
+            <p>Adresse de l'entreprise</p>
+            <small>(Le service Livin'Paris n'est disponible qu'en région parisienne, veuillez entrer une adresse située dans ce secteur)</small>
+
+            <!-- Adresse N° -->
+            <div>
+                <label asp-for="saisie_adresse_num_rue">N° :</label>
+                <input type="text" asp-for="saisie_adresse_num_rue" maxlength="3" pattern="\d{1,3}" required />
+                <p>@ViewData["Erreur_adresse_num_rue"]</p>
+            </div>
+
+            <!-- Rue -->
+            <div>
+                <label asp-for="saisie_adresse_nom_rue">Rue :</label>
+                <input type="text" asp-for="saisie_adresse_nom_rue" maxlength="40" />
+                <p>@ViewData["Erreur_adresse_nom_rue"]</p>
+            </div>
+
+            <!-- Ville -->
+            <div>
+                <label asp-for="saisie_adresse_ville">Ville :</label>
+                <input type="text" asp-for="saisie_adresse_ville" maxlength="30" />
+                <p>@ViewData["Erreur_adresse_ville"]</p>
+            </div>
+
+            <!-- Code postal -->
+            <div>
+                <label asp-for="saisie_adresse_code_postal">Code postal :</label>
+                <input type="text" asp-for="saisie_adresse_code_postal" maxlength="5" pattern="\d{5}" required />
+                <p>@ViewData["Erreur_adresse_code_postal"]</p>
+            </div>
+            <p>@ViewData["Erreur_adresse_reseau"]</p>
+
+            <!-- Numéro de téléphone -->
+            <div>
+                <label asp-for="saisie_num_tel">Numéro de téléphone :</label>
+                <input type="text" asp-for="saisie_num_tel" maxlength="10" pattern="\d{10}" required />
+                <small>Veuillez entrer un numéro de téléphone à 10 chiffres.</small>
+                <p>@ViewData["Erreur_num_tel"]</p>
+            </div>
+
+            <!-- Adresse email -->
+            <div>
+                <label asp-for="saisie_adresse_mail">Adresse mail :</label>
+                <input type="text" asp-for="saisie_adresse_mail" maxlength="50" />
+                <p>@ViewData["Erreur_adresse_mail"]</p>
+            </div>
+
+            <!-- Choix des services -->
+            <div>
+                <p>Voulez-vous être un client de notre service ?</p>
+                <label>
+                    <input type="radio" asp-for="saisie_est_client" value="true" />
+                    Oui
+                </label>
+                <label>
+                    <input type="radio" asp-for="saisie_est_client" value="false" />
+                    Non
+                </label>
+            </div>
+
+            <div>
+                <p>Voulez-vous être un cuisinier de notre service ?</p>
+                <label>
+                    <input type="radio" asp-for="saisie_est_cuisinier" value="true" />
+                    Oui
+                </label>
+                <label>
+                    <input type="radio" asp-for="saisie_est_cuisinier" value="false" />
+                    Non
+                </label>
+            </div>
+
+            <div>
+                <p>Voulez-vous être un livreur de notre service ?</p>
+                <label>
+                    <input type="radio" asp-for="saisie_est_livreur" value="true" />
+                    Oui
+                </label>
+                <label>
+                    <input type="radio" asp-for="saisie_est_livreur" value="false" />
+                    Non
+                </label>
+            </div>
+
+            <p>@ViewData["Erreur_client"]</p>
+            <button type="submit">Soumettre le choix</button>
+        </form>
+    </div>
+
+    <footer>
+        <div>
+            &copy; 2025 - PSI_application_C__web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+</body>
+</html>

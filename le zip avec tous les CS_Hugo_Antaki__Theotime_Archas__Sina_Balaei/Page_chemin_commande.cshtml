@@ -1,0 +1,134 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_chemin_commandeModel
+@{
+    ViewData["Title"] = "Page chemin du livreur";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            header .btn {
+                background-color: #007bff;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+
+                header .btn:hover {
+                    background-color: #0056b3;
+                }
+
+        main {
+            background-color: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+            table td {
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+                font-size: 16px;
+            }
+
+                table td:first-child {
+                    font-weight: bold;
+                }
+
+                table td:last-child {
+                    padding-left: 20px;
+                }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+            footer a {
+                color: white;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Voici le chemin a prendre</h1>
+
+        <div>
+            <h2> résumé chaque cuisinier </h2>
+            @foreach (var station in Model.List_des_stations)
+            {
+                <table>
+                    <tr>
+                        <td>@station</td>
+                        <td> -- > </td>
+                    </tr>
+                </table>
+                <br />
+            }
+        </div>
+
+    </main>
+
+    <footer>
+        <div>
+            &copy; 2025 - PSI_application_C__web - <a asp-page="/Privacy">Confidentialité</a>
+        </div>
+    </footer>
+</body>
+</html>
+

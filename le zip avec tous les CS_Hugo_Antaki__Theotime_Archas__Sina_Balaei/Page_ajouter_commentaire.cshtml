@@ -1,0 +1,54 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_ajouter_commentaireModel
+@{
+    ViewData["Title"] = "Page ajouter commentaire";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Ajouter Votre commentaire</h1>
+        <form method="post">
+
+            <div>
+
+                <div>
+                    <label asp-for="saisie_note">la note (sur 5) :</label>
+                    <input type="text" asp-for="saisie_note" maxlength="1" pattern="\d{1,3}" required />
+                </div>
+                <p>@ViewData["Erreur_saisie_note"]</p>
+                <div>
+                    <label asp-for="saisie_commentaire">Le commentaire : </label>
+                    <input type="text" asp-for="saisie_commentaire" maxlength="60" required />
+                </div>
+                <p>@ViewData["Erreur_saisie_commentaire"]</p>
+            </div>
+
+            <button type="submit" asp-page-handler="Submit">
+                Soumettre votre commentaire
+            </button>
+        </form>
+    </main>
+
+    <footer style="text-align: center; margin-top: 40px;">
+        &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+    </footer>
+</body>
+</html>

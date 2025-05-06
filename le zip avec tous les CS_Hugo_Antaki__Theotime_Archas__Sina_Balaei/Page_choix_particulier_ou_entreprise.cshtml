@@ -1,0 +1,116 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_choix_particulier_ou_entrepriseModel
+@{
+    ViewData["Title"] = "Client ou entreprise ?";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-dark: #0056b3;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --header-bg: #0069d9;
+            --footer-bg: #212529;
+            --accent-color: #17a2b8;
+            --sky-blue: #87CEEB; /* couleur bleu ciel */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--sky-blue); /* Arrière-plan bleu ciel */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: var(--header-bg);
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+            button:hover {
+                background-color: var(--primary-dark);
+                transform: scale(1.05);
+            }
+
+        footer {
+            background-color: var(--footer-bg);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+            footer a {
+                color: var(--accent-color);
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bienvenue !</h1>
+    </header>
+
+    <div>
+        <h1>Etes-vous :</h1>
+        <button type="button" onclick="window.location.href='/Page_creation_compte_particulier'">
+            Un particulier
+        </button>
+        <button type="button" onclick="window.location.href='/Page_creation_compte_entreprise'">
+            Une entreprise
+        </button>
+    </div>
+
+    <footer>
+        <div>
+            &copy; 2025 - PSI_application_C__web - <a asp-area="" asp-page="/Privacy">Confidentialité</a>
+        </div>
+    </footer>
+</body>
+</html>

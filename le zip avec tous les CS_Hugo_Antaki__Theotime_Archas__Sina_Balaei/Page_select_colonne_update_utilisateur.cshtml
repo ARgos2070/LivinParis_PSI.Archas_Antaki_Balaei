@@ -1,0 +1,256 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_select_colonne_update_utilisateurModel
+@{
+    ViewData["Title"] = "Sélectionner une Propriété de l'utilisateur";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            header .btn {
+                background-color: #007bff;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+
+                header .btn:hover {
+                    background-color: #0056b3;
+                }
+
+        main {
+            background-color: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+            form div {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            form label {
+                font-size: 16px;
+                color: #333;
+            }
+
+        input[type="radio"] {
+            transform: scale(1.2);
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #218838;
+            }
+
+        p {
+            color: red;
+            font-size: 14px;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+            footer a {
+                color: white;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Sélectionner une propriété de l'utilisateur à modifier :</h1>
+        <form method="post">
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Nom_utilisateur" />
+                    Nom_utilisateur
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Prénom_utilisateur" />
+                    Prénom_utilisateur
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Mot_de_passe_utilisateur" />
+                    Mot_de passe de l'utilisateur
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Adresse_utilisateur" />
+                    Adresse de l'utilisateur
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Num_tel_utilisateur" />
+                    Numéro de téléphone de l'utilisateur
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Adresse_mail_utilisateur" />
+                    Adresse e-mail de l'utilisateur
+                </label>
+            </div>
+            @if (Model.Est_entreprise)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Arreter_entreprise" />
+                        Ne plus être considéré comme une entreprise
+                    </label>
+                </div>
+            }
+            @if (!Model.Est_entreprise)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Devenir_entreprise" />
+                        Etre considéré comme une entreprise
+                    </label>
+                </div>
+            }
+            @if (Model.Est_cuisinier)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Arreter_cuisinier" />
+                        Ne plus être cuisinier
+                    </label>
+                </div>
+            }
+            @if (Model.Est_client)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Arreter_client" />
+                        Ne plus être client
+                    </label>
+                </div>
+            }
+            @if (Model.Est_livreur)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Arreter_livreur" />
+                        Ne plus être livreur
+                    </label>
+                </div>
+            }
+            @if (!Model.Est_cuisinier)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Devenir_cuisinier" />
+                        Devenir cuisinier
+                    </label>
+                </div>
+            }
+            @if (!Model.Est_client)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Devenir_client" />
+                        Devenir client
+                    </label>
+                </div>
+            }
+            @if (!Model.Est_livreur)
+            {
+                <div>
+                    <label>
+                        <input type="radio" name="Option_choisie" value="Devenir_livreur" />
+                        Devenir livreur
+                    </label>
+                </div>
+            }
+            <small>(Attention, si vous n'aviez qu'un seul rôle et que vous choisissez de l'abandonner, votre profil sera supprimé)</small>
+            <div>
+                <label>
+                    <input type="radio" name="Option_choisie" value="Supprimer_profil" />
+                    Supprimer votre profil
+                </label>
+            </div>
+            <p>@ViewData["Erreur_selection"]</p>
+            <button type="submit">Valider</button>
+        </form>
+    </main>
+
+    <footer>
+        <div>
+            &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+        </div>
+    </footer>
+</body>
+</html>

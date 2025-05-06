@@ -1,0 +1,235 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_affichage_platModel
+@{
+    ViewData["Title"] = "Page affichage plat";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-dark: #0056b3;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --header-bg: #0069d9;
+            --footer-bg: #212529;
+            --accent-color: #17a2b8;
+            --sky-blue: #87CEEB; /* couleur bleu ciel */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--sky-blue); /* Arrière-plan bleu ciel */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: var(--header-bg);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+        }
+
+            header a {
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+                background-color: var(--primary-dark);
+                padding: 10px 18px;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+            }
+
+                header a:hover {
+                    background-color: #003776;
+                }
+
+        main {
+            flex: 1;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            width: 80%;
+            max-width: 300px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+            button:hover {
+                background-color: var(--primary-dark);
+                transform: scale(1.05);
+            }
+
+        footer {
+            background-color: var(--footer-bg);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+            footer a {
+                color: var(--accent-color);
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+        /* Logo ESILV en bas à droite */
+        .esilv {
+            width: 50px;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            opacity: 0.8;
+        }
+
+        /* Style des cartes de plat */
+        .plat-card {
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            margin-bottom: 20px;
+        }
+
+            .plat-card h3 {
+                margin-top: 0;
+            }
+
+            .plat-card p {
+                margin: 5px 0;
+            }
+
+        .plat-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Bienvenue dans la carte des plats (ou rebienvenue si vous êtiez parti mettre un filtre) :</h1>
+        <form method="post">
+
+            <div>
+
+                <div>
+                    <label asp-for="saisie_id_plat_voulu">Donner l'id du plat que vous souhaité prendre :</label>
+                    <input type="text" asp-for="saisie_id_plat_voulu" maxlength="3" pattern="\d{1,3}" required />
+                </div>
+                <p>@ViewData["Erreur_saisie_id_vide"]</p>
+                <div>
+                    <label asp-for="saisie_nbre_plat_voulu">Donner le nombre de portion que vous souhaité commander :</label>
+                    <input type="text" asp-for="saisie_nbre_plat_voulu" maxlength="2" pattern="\d{1,2}" required />
+                </div>
+                <p>@ViewData["Erreur_saisie_nbre_plat_voulu"]</p>
+            </div>
+
+            <button type="submit" asp-page-handler="SubmitChoice">
+                Soumettre le choix
+            </button>
+            <button type="submit" asp-page-handler="Comentaire">
+                Voir les Commentaires
+            </button>
+        </form>
+
+        @if (Model.Plats != null && Model.Plats.Count > 0)
+        {
+            <h2>Liste des plats :</h2>
+            <div class="plat-list">
+                @foreach (var plat in Model.Plats)
+                {
+                    <div class="plat-card">
+                        <h3><strong>Nom :</strong> @plat.Nom_plat</h3>
+                        <p><strong>ID :</strong> @plat.Id_plat</p>
+                        <p><strong>Type :</strong> @plat.Type_plat</p>
+                        <p><strong>Nombre de personnes :</strong> @plat.Pr_cmb_de_personnes_plat</p>
+                        <p><strong>Prix par portion :</strong> @plat.Prix_par_portion_plat €</p>
+                        <p><strong>Nombre de portions disponibles :</strong> @plat.Nbre_portion_dispo_plat</p>
+                        <p><strong>Date de fabrication :</strong> @plat.Date_fabrication_plat</p>
+                        <p><strong>Date de péremption :</strong> @plat.Date_perempetion_plat</p>
+                        <p><strong>Nationalité :</strong> @plat.Nationalite_plat</p>
+                        <p><strong>Régime alimentaire :</strong> @plat.Regime_alimentaire_plat</p>
+                        <p><strong>Ingrédients principaux :</strong> @plat.Ingredients_principaux_plat</p>
+                        <p><strong>Pseudo du cuisinier :</strong> @Cuisinier.IdUtilisateurDunCuisinier(plat.Id_cuisinier_plat)</p>
+                    </div>
+                }
+            </div>
+        }
+
+    </main>
+
+    <!-- Logo ESILV en bas à droite -->
+    <img src="https://www.esilv.fr/ecole-ingenieur/logos/logo_esilv_png_couleur.png" class="esilv" />
+
+    <footer style="text-align: center; margin-top: 40px;">
+        &copy; 2025 - Application - <a asp-page="/Privacy">Confidentialité</a>
+    </footer>
+</body>
+</html>

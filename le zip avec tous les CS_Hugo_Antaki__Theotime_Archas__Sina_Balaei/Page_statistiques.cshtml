@@ -1,0 +1,226 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_statistiqueModel
+@{
+    ViewData["Title"] = "Page statistique";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            header .btn {
+                background-color: #007bff;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+
+                header .btn:hover {
+                    background-color: #0056b3;
+                }
+
+        main {
+            background-color: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+            table td {
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+                font-size: 16px;
+            }
+
+                table td:first-child {
+                    font-weight: bold;
+                }
+
+                table td:last-child {
+                    padding-left: 20px;
+                }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+            footer a {
+                color: white;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Voici vos Statistiques</h1>
+
+        <div>
+            <h2> résumé chaque cuisinier </h2>
+            @foreach (var stat in Model.CookStats)
+            {
+                <table>
+                    <tr>
+                        <td>Nom :</td>
+                        <td>@stat.Nom</td>
+                    </tr>
+                    <tr>
+                        <td>Prénom :</td>
+                        <td>@stat.Prenom</td>
+                    </tr>
+                    <tr>
+                        <td>Nombre de plats proposés :</td>
+                        <td>@stat.Nbre_plat_proposé</td>
+                    </tr>
+                    <tr>
+                        <td>Plat du jour :</td>
+                        <td>@stat.Plat_du_jour</td>
+                    </tr>
+                    <tr>
+                        <td>Nombre de commandes cuisinées :</td>
+                        <td>@stat.Nbre_commandes</td>
+                    </tr>
+                </table>
+                <br />
+            }
+        </div>
+
+        <div>
+            <h2>Moyenne des dépensé par les client : </h2>
+            <p>@Model.MoyenneDepensesClients</p>
+        </div>
+
+        <div>
+            <h2>Nombre moyen de plat par cuisinier : </h2>
+            <p>@Model.MoyennePlatParCuisinier</p>
+        </div>
+
+        <div>
+            <h2>Le cuisinier qui a proposé le plus de plat : </h2>
+            <table>
+                <tr>
+                    <td>Nom :</td>
+                    <td>@Model.CuisinierMaxPlat.Nom </td>
+                </tr>
+                <tr>
+                    <td>Prenom :</td>
+                    <td>@Model.CuisinierMaxPlat.Prenom </td>
+                </tr>
+                <tr>
+                    <td>Nombre de plat :</td>
+                    <td>@Model.CuisinierMaxPlat.NbrePlat </td>
+                </tr>
+            </table>
+            <br />
+        </div>
+
+        <div>
+            <h2>Le plat le mieux noté : </h2>
+            <table>
+                <tr>
+                    <td>Nom plat :</td>
+                    <td>@Model.PlatMieuxNote.NomPlat </td>
+                </tr>
+                <tr>
+                    <td>Note moyenne :</td>
+                    <td>@Model.PlatMieuxNote.MoyenneNote </td>
+                </tr>
+            </table>
+            <br />
+        </div>
+
+        <div>
+            <h2>Le plat le mieux noté : </h2>
+            <table>
+                <tr>
+                    <td>Nom :</td>
+                    <td>@Model.ClientMaxDepense.Nom </td>
+                </tr>
+                <tr>
+                    <td>Prenom :</td>
+                    <td>@Model.ClientMaxDepense.Prenom </td>
+                </tr>
+                <tr>
+                    <td>Depense total :</td>
+                    <td>@Model.ClientMaxDepense.TotalDepense </td>
+                </tr>
+            </table>
+            <br />
+        </div>
+
+        <div>
+            <h2>Le plat le mieux vendu : </h2>
+            <table>
+                <tr>
+                    <td>Nom :</td>
+                    <td>@Model.PlatPlusVendu.NomPlat </td>
+                </tr>
+                <tr>
+                    <td>Prenom :</td>
+                    <td>@Model.PlatPlusVendu.TotalVendu </td>
+                </tr>
+            </table>
+            <br />
+        </div>
+    </main>
+
+    <footer>
+        <div>
+            &copy; 2025 - PSI_application_C__web - <a asp-page="/Privacy">Confidentialité</a>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,106 @@
+﻿@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = "Privacy";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+            header h1 {
+                font-size: 28px;
+                margin: 0;
+            }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+            footer a {
+                color: white;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Politique de Confidentialité</h1>
+    </header>
+
+    <div class="content">
+        <h2>Introduction</h2>
+        <p>Bienvenue sur notre page de politique de confidentialité. Cette page explique comment nous collectons, utilisons et protégeons vos informations personnelles.</p>
+
+        <h2>Collecte d'informations</h2>
+        <p>Nous collectons des informations personnelles lorsque vous vous inscrivez sur notre site, passez une commande ou interagissez avec nos services. Ces informations peuvent inclure, mais ne sont pas limitées à, votre nom, adresse e-mail, adresse physique, et numéros de téléphone.</p>
+
+        <h2>Utilisation des informations</h2>
+        <p>Les informations que nous collectons sont utilisées pour fournir et améliorer nos services, répondre à vos demandes et vous envoyer des informations relatives à votre compte ou à nos offres spéciales.</p>
+
+        <h2>Protection des données</h2>
+        <p>Nous nous engageons à protéger vos informations personnelles en utilisant des protocoles de sécurité avancés et des mesures de protection contre les accès non autorisés.</p>
+
+        <h2>Modifications de la politique de confidentialité</h2>
+        <p>Nous pouvons mettre à jour cette politique de confidentialité de temps à autre. Toute modification sera publiée sur cette page et, si nécessaire, vous serez informé par e-mail.</p>
+
+        <h2>Contact</h2>
+        <p>Si vous avez des questions concernant cette politique de confidentialité, n'hésitez pas à nous contacter via notre page de contact.</p>
+    </div>
+
+    <footer>
+        <div>
+            &copy; 2025 - PSI_application_C__web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+</body>
+</html>

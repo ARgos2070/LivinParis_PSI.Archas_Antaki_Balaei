@@ -1,0 +1,139 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_des_commentairesModel
+@{
+    ViewData["Title"] = "Page des commentaires";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            header .btn {
+                background-color: #007bff;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+            }
+
+                header .btn:hover {
+                    background-color: #0056b3;
+                }
+
+        main {
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        .commentaire {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+            .commentaire strong {
+                font-weight: bold;
+                color: #343a40;
+            }
+
+            .commentaire p {
+                margin: 5px 0;
+                color: #333;
+            }
+
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+            footer a {
+                color: #fff;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <a asp-page="/Page_accueil_connecte" class="btn">Accueil</a>
+        </div>
+        <div>
+            <a asp-page="/Page_1er_chargement" class="btn">Déconnexion</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Voici les commentaires de ce plat</h1>
+
+        <div>
+            @foreach (var Commentaire in Model.Commentaires)
+            {
+                <div class="commentaire">
+                    <p><strong>Nom :</strong> @Commentaire.Nom</p>
+                    <p><strong>Prénom :</strong> @Commentaire.Prenom</p>
+                    <p><strong>Note :</strong> @Commentaire.Note_Commentaire</p>
+                    <p><strong>Remarque :</strong> @Commentaire.Texte_Commentaire</p>
+                </div>
+            }
+        </div>
+
+        <div>
+            <form method="post">
+                <button type="submit" asp-page-handler="Commentaire">
+                    Ajouter commentaire
+                </button>
+            </form>
+        </div>
+
+
+
+    </main>
+
+    <footer>
+        <div>
+            &copy; 2025 - Application - <a asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+</body>
+</html>

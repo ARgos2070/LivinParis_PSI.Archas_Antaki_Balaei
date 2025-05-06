@@ -1,0 +1,176 @@
+﻿@page
+@model PSI_application_C__web.Pages.Page_connexion_compteModel
+@{
+    ViewData["Title"] = "Page connexion compte";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PSI_application_C__web</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-dark: #0056b3;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --header-bg: #0069d9;
+            --footer-bg: #212529;
+            --accent-color: #17a2b8;
+            --sky-blue: #87CEEB; /* bleu ciel */
+            --input-bg: #ffffff;
+            --input-border: #ccc;
+            --button-bg: #28a745;
+            --button-hover-bg: #218838;
+            --input-focus-border: #0056b3;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--sky-blue);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: var(--text-color);
+        }
+
+        header {
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            background-color: var(--header-bg);
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            background-color: var(--input-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid var(--input-border);
+            border-radius: 5px;
+            background-color: var(--input-bg);
+            font-size: 16px;
+        }
+
+            input[type="text"]:focus {
+                border-color: var(--input-focus-border);
+                outline: none;
+            }
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--button-bg);
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            button:hover {
+                background-color: var(--button-hover-bg);
+            }
+
+        footer {
+            background-color: var(--footer-bg);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+            footer a {
+                color: var(--accent-color);
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+        small {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Connexion à votre compte</h1>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>Connexion :</h1>
+            <form method="post">
+                <small>La différence entre majuscule et minuscule n'a pas à être prise en compte dans l'identifiant</small>
+
+                <div>
+                    <label asp-for="saisie_id_connexion">Pseudo (id utilisateur) :</label>
+                    <input type="text" asp-for="saisie_id_connexion" maxlength="50" />
+                    <div class="error">@ViewData["Erreur_id_utilisateur_aucune_saisie"]</div>
+                    <div class="error">@ViewData["Erreur_id_utilisateur_incorrect"]</div>
+                </div>
+
+                <div>
+                    <label asp-for="saisie_mot_de_passe_connexion">Mot de passe :</label>
+                    <input type="text" asp-for="saisie_mot_de_passe_connexion" maxlength="50" />
+                    <div class="error">@ViewData["Erreur_mot_de_passe_aucune_saisie"]</div>
+                    <div class="error">@ViewData["Erreur_mot_de_passe_incorrect"]</div>
+                </div>
+
+                <button type="submit">Soumettre le choix</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div>
+            &copy; 2025 - PSI_application_C__web - <a asp-page="/Privacy">Confidentialité</a>
+        </div>
+    </footer>
+</body>
+</html>
