@@ -101,7 +101,7 @@ namespace PSI_application_C__web.Pages
                 ViewData["Erreur_selection"] = "Vous devez sélectionner une propriété.";
                 return Page();
             }
-
+            Console.WriteLine("id de l'utilisateur : " + Id_utilisateur_session);
             switch (Option_choisie)
             {
                 case "Nom_utilisateur":
@@ -129,7 +129,6 @@ namespace PSI_application_C__web.Pages
                     TempData["Colonne_update"] = "Adresse_mail_utilisateur";
                     return RedirectToPage("Page_modification_colonne_utilisateur");
                 case "Devenir_client":
-                    Console.WriteLine("veut devenir client");
                     Client nouveauClient = new Client(Utilisateur.ChargerUtilisateurDepuisBDD(Id_utilisateur_session));
                     Client.AjoutClientBDD(nouveauClient);
                     return RedirectToPage("Page_accueil_connecte");
