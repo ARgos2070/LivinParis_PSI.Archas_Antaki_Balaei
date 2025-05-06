@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
+using System.Data;
 using System.Text.RegularExpressions;
 
 namespace PSI_application_C__web.Pages
@@ -25,16 +27,17 @@ namespace PSI_application_C__web.Pages
             // 1. Adresse de livraison et cuisinier (nom/prénom) pour la commande
             string query1 = @"
                 SELECT
-                    l.Adresse_finale_Livraison,
-                    u.Nom_utilisateur,
-                    u.Prénom_utilisateur
-                FROM Livraison l
-                JOIN Commande c ON l.ID_Commande = c.ID_Commande
+                    u_client.Adresse_utilisateur AS adresse_client,
+                    u_cuisinier.Nom_utilisateur,
+                    u_cuisinier.Prénom_utilisateur
+                FROM Commande c
+                JOIN Client cl ON c.ID_Client = cl.ID_Client
+                JOIN Utilisateur u_client ON cl.ID_utilisateur = u_client.ID_utilisateur
                 JOIN Contient co ON c.ID_Commande = co.ID_Commande
                 JOIN Plat p ON co.ID_Plat = p.ID_Plat
                 JOIN Cuisinier cu ON p.ID_Cuisinier = cu.ID_Cuisinier
-                JOIN Utilisateur u ON cu.ID_utilisateur = u.ID_utilisateur
-                WHERE l.ID_Commande = @id_commande
+                JOIN Utilisateur u_cuisinier ON cu.ID_utilisateur = u_cuisinier.ID_utilisateur
+                WHERE c.ID_Commande = @id_commande
                 LIMIT 1;";
 
             using (var cmd = new MySqlCommand(query1, connection))
