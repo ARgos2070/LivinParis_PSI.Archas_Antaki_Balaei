@@ -109,6 +109,7 @@
         <h1>Voici vos Statistiques</h1>
 
         <div>
+            <h2> résumé chaque cuisinier </h2>
             @foreach (var stat in Model.CookStats)
             {
                 <table>
@@ -135,6 +136,84 @@
                 </table>
                 <br />
             }
+        </div>
+
+        <div>
+            <h2>Moyenne des dépensé par les client : </h2>
+            <p>@Model.MoyenneDepensesClients</p>
+        </div>
+
+        <div>
+            <h2>Nombre moyen de plat par cuisinier : </h2>
+            <p>@Model.MoyennePlatParCuisinier</p>
+        </div>
+
+        <div>
+            <h2>Le cuisinier qui a proposé le plus de plat : </h2>
+            <table>
+                <tr>
+                    <td>Nom :</td>
+                    <td>@Model.CuisinierMaxPlat.Nom </td>
+                </tr>
+                <tr>
+                    <td>Prenom :</td>
+                    <td>@Model.CuisinierMaxPlat.Prenom </td>
+                </tr>
+                <tr>
+                    <td>Nombre de plat :</td>
+                    <td>@Model.CuisinierMaxPlat.NbrePlat </td>
+                </tr>
+            </table>
+            <br />
+        </div>
+
+        <div>
+            <h2>Le plat le mieux noté : </h2>
+            <table>
+                <tr>
+                    <td>Nom plat :</td>
+                    <td>@Model.PlatMieuxNote.NomPlat </td>
+                </tr>
+                <tr>
+                    <td>Note moyenne :</td>
+                    <td>@Model.PlatMieuxNote.MoyenneNote </td>
+                </tr>
+            </table>
+            <br />
+        </div>
+
+        <div>
+            <h2>Le plat le mieux noté : </h2>
+            <table>
+                <tr>
+                    <td>Nom :</td>
+                    <td>@Model.ClientMaxDepense.Nom </td>
+                </tr>
+                <tr>
+                    <td>Prenom :</td>
+                    <td>@Model.ClientMaxDepense.Prenom </td>
+                </tr>
+                <tr>
+                    <td>Depense total :</td>
+                    <td>@Model.ClientMaxDepense.TotalDepense </td>
+                </tr>
+            </table>
+            <br />
+        </div>
+
+        <div>
+            <h2>Le plat le mieux vendu : </h2>
+            <table>
+                <tr>
+                    <td>Nom :</td>
+                    <td>@Model.PlatPlusVendu.NomPlat </td>
+                </tr>
+                <tr>
+                    <td>Prenom :</td>
+                    <td>@Model.PlatPlusVendu.TotalVendu </td>
+                </tr>
+            </table>
+            <br />
         </div>
     </main>
 

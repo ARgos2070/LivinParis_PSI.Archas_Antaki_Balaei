@@ -6,6 +6,9 @@ namespace PSI_application_C__web.Pages
 {
     public class Page_prise_livraisonModel : PageModel
     {
+        [BindProperty]
+        public int saisie_ID_commande { get; set; }
+
         public List<List<string>> CommandesNonLivree { get; set; }
 
         public void OnGet()
@@ -36,6 +39,8 @@ namespace PSI_application_C__web.Pages
                     //stat.Add(readerer["Prenom_utilisateur"].ToString());
                     stat.Add(readerer["ID_Commande"].ToString());
                     stat.Add(readerer["Taille_Commande"].ToString());
+                    stat.Add(readerer["Prix_Commande"].ToString());
+                    stat.Add(readerer["Date_Commande"].ToString());
 
                     CommandesNonLivree.Add(stat);
                 }
@@ -45,6 +50,12 @@ namespace PSI_application_C__web.Pages
             {
 
             }
+        }
+
+        public IActionResult OnPostSubmitChoice()
+        {
+            Console.WriteLine("submit");
+            return Page();
         }
     }
 }
